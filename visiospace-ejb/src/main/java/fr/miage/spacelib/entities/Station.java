@@ -28,11 +28,9 @@ public class Station implements Serializable {
     @OneToMany(mappedBy = "station")
     private List<Quai> quais;
     
-    /*------ Coordonées stellaire ------*/
-    private double longitude;
+    /**Coordonées stellaire */
+    private String coordonnee;
     
-    private double latitude;
-
     public Station() {
     }
 
@@ -44,20 +42,12 @@ public class Station implements Serializable {
         this.quais = quais;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public String getCoordonnee() {
+        return coordonnee;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setCoordonnee(String coordonnee) {
+        this.coordonnee = coordonnee;
     }
     
     public Long getId() {
