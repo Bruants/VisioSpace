@@ -6,6 +6,7 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.facades.AdministrateurFacadeLocal;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -79,4 +80,8 @@ public class GestionAdministration implements GestionAdministrationLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public void creerStation(String coordonnees, List<Long> navettes) {
+    }
 }

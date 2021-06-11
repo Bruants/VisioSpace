@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.metier;
 
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +14,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionAdministrationLocal {
+
+    void creerStation(String coordonnees, List<Long> navettes);
     
 }
