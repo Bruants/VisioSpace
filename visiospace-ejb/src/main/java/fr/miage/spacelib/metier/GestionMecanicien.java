@@ -59,4 +59,28 @@ public class GestionMecanicien implements GestionMecanicienLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    
+    /**
+     * Crée une opération de révision
+     * 
+     * @param navette navette à réviser
+     * @return l'id du quai ou se situe la navette à réviser
+     */
+    @Override
+    public long debutRevision(long navette) {
+        return 0L;
+    }
+
+    /**
+     * Termine une révision
+     * 
+     * @param navette navette révisée
+     */
+    @Override
+    public void clotureRevision(long navette) {
+    }
+    
+    
+    
 }

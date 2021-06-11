@@ -13,5 +13,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionMecanicienLocal {
+
+    long debutRevision(long navette);
+
+    void clotureRevision(long navette);
     
 }
