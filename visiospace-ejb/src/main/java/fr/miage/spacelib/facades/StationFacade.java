@@ -6,7 +6,6 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Station;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,7 +19,7 @@ import javax.persistence.Query;
 @Stateless
 public class StationFacade extends AbstractFacade<Station> implements StationFacadeLocal {
     
-    private final static int NB_VOYAGES_ENTRETIENS = 3;
+    public final static int NB_VOYAGES_ENTRETIENS = 3;
     
     @PersistenceContext(unitName = "fr.miage.spacelib_visiospace-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;

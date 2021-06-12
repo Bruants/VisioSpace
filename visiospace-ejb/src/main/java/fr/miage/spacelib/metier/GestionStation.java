@@ -103,8 +103,7 @@ public class GestionStation implements GestionStationLocal {
     
     /**
      * Occupe une place dans la station
-     * @param idQuai identifiant du quai d'arrivée
-     * @param navette identifiant de la navette à stationné
+     * @param idNavette identifiant de la navette à stationné
      */
     @Override
     public void arrimerNavette(long idNavette) {
@@ -122,7 +121,7 @@ public class GestionStation implements GestionStationLocal {
      * @param idQuai identifiant du quai a liberer 
      */
     @Override
-    public void liberaiQuai(long idQuai) {
+    public void libererQuai(long idQuai) {
         Quai quai = quaiFacade.find(idQuai);
         
         //Si il y avais une reservation de quai, cette derniére disparait
@@ -136,21 +135,23 @@ public class GestionStation implements GestionStationLocal {
      * Récupére une navette disponible repondant
      * aux caractéristiques.
      * Ce choix se fait arbitrairement.
+     * @param idStation La station dans laquelle on recherche une navette
      * @param nbPlaces nombres de places nécessaire pour la navette
      * @return identifiant d'une navette disponible
      */
     @Override
     public Navette navettesDispo(long idStation, int nbPlaces) {
-        return null;
+        return quaiFacade.navetteDisponible(idStation, nbPlaces);
     }
 
     /**
      * Récupére un quai disponible dans la station
+     * @param idStation La station dans laquelle on recherche une navette
      * @return Quai disponible
      */
     @Override
     public Quai quaiDisponible(long idStation) {
-        return null;
+        return quaiFacade.quaiDisponible(idStation);
     }
 
     /**

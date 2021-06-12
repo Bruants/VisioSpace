@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.facades;
 
+import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Quai;
 import java.util.List;
 import javax.ejb.Local;
@@ -31,5 +32,9 @@ public interface QuaiFacadeLocal {
     int count();
 
     long findNavette(long navette, long station);
+
+    Quai quaiDisponible(long idStation);
+    
+    Navette navetteDisponible(long idStation, int nbPlaces);
     
 }

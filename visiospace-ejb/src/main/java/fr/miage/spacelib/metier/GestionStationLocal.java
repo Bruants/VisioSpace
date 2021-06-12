@@ -27,7 +27,7 @@ public interface GestionStationLocal {
     
     void arrimerNavette(long navette);
 
-    void liberaiQuai(long quai);
+    void libererQuai(long quai);
 
     Navette navettesDispo(long idStation, int nbPlaces);
 

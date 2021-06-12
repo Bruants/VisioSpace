@@ -56,7 +56,7 @@ public class GestionNavette implements GestionNavetteLocal {
     @Override
     public void lancerNavette(long id) {
         Navette navette = navetteFacade.find(id);
-        gestionStation.liberaiQuai(navette.getStationeSur().getId());
+        gestionStation.libererQuai(navette.getStationeSur().getId());
     }
 
     @Override

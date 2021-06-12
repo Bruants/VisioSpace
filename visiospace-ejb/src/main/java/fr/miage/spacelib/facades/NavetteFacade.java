@@ -9,6 +9,7 @@ import fr.miage.spacelib.entities.Navette;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,7 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
     public NavetteFacade() {
         super(Navette.class);
     }
+    
+    
     
 }
