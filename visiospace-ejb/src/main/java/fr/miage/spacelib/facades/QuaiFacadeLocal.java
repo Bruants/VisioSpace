@@ -29,5 +29,7 @@ public interface QuaiFacadeLocal {
     List<Quai> findRange(int[] range);
 
     int count();
+
+    long findNavette(long navette, long station);
     
 }

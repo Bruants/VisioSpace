@@ -5,8 +5,10 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.facades.NavetteFacadeLocal;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -15,26 +17,11 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class GestionNavette implements GestionNavetteLocal {
-
-    private NavetteFacadeLocal navette;
-
-    /**
-     * Get the value of navette
-     *
-     * @return the value of navette
-     */
-    public NavetteFacadeLocal getNavette() {
-        return navette;
-    }
-
-    /**
-     * Set the value of navette
-     *
-     * @param navette new value of navette
-     */
-    public void setNavette(NavetteFacadeLocal navette) {
-        this.navette = navette;
-    }
+    
+    @EJB
+    private NavetteFacadeLocal navetteFacade;
+    
+    private GestionStationLocal gestionStation;
 
     /**
      * Créer une nouvelle navette
@@ -65,5 +52,22 @@ public class GestionNavette implements GestionNavetteLocal {
     public Quai quai(long id) {
         return null;
     }
+
+    @Override
+    public void lancerNavette(long id) {
+        Navette navette = navetteFacade.find(id);
+        gestionStation.liberaiQuai(navette.getStationeSur().getId());
+    }
+
+    @Override
+    public void arriveeNavette(long id) {
+        Navette navette = navetteFacade.find(id);
+        navette.addCompteurVoyage();
+        gestionStation.arrimerNavette(id);
+    }
+    
+    
+    
+    
 
 }

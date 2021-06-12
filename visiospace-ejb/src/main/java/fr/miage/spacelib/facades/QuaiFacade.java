@@ -9,6 +9,7 @@ import fr.miage.spacelib.entities.Quai;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,12 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
     public QuaiFacade() {
         super(Quai.class);
     }
-    
+
+    @Override
+    public long findNavette(long navette, long station) {
+        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q.id FROM Quai Q JOIN Q.station S JOIN Q.stationne N WHERE S.id LIKE ':idStation' AND N.id = :idNavette");
+        recupererNavetteQuiStationne.setParameter("idStation", navette);
+        recupererNavetteQuiStationne.setParameter("idNavette", station);
+        return (Long)recupererNavetteQuiStationne.getSingleResult();
+    }
 }

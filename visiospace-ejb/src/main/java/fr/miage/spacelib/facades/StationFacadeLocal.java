@@ -6,6 +6,7 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Station;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface StationFacadeLocal {
     List<Station> findRange(int[] range);
 
     int count();
+
+    List<Station> findNavettePourEntretien(long id);
     
 }

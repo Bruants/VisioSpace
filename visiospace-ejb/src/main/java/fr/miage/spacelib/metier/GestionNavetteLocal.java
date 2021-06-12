@@ -20,5 +20,9 @@ public interface GestionNavetteLocal {
     boolean etatNavette(long identifiant);
 
     Quai quai(long id);
+
+    void lancerNavette(long id);
+
+    void arriveeNavette(long id);
     
 }

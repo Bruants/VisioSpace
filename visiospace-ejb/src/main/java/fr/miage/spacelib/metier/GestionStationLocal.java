@@ -24,6 +24,8 @@ public interface GestionStationLocal {
     Quai reserverQuai(long idStation, long navette);
 
     void arrimerNavette(long quai, long navette);
+    
+    void arrimerNavette(long navette);
 
     void liberaiQuai(long quai);
 

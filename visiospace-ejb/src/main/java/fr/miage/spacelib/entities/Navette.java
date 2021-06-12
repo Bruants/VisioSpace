@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -29,6 +28,9 @@ public class Navette implements Serializable {
     
     /** Nombre de places disponibles */
     private int nbPlace;
+    
+    /** Le nombre de voyage que l'on a fait depuis le dernier entretien */
+    private int nbVoyagesDepuisDernierEntretien;
     
     @OneToMany
     private List<Operation> historique;
@@ -64,6 +66,14 @@ public class Navette implements Serializable {
         this.id = id;
     }
 
+    public int getNbVoyagesDepuisDernierEntretien() {
+        return nbVoyagesDepuisDernierEntretien;
+    }
+
+    public void setNbVoyagesDepuisDernierEntretien(int nbVoyagesDepuisDernierEntretien) {
+        this.nbVoyagesDepuisDernierEntretien = nbVoyagesDepuisDernierEntretien;
+    }
+
     /**
      * Donne l'etat de la navette courante
      * @return true  : navette utilisable
@@ -72,6 +82,10 @@ public class Navette implements Serializable {
     public boolean isActive(){
         //TODO: Recupérer etat navette
         return false;
+    }
+    
+    public void addCompteurVoyage() {
+        this.nbVoyagesDepuisDernierEntretien++;
     }
     
     @Override

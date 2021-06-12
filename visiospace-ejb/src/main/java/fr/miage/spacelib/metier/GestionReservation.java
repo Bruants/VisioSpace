@@ -162,8 +162,7 @@ public class GestionReservation implements GestionReservationLocal {
     @Override
     public void departVoyage(long idVoyage) {
         Navette navette = reservations.find(idVoyage).getUtilisee();
-        
-        stations.liberaiQuai(navette.getStationeSur().getId());
+        navettes.lancerNavette(navette.getId());
     }
 
     /**
@@ -181,5 +180,7 @@ public class GestionReservation implements GestionReservationLocal {
         voyage.setTerminee(true);
         reservations.edit(reservation);
     }
+    
+    
 
 }

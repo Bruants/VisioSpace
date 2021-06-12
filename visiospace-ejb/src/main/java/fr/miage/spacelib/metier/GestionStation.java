@@ -99,6 +99,23 @@ public class GestionStation implements GestionStationLocal {
         //La navette est attachée au quai
         quai.setStationne(navetteFacade.find(navette));
     }
+    
+    
+    /**
+     * Occupe une place dans la station
+     * @param idQuai identifiant du quai d'arrivée
+     * @param navette identifiant de la navette à stationné
+     */
+    @Override
+    public void arrimerNavette(long idNavette) {
+        Navette navette = navetteFacade.find(idNavette);
+
+        Quai quai = quaiFacade.find(navette);
+        quai.setStationne(navetteFacade.find(navette.getId()));
+
+        
+        //La navette est attachée au quai
+    }
 
     /**
      * Libére le quai pour acceuilir une nouvelle navette
