@@ -35,6 +35,10 @@ public class Operation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /** Chainage arriére operation */
+    @OneToOne
+    private Operation precedenteOperation;
+    
     public enum TYPES {
         VOYAGE, REVISION
     }
@@ -157,6 +161,14 @@ public class Operation implements Serializable {
         if(typeOperation == TYPES.VOYAGE)
             return reservation.getNbPassagers();
         return -1;
+    }
+
+    public Operation getPrecedenteOperation() {
+        return precedenteOperation;
+    }
+
+    public void setPrecedenteOperation(Operation precedenteOperation) {
+        this.precedenteOperation = precedenteOperation;
     }
     
     @Override

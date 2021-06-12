@@ -6,12 +6,10 @@
 package fr.miage.spacelib.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -32,8 +30,8 @@ public class Navette implements Serializable {
     /** Le nombre de voyage que l'on a fait depuis le dernier entretien */
     private int nbVoyagesDepuisDernierEntretien;
     
-    @OneToMany
-    private List<Operation> historique;
+    @OneToOne
+    private Operation derniereOperation;
         
     /** Stationne sur le quai */
     @OneToOne(mappedBy = "stationne")
@@ -66,12 +64,13 @@ public class Navette implements Serializable {
         this.id = id;
     }
 
-    public int getNbVoyagesDepuisDernierEntretien() {
-        return nbVoyagesDepuisDernierEntretien;
+    public Operation getDerniereOperation() {
+        return derniereOperation;
     }
 
-    public void setNbVoyagesDepuisDernierEntretien(int nbVoyagesDepuisDernierEntretien) {
-        this.nbVoyagesDepuisDernierEntretien = nbVoyagesDepuisDernierEntretien;
+    public void setDerniereOperation(Operation derniereOperation) {
+        derniereOperation.setPrecedenteOperation(this.derniereOperation);
+        this.derniereOperation = derniereOperation;
     }
 
     /**
