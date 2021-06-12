@@ -9,7 +9,7 @@ import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import javax.ejb.Stateless;
 
 /**
- *
+ * Gestions des navettes traités dans le systéme
  * @author AlexisVivier
  */
 @Stateless
@@ -35,12 +35,24 @@ public class GestionNavette implements GestionNavetteLocal {
         this.navette = navette;
     }
 
+    /**
+     * Créer une nouvelle navette
+     * @param nbPlaces Nombre de place de la navette
+     * @param idStation Identifiant de la station ou est stationné la navette
+     */
     @Override
-    public void creerNavette(int nbPlaces) {
+    public void creerNavette(int nbPlaces, long idStation) {
     }
 
+    /**
+     * Donne l'état actuelle de la navette
+     * @param identifiant identifiant de la navette 
+     * @return  true : aucun entretien de prévu
+     *          false : en attente d'entretien
+     */
     @Override
-    public void etatNavette(long identifiant, boolean estActif) {
+    public boolean etatNavette(long identifiant) {
+        return false;
     }
 
 }

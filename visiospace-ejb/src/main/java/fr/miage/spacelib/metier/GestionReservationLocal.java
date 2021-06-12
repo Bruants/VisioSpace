@@ -15,6 +15,10 @@ import javax.ejb.Local;
 @Local
 public interface GestionReservationLocal {
 
-    void reserverVoyage(long id, int passagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee);
+    void reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee);
+
+    void departVoyage(long idVoyage);
+
+    void arriveeVoyage(long idVoyage);
     
 }
