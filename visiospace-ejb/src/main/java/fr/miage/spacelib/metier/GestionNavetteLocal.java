@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Quai;
 import javax.ejb.Local;
 
 /**
@@ -17,5 +18,7 @@ public interface GestionNavetteLocal {
     void creerNavette(int nbPlaces, long idStation);
 
     boolean etatNavette(long identifiant);
+
+    Quai quai(long id);
     
 }

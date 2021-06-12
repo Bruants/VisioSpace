@@ -5,9 +5,15 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Navette;
+import fr.miage.spacelib.entities.Quai;
+import fr.miage.spacelib.entities.Station;
+import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import fr.miage.spacelib.facades.QuaiFacadeLocal;
 import fr.miage.spacelib.facades.StationFacadeLocal;
+import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -17,45 +23,14 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionStation implements GestionStationLocal {
 
-    private QuaiFacadeLocal quai;
+    @EJB
+    private NavetteFacadeLocal navetteFacade;
+
+    @EJB
+    private QuaiFacadeLocal quaiFacade;
     
-    private StationFacadeLocal station;
-
-    /**
-     * Get the value of station
-     *
-     * @return the value of station
-     */
-    public StationFacadeLocal getStation() {
-        return station;
-    }
-
-    /**
-     * Set the value of station
-     *
-     * @param station new value of station
-     */
-    public void setStation(StationFacadeLocal station) {
-        this.station = station;
-    }
-
-    /**
-     * Get the value of quai
-     *
-     * @return the value of quai
-     */
-    public QuaiFacadeLocal getQuai() {
-        return quai;
-    }
-
-    /**
-     * Set the value of quai
-     *
-     * @param quai new value of quai
-     */
-    public void setQuai(QuaiFacadeLocal quai) {
-        this.quai = quai;
-    }
+    @EJB
+    private StationFacadeLocal stationFacade;
 
     /**
      * Crée une station avec les navettes amarés
@@ -68,18 +43,33 @@ public class GestionStation implements GestionStationLocal {
      */
     @Override
     public void creerStation(String coordonnees, List<Long> navettes) {
+        Station station = new Station();
+        List<Quai> quais = new ArrayList<>();
+        
+        station.setCoordonnee(coordonnees);
+        for(Long idNavette:navettes){
+            // Ajout du quai avec la navette
+            quais.add(new Quai(station, navetteFacade.find(idNavette)));
+            // Ajout du quai vide
+            quais.add(new Quai(station));
+        }
+        
+        station.setQuais(quais);
+        
+        stationFacade.create(station);
     }
 
     /**
      * Reserve un quai pour acceuilir une navette
      * et garantir l'arrivée de cette derniére
      * Ce quai est choisi arbitrairement
+     * @param idStation identifiant de la station
      * @param navette identifiant de la navette qui doit prendre place
      * @return quai qui a etait reservé
      */
     @Override
-    public long reserverQuai(long navette) {
-        return reserverQuai(quaiDisponible(), navette);
+    public Quai reserverQuai(long idStation, long navette) {
+        return reserverQuai(quaiDisponible(idStation), navette);
     }
     
     /**
@@ -87,28 +77,42 @@ public class GestionStation implements GestionStationLocal {
      * et garantir l'arrivée de cette derniére
      * @param quai  identifiant du quai d'arrivé
      * @param navette identifiant de la navette qui doit prendre place
-     * @return quai qui a etait reservé
+     * @return Quai qui a etait reservé
      */
     @Override
-    public long reserverQuai(long quai, long navette) {
-        return 0L;
+    public Quai reserverQuai(Quai quai, long navette) {
+        Quai quaiDispo = quaiDisponible(navette);
+        quaiDispo.setReservation(navetteFacade.find(navette));
+        
+        return quaiDispo;
     }
 
     /**
      * Occupe une place dans la station
-     * @param quai identifiant du quai d'arrivée
+     * @param idQuai identifiant du quai d'arrivée
      * @param navette identifiant de la navette à stationné
      */
     @Override
-    public void arrimerNavette(long quai, long navette) {
+    public void arrimerNavette(long idQuai, long navette) {
+        Quai quai = quaiFacade.find(idQuai);
+        
+        //La navette est attachée au quai
+        quai.setStationne(navetteFacade.find(navette));
     }
 
     /**
      * Libére le quai pour acceuilir une nouvelle navette
-     * @param quai identifiant du quai a liberer 
+     * @param idQuai identifiant du quai a liberer 
      */
     @Override
-    public void liberaiQuai(long quai) {
+    public void liberaiQuai(long idQuai) {
+        Quai quai = quaiFacade.find(idQuai);
+        
+        //Si il y avais une reservation de quai, cette derniére disparait
+        quai.setReservation(null);
+        
+        //La navette n'est plus attachée au quai
+        quai.setStationne(null);
     }
 
     /**
@@ -119,17 +123,17 @@ public class GestionStation implements GestionStationLocal {
      * @return identifiant d'une navette disponible
      */
     @Override
-    public long navettesDispo(int nbPlaces) {
-        return 0L;
+    public Navette navettesDispo(long idStation, int nbPlaces) {
+        return null;
     }
 
     /**
      * Récupére un quai disponible dans la station
-     * @return 
+     * @return Quai disponible
      */
     @Override
-    public long quaiDisponible() {
-        return 0L;
+    public Quai quaiDisponible(long idStation) {
+        return null;
     }
 
     /**

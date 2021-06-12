@@ -5,6 +5,8 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Navette;
+import fr.miage.spacelib.entities.Quai;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,17 +19,17 @@ public interface GestionStationLocal {
 
     void creerStation(String coordonnees, List<Long> navettes);
 
-    long reserverQuai(long quai, long navette);
+    Quai reserverQuai(Quai quai, long navette);
     
-    long reserverQuai(long navette);
+    Quai reserverQuai(long idStation, long navette);
 
     void arrimerNavette(long quai, long navette);
 
     void liberaiQuai(long quai);
 
-    long navettesDispo(int nbPlaces);
+    Navette navettesDispo(long idStation, int nbPlaces);
 
-    long quaiDisponible();
+    Quai quaiDisponible(long idStation);
 
     List<Long> navettesAReviser(long idStation);
     

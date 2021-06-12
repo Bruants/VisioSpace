@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import javax.ejb.Stateless;
 
@@ -53,6 +54,16 @@ public class GestionNavette implements GestionNavetteLocal {
     @Override
     public boolean etatNavette(long identifiant) {
         return false;
+    }
+
+    /**
+     * Recupére le quai d'une navette
+     * @param id d'une navette
+     * @return quai ou la navette est arrimé
+     */
+    @Override
+    public Quai quai(long id) {
+        return null;
     }
 
 }

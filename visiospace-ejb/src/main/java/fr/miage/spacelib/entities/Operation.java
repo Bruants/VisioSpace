@@ -66,11 +66,11 @@ public class Operation implements Serializable {
     private Mecanicien mecanicien;
         
     /** 
-     * Etat de la révision courante
-     *  true : Révision terminée
-     *  false : Révision non terminée
+     * Etat de la révision ou voyage courante
+     *  true : Révision ou voyage terminée
+     *  false : Révision ou voyage non terminée
      */
-    private boolean etatRevision;
+    private boolean terminee;
 
     public Long getId() {
         return id;
@@ -128,12 +128,12 @@ public class Operation implements Serializable {
         this.dateArrivee = dateArrivee;
     }
 
-    public boolean isEtatRevision() {
-        return etatRevision;
+    public boolean isTerminee() {
+        return terminee;
     }
 
-    public void setEtatRevision(boolean etatRevision) {
-        this.etatRevision = etatRevision;
+    public void setTerminee(boolean terminee) {
+        this.terminee = terminee;
     }
     
     public Station getStationDepart() {

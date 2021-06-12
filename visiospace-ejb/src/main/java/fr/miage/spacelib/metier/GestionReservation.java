@@ -5,9 +5,14 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Navette;
+import fr.miage.spacelib.entities.Operation;
+import fr.miage.spacelib.entities.Reservation;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
 import fr.miage.spacelib.facades.ReservationFacadeLocal;
+import fr.miage.spacelib.facades.UsagerFacadeLocal;
 import java.util.Date;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -17,9 +22,14 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionReservation implements GestionReservationLocal {
 
-    private ReservationFacadeLocal reservation;
+    @EJB
+    private UsagerFacadeLocal usagerFacade;
+
+    @EJB
+    private ReservationFacadeLocal reservations;
     
-    private OperationFacadeLocal operation;
+    @EJB
+    private OperationFacadeLocal operations;
     
     private GestionStationLocal stations;
     
@@ -64,39 +74,39 @@ public class GestionReservation implements GestionReservationLocal {
 
 
     /**
-     * Get the value of operation
+     * Get the value of operations
      *
-     * @return the value of operation
+     * @return the value of operations
      */
-    public OperationFacadeLocal getOperation() {
-        return operation;
+    public OperationFacadeLocal getOperations() {
+        return operations;
     }
 
     /**
-     * Set the value of operation
+     * Set the value of operations
      *
-     * @param operation new value of operation
+     * @param operations new value of operations
      */
-    public void setOperation(OperationFacadeLocal operation) {
-        this.operation = operation;
+    public void setOperations(OperationFacadeLocal operations) {
+        this.operations = operations;
     }
 
     /**
-     * Get the value of reservation
+     * Get the value of reservations
      *
-     * @return the value of reservation
+     * @return the value of reservations
      */
-    public ReservationFacadeLocal getReservation() {
-        return reservation;
+    public ReservationFacadeLocal getReservations() {
+        return reservations;
     }
 
     /**
-     * Set the value of reservation
+     * Set the value of reservations
      *
-     * @param reservation new value of reservation
+     * @param reservations new value of reservations
      */
-    public void setReservation(ReservationFacadeLocal reservation) {
-        this.reservation = reservation;
+    public void setReservations(ReservationFacadeLocal reservations) {
+        this.reservations = reservations;
     }
     
     /**
@@ -114,6 +124,32 @@ public class GestionReservation implements GestionReservationLocal {
      */
     @Override
     public void reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee) {
+        Reservation reservation = new Reservation();
+        Operation voyage = new Operation();
+        Navette navette;
+
+        /* Création de l'opération voyage */
+        voyage.setTypeOperation(Operation.TYPES.VOYAGE);
+        voyage.setTerminee(false);
+        voyage.setDate(new Date());
+        voyage.setDateDepart(dateDepart);
+        voyage.setDateArrivee(dateArrivee);
+        reservation.setVoyage(voyage);
+        
+        /* Création de la réservation */
+        reservation.setUsager(usagerFacade.find(idUsager));
+        
+        reservation.setNbPassagers(nbPassagers);
+        
+        //Recherche d'une navette correspondante
+        navette = stations.navettesDispo(stationDepart, nbPassagers);
+        reservation.setUtilisee(navette);
+        
+        reservation.setDepart(navettes.quai(navette.getId()));
+        //Recherche d'un quai de libre
+        reservation.setArrivee(stations.reserverQuai(stationArrivee, navette.getId()));
+        
+        reservations.create(reservation);
     }
 
     /**
@@ -125,6 +161,9 @@ public class GestionReservation implements GestionReservationLocal {
      */
     @Override
     public void departVoyage(long idVoyage) {
+        Navette navette = reservations.find(idVoyage).getUtilisee();
+        
+        stations.liberaiQuai(navette.getStationeSur().getId());
     }
 
     /**
@@ -136,6 +175,11 @@ public class GestionReservation implements GestionReservationLocal {
      */
     @Override
     public void arriveeVoyage(long idVoyage) {
+        Reservation reservation = reservations.find(idVoyage);
+        Operation voyage = reservation.getVoyage();
+        
+        voyage.setTerminee(true);
+        reservations.edit(reservation);
     }
 
 }
