@@ -7,28 +7,28 @@ package fr.miage.spacelib.utilities;
 
 /**
  *
- * @author apouz
+ * @author audric.pouzelgues
  */
-public class IdentifiantUsagerException extends Exception {
+public class UsagerInvalideException extends Exception {
 
     
     private static final String MESSAGE_ERREUR_EXCEPTION
             = "L'identifiant de l'usager est introuvable";
 
     /**
-     * Crée une instance de IdentifiantNavetteException
+     * Crée une instance de UsagerInvalideException
      * avec un message par défaut
      */
-    public IdentifiantUsagerException() {
+    public UsagerInvalideException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
-     * Crée une instance de NombreNavettesException
+     * Crée une instance de UsagerInvalideException
      * avec l'identifiant de la navette
      * @param identifiant identidiant de la navette 
      */
-    public IdentifiantUsagerException(String identifiant) {
+    public UsagerInvalideException(String identifiant) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
     }
 }

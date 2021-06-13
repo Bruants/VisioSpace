@@ -9,24 +9,24 @@ package fr.miage.spacelib.utilities;
  *
  * @author audric.pouzelgues
  */
-public class NombreDePassagerException extends Exception {
+public class NombrePassagersInvalideException extends Exception {
 
     private static final String MESSAGE_ERREUR_EXCEPTION = "Le nombre de passagers est incorrect !";
     
     /**
-     * Crée une instance de NombreNavettesException
+     * Crée une instance de NombrePassagersInvalideException
      * avec un message par défaut
      */
-    public NombreDePassagerException() {
+    public NombrePassagersInvalideException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
-     * Crée une instance de NombreNavettesException
+     * Crée une instance de NombrePassagersInvalideException
      * avec un message en argument
      * @param message message plus détaillé
      */
-    public NombreDePassagerException(String message) {
+    public NombrePassagersInvalideException(String message) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + message);
     }
 }

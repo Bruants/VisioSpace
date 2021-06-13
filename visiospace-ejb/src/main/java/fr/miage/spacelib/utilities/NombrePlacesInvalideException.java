@@ -7,9 +7,9 @@ package fr.miage.spacelib.utilities;
 
 /**
  *
- * @author apouz
+ * @author audric.pouzelgues
  */
-public class NombreDePlacesNavetteException extends Exception {
+public class NombrePlacesInvalideException extends Exception {
 
     
     private static final String MESSAGE_ERREUR_EXCEPTION
@@ -18,20 +18,20 @@ public class NombreDePlacesNavetteException extends Exception {
             + " 2, 5, 10 ou 15 places";
         
     /**
-     * Crée une instance de NombreDePlacesNavetteException
+     * Crée une instance de NombrePlacesInvalideException
      * avec un message par défaut
      */
-    public NombreDePlacesNavetteException() {
+    public NombrePlacesInvalideException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
-     * Crée une instance de NombreDePlacesNavetteException
+     * Crée une instance de NombrePlacesInvalideException
      * avec un message par défaut et en affichant le nombre de places saisit
      *
      * @param nbPlaces nombre de places saisit
      */
-    public NombreDePlacesNavetteException(String nbPlaces) {
+    public NombrePlacesInvalideException(String nbPlaces) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + nbPlaces);
     }
 }

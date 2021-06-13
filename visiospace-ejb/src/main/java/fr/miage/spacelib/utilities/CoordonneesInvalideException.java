@@ -8,25 +8,25 @@ package fr.miage.spacelib.utilities;
 /**
  * @author audric.pouzelgues
  */
-public class CoordonneesException extends Exception {
+public class CoordonneesInvalideException extends Exception {
 
     
     private static final String MESSAGE_ERREUR_EXCEPTION = "Les coordonnées sont incorrectes !";
     
     /**
-     * Crée une instance de CoordonneesException
+     * Crée une instance de CoordonneesInvalideException
      * avec un message par défaut
      */
-    public CoordonneesException() {
+    public CoordonneesInvalideException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
-     * Crée une instance de CoordonneesException
+     * Crée une instance de CoordonneesInvalideException
      * avec un message en argument
      * @param coordonnees qui provoquent l'exception
      */
-    public CoordonneesException(String coordonnees) {
+    public CoordonneesInvalideException(String coordonnees) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + coordonnees);
     }
     

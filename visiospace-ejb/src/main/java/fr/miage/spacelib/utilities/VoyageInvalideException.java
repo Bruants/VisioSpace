@@ -9,7 +9,7 @@ package fr.miage.spacelib.utilities;
  *
  * @author audric.pouzelgues
  */
-public class IdentifiantVoyageException extends Exception {
+public class VoyageInvalideException extends Exception {
     
         private static final String MESSAGE_ERREUR_EXCEPTION
             = "L'identifiant du voyage est introuvable";
@@ -18,7 +18,7 @@ public class IdentifiantVoyageException extends Exception {
      * Crée une instance de IdentifiantVoyageException
      * avec un message par défaut
      */
-    public IdentifiantVoyageException() {
+    public VoyageInvalideException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
@@ -27,7 +27,7 @@ public class IdentifiantVoyageException extends Exception {
      * avec l'identifiant de la navette
      * @param identifiant identidiant du voyage 
      */
-    public IdentifiantVoyageException(String identifiant) {
+    public VoyageInvalideException(String identifiant) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
     }
 }
