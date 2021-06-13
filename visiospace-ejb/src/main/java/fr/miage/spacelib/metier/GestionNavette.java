@@ -22,9 +22,10 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionNavette implements GestionNavetteLocal {
     
-    @EJB
+    @EJB(beanName = "NavetteEJB")
     private NavetteFacadeLocal navetteFacade;
     
+    @EJB(beanName = "GestionStationNavetteEJB")
     private GestionStationLocal gestionStation;
 
     /**

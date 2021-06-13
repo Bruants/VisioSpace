@@ -27,17 +27,19 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionReservation implements GestionReservationLocal {
 
-    @EJB
+    @EJB(beanName = "ReservationUsagerEJB")
     private UsagerFacadeLocal usagerFacade;
 
-    @EJB
+    @EJB(beanName = "ReservationEJB")
     private ReservationFacadeLocal reservations;
     
-    @EJB
+    @EJB(beanName = "OperationReservationEJB")
     private OperationFacadeLocal operations;
     
+    @EJB(beanName = "GestionStationReservationEJB")
     private GestionStationLocal stations;
     
+    @EJB(beanName = "GestionNavetteReservationEJB")
     private GestionNavetteLocal navettes;
 
     /**

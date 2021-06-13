@@ -8,6 +8,7 @@ package fr.miage.spacelib.metier;
 import fr.miage.spacelib.facades.MecanicienFacadeLocal;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -17,8 +18,10 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionMecanicien implements GestionMecanicienLocal {
 
+    @EJB(beanName = "MecanicienEJB")
     private MecanicienFacadeLocal mecanicien;
     
+    @EJB(beanName = "OperationMecanicienEJB")
     private OperationFacadeLocal operation;
 
     /**

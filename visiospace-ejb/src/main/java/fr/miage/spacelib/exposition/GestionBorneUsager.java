@@ -32,7 +32,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionBorneUsager implements GestionBorneUsagerRemote {
 
-    @EJB
+    @EJB(beanName = "BorneReservationEJB")
     private GestionReservationLocal gestionReservation;
 
     @Override

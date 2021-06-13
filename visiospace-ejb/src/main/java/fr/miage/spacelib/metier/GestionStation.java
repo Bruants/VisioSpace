@@ -28,13 +28,13 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionStation implements GestionStationLocal {
 
-    @EJB
+    @EJB(beanName = "NavetteStationEJB")
     private NavetteFacadeLocal navetteFacade;
 
-    @EJB
+    @EJB(beanName = "QuaiStationEJB")
     private QuaiFacadeLocal quaiFacade;
     
-    @EJB
+    @EJB(beanName = "StationEJB")
     private StationFacadeLocal stationFacade;
 
     /**

@@ -9,6 +9,7 @@ import fr.miage.spacelib.facades.AdministrateurFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -18,10 +19,13 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionAdministration implements GestionAdministrationLocal {
 
+    @EJB(beanName = "AdministrateurEJB")
     private AdministrateurFacadeLocal administrateur;
     
+    @EJB(beanName = "GestionStationAdministrateurEJB")
     private GestionStationLocal gestionStation;
     
+    @EJB(beanName = "GestionNavetteAdministrateurEJB")
     private GestionNavetteLocal gestionNavette;
 
     /**

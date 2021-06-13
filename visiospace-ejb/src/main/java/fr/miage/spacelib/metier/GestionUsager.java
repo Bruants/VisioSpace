@@ -6,6 +6,7 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.facades.UsagerFacadeLocal;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -15,6 +16,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionUsager implements GestionUsagerLocal {
 
+    @EJB(beanName = "UsagerEJB")
     private UsagerFacadeLocal usager;
 
     /**
