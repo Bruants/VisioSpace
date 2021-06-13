@@ -6,6 +6,8 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.facades.AdministrateurFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -82,9 +84,15 @@ public class GestionAdministration implements GestionAdministrationLocal {
      * Crée une nouvelle station
      * @param coordonnees coordonnées de la station à ajouter
      * @param navettes liste des navettes à ajouter dans la nouvelle station
+     * @throws CoordonneesInvalideException 
+     *          -> les coordonnées sont invalides
+     *          -> une station est déjà présente aux coordonnées indiquées
+     * @throws NombreNavetteInvalideException
+     *          -> le nombre de navette doit être supérieur à zéro
      */
     @Override
-    public void creerStation(String coordonnees, List<Long> navettes) {
+    public void creerStation(String coordonnees, List<Long> navettes) 
+            throws CoordonneesInvalideException, NombreNavetteInvalideException {
     }
 
     // Add business logic below. (Right-click in editor and choose

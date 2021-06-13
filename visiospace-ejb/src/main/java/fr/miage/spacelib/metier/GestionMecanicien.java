@@ -7,6 +7,7 @@ package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.facades.MecanicienFacadeLocal;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.Stateless;
 
 /**
@@ -66,9 +67,10 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * 
      * @param navette navette à réviser
      * @return l'id du quai ou se situe la navette à réviser
+     * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public long debutRevision(long navette) {
+    public long debutRevision(long navette) throws AucuneNavetteException{
         return 0L;
     }
 
@@ -76,9 +78,10 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * Termine une révision
      * 
      * @param navette navette révisée
+     * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public void clotureRevision(long navette) {
+    public void clotureRevision(long navette) throws AucuneNavetteException{
     }
     
     

@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.Local;
 
 /**
@@ -14,8 +15,8 @@ import javax.ejb.Local;
 @Local
 public interface GestionMecanicienLocal {
 
-    long debutRevision(long navette);
+    long debutRevision(long navette) throws AucuneNavetteException;
 
-    void clotureRevision(long navette);
+    void clotureRevision(long navette) throws AucuneNavetteException;
     
 }

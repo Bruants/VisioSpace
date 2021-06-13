@@ -11,6 +11,11 @@ import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import fr.miage.spacelib.facades.QuaiFacadeLocal;
 import fr.miage.spacelib.facades.StationFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -42,7 +47,8 @@ public class GestionStation implements GestionStationLocal {
      * @param navettes    Liste des navettes a ajouter
      */
     @Override
-    public void creerStation(String coordonnees, List<Long> navettes) {
+    public void creerStation(String coordonnees, List<Long> navettes) 
+            throws AucuneNavetteException, CoordonneesInvalideException {
         Station station = new Station();
         List<Quai> quais = new ArrayList<>();
         
@@ -68,23 +74,28 @@ public class GestionStation implements GestionStationLocal {
      * @return quai qui a etait reservé
      */
     @Override
-    public Quai reserverQuai(long idStation, long navette) {
-        return reserverQuai(quaiDisponible(idStation), navette);
+    public Quai reserverQuai(long idStation, long navette) 
+            throws AucuneStationException, AucuneNavetteException, 
+            AucunQuaiException {
+        
+        return reserverQuai(quaiDisponible(idStation), navette); 
+
     }
     
     /**
-     * Reserve un quai pour acceuilir une naavette
+     * Reserve un quai pour acceuilir une navette
      * et garantir l'arrivée de cette derniére
      * @param quai  identifiant du quai d'arrivé
      * @param navette identifiant de la navette qui doit prendre place
      * @return Quai qui a etait reservé
      */
     @Override
-    public Quai reserverQuai(Quai quai, long navette) {
-        Quai quaiDispo = quaiDisponible(navette);
-        quaiDispo.setReservation(navetteFacade.find(navette));
+    public Quai reserverQuai(Quai quai, long navette)
+            throws AucuneNavetteException {
         
-        return quaiDispo;
+        quai.setReservation(navetteFacade.find(navette));
+        
+        return quai;
     }
 
     /**
@@ -93,7 +104,9 @@ public class GestionStation implements GestionStationLocal {
      * @param navette identifiant de la navette à stationné
      */
     @Override
-    public void arrimerNavette(long idQuai, long navette) {
+    public void arrimerNavette(long idQuai, long navette) 
+            throws AucunQuaiException, AucuneNavetteException {
+        
         Quai quai = quaiFacade.find(idQuai);
         
         //La navette est attachée au quai
@@ -106,7 +119,7 @@ public class GestionStation implements GestionStationLocal {
      * @param idNavette identifiant de la navette à stationné
      */
     @Override
-    public void arrimerNavette(long idNavette) {
+    public void arrimerNavette(long idNavette) throws AucuneNavetteException {
         Navette navette = navetteFacade.find(idNavette);
 
         Quai quai = quaiFacade.find(navette);
@@ -121,7 +134,7 @@ public class GestionStation implements GestionStationLocal {
      * @param idQuai identifiant du quai a liberer 
      */
     @Override
-    public void libererQuai(long idQuai) {
+    public void libererQuai(long idQuai) throws AucunQuaiException {
         Quai quai = quaiFacade.find(idQuai);
         
         //Si il y avais une reservation de quai, cette derniére disparait
@@ -140,7 +153,7 @@ public class GestionStation implements GestionStationLocal {
      * @return identifiant d'une navette disponible
      */
     @Override
-    public Navette navettesDispo(long idStation, int nbPlaces) {
+    public Navette navettesDispo(long idStation, int nbPlaces) throws AucuneStationException, NombrePassagersInvalideException {
         return quaiFacade.navetteDisponible(idStation, nbPlaces);
     }
 
@@ -150,7 +163,7 @@ public class GestionStation implements GestionStationLocal {
      * @return Quai disponible
      */
     @Override
-    public Quai quaiDisponible(long idStation) {
+    public Quai quaiDisponible(long idStation) throws AucuneStationException {
         return quaiFacade.quaiDisponible(idStation);
     }
 
@@ -161,7 +174,7 @@ public class GestionStation implements GestionStationLocal {
      * @return liste des navettes a revisé
      */
     @Override
-    public List<Long> navettesAReviser(long idStation) {
+    public List<Long> navettesAReviser(long idStation) throws AucuneStationException {
         //TODO: faire une requéte SQL trié de la plus 
         //      ancienn en attente a la derniére
         return null;

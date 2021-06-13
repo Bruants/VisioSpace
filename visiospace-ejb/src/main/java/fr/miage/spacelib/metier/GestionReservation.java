@@ -11,6 +11,11 @@ import fr.miage.spacelib.entities.Reservation;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
 import fr.miage.spacelib.facades.ReservationFacadeLocal;
 import fr.miage.spacelib.facades.UsagerFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
+import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -121,9 +126,13 @@ public class GestionReservation implements GestionReservationLocal {
      * @param dateArrivee    Date d'arrivée du voyage
      * @param stationDepart  Station de départ du voyage
      * @param stationArrivee Station d'arrivée du voyage
+     * @return reservation   Le voyage réservé 
      */
     @Override
-    public void reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee) {
+    public Reservation reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, 
+            Date dateArrivee, long stationDepart, long stationArrivee) 
+            throws AucunQuaiException, AucuneStationException, NombrePassagersInvalideException, AucuneNavetteException {
+        
         Reservation reservation = new Reservation();
         Operation voyage = new Operation();
         Navette navette;
@@ -150,6 +159,8 @@ public class GestionReservation implements GestionReservationLocal {
         reservation.setArrivee(stations.reserverQuai(stationArrivee, navette.getId()));
         
         reservations.create(reservation);
+        
+        return reservation;
     }
 
     /**
@@ -160,7 +171,9 @@ public class GestionReservation implements GestionReservationLocal {
      * @param idVoyage Identifiant du voyage courant
      */
     @Override
-    public void departVoyage(long idVoyage) {
+    public void departVoyage(long idVoyage) 
+            throws AucuneNavetteException, AucunVoyageException, 
+            AucunQuaiException {
         Navette navette = reservations.find(idVoyage).getUtilisee();
         navettes.lancerNavette(navette.getId());
     }
@@ -173,7 +186,9 @@ public class GestionReservation implements GestionReservationLocal {
      * @param idVoyage Identifiant du voyage courant
      */
     @Override
-    public void arriveeVoyage(long idVoyage) {
+    public void arriveeVoyage(long idVoyage) 
+     throws AucunVoyageException {
+        
         Reservation reservation = reservations.find(idVoyage);
         Operation voyage = reservation.getVoyage();
         

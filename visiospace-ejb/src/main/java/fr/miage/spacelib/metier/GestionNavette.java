@@ -8,6 +8,10 @@ package fr.miage.spacelib.metier;
 import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.facades.NavetteFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -29,7 +33,7 @@ public class GestionNavette implements GestionNavetteLocal {
      * @param idStation Identifiant de la station ou est stationné la navette
      */
     @Override
-    public void creerNavette(int nbPlaces, long idStation) {
+    public void creerNavette(int nbPlaces, long idStation) throws NombrePassagersInvalideException, AucuneStationException {
     }
 
     /**
@@ -39,7 +43,7 @@ public class GestionNavette implements GestionNavetteLocal {
      *          false : en attente d'entretien
      */
     @Override
-    public boolean etatNavette(long identifiant) {
+    public boolean etatNavette(long identifiant) throws AucuneStationException {
         return false;
     }
 
@@ -49,18 +53,18 @@ public class GestionNavette implements GestionNavetteLocal {
      * @return quai ou la navette est arrimé
      */
     @Override
-    public Quai quai(long id) {
+    public Quai quai(long id) throws AucunQuaiException {
         return null;
     }
 
     @Override
-    public void lancerNavette(long id) {
+    public void lancerNavette(long id) throws AucuneNavetteException, AucunQuaiException {
         Navette navette = navetteFacade.find(id);
         gestionStation.libererQuai(navette.getStationeSur().getId());
     }
 
     @Override
-    public void arriveeNavette(long id) {
+    public void arriveeNavette(long id) throws AucuneNavetteException {
         Navette navette = navetteFacade.find(id);
         navette.addCompteurVoyage();
         gestionStation.arrimerNavette(id);
