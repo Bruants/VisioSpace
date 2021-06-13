@@ -7,28 +7,28 @@ package fr.miage.spacelib.utilities;
 
 /**
  *
- * @author apouz
+ * @author audric.pouzelgues
  */
-public class IdentifiantStationException extends Exception {
-
+public class AucuneNavetteException extends Exception {
+    
     
     private static final String MESSAGE_ERREUR_EXCEPTION
-            = "L'identifiant de la station est introuvable";
+            = "L'identifiant de la navette est introuvable";
 
     /**
-     * Crée une instance de IdentifiantStationException
+     * Crée une instance de AucuneNavetteException
      * avec un message par défaut
      */
-    public IdentifiantStationException() {
+    public AucuneNavetteException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
-     * Crée une instance de IdentifiantStationException
-     * avec l'identifiant de la station
-     * @param identifiant identidiant de la station
+     * Crée une instance de AucuneNavetteException
+     * avec l'identifiant de la navette
+     * @param identifiant identidiant de la navette 
      */
-    public IdentifiantStationException(String identifiant) {
+    public AucuneNavetteException(String identifiant) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
     }
 }

@@ -9,26 +9,25 @@ package fr.miage.spacelib.utilities;
  *
  * @author audric.pouzelgues
  */
-public class IdentifiantNavetteException extends Exception {
-    
-    
+public class AucunQuaiException extends Exception {
+
     private static final String MESSAGE_ERREUR_EXCEPTION
-            = "L'identifiant de la navette est introuvable";
+            = "L'identifiant du quai est introuvable";
 
     /**
-     * Crée une instance de IdentifiantNavetteException
+     * Crée une instance de QuaiInvalideException
      * avec un message par défaut
      */
-    public IdentifiantNavetteException() {
+    public AucunQuaiException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
-     * Crée une instance de NombreNavettesException
-     * avec l'identifiant de la navette
-     * @param identifiant identidiant de la navette 
+     * Crée une instance de QuaiInvalideException
+     * avec l'identifiant du quai
+     * @param identifiant identidiant du quai 
      */
-    public IdentifiantNavetteException(String identifiant) {
+    public AucunQuaiException(String identifiant) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
     }
 }

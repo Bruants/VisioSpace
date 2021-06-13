@@ -7,27 +7,28 @@ package fr.miage.spacelib.utilities;
 
 /**
  *
- * @author apouz
+ * @author audric.pouzelgues
  */
-public class IdentifiantQuaiException extends Exception {
+public class AucuneStationException extends Exception {
 
+    
     private static final String MESSAGE_ERREUR_EXCEPTION
-            = "L'identifiant du quai est introuvable";
+            = "L'identifiant de la station est introuvable";
 
     /**
-     * Crée une instance de IdentifiantQuaiException
+     * Crée une instance de StationInvalideException
      * avec un message par défaut
      */
-    public IdentifiantQuaiException() {
+    public AucuneStationException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
-     * Crée une instance de IdentifiantQuaiException
-     * avec l'identifiant du quai
-     * @param identifiant identidiant du quai 
+     * Crée une instance de StationInvalideException
+     * avec l'identifiant de la station
+     * @param identifiant identidiant de la station
      */
-    public IdentifiantQuaiException(String identifiant) {
+    public AucuneStationException(String identifiant) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
     }
 }
