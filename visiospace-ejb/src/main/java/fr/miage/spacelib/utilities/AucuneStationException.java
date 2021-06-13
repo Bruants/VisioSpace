@@ -9,7 +9,7 @@ package fr.miage.spacelib.utilities;
  *
  * @author audric.pouzelgues
  */
-public class StationInvalideException extends Exception {
+public class AucuneStationException extends Exception {
 
     
     private static final String MESSAGE_ERREUR_EXCEPTION
@@ -19,7 +19,7 @@ public class StationInvalideException extends Exception {
      * Crée une instance de StationInvalideException
      * avec un message par défaut
      */
-    public StationInvalideException() {
+    public AucuneStationException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
@@ -28,7 +28,7 @@ public class StationInvalideException extends Exception {
      * avec l'identifiant de la station
      * @param identifiant identidiant de la station
      */
-    public StationInvalideException(String identifiant) {
+    public AucuneStationException(String identifiant) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
     }
 }

@@ -9,7 +9,7 @@ package fr.miage.spacelib.utilities;
  *
  * @author audric.pouzelgues
  */
-public class UsagerInvalideException extends Exception {
+public class AucunUsagerException extends Exception {
 
     
     private static final String MESSAGE_ERREUR_EXCEPTION
@@ -19,7 +19,7 @@ public class UsagerInvalideException extends Exception {
      * Crée une instance de UsagerInvalideException
      * avec un message par défaut
      */
-    public UsagerInvalideException() {
+    public AucunUsagerException() {
         super(MESSAGE_ERREUR_EXCEPTION);
     }
 
@@ -28,7 +28,7 @@ public class UsagerInvalideException extends Exception {
      * avec l'identifiant de la navette
      * @param identifiant identidiant de la navette 
      */
-    public UsagerInvalideException(String identifiant) {
+    public AucunUsagerException(String identifiant) {
         super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
     }
 }
