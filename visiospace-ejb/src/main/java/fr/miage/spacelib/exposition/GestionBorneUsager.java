@@ -9,7 +9,14 @@ import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.entities.Reservation;
 import fr.miage.spacelib.entities.Usager;
 import fr.miage.spacelib.metier.GestionReservationLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.interfremote.GestionBorneUsagerRemote;
+import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
+import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.QuaiExport;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import fr.miage.spacelib.vspaceshared.utilities.StationExport;
@@ -29,7 +36,8 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
     private GestionReservationLocal gestionReservation;
 
     @Override
-    public ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee) {
+    public ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
+        throws AucunUsagerException, NombrePassagersInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException {
         Reservation res = this.gestionReservation.reserverVoyage(idUsager, nbPassagers, dateDepart, dateArrivee, stationDepart, stationArrivee);
         Quai quaiDepart = res.getArrivee();
         Quai quaiArrivee = res.getArrivee();
@@ -43,12 +51,12 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
     }
 
     @Override
-    public void departVoyage(long idVoyage) {
+    public void departVoyage(long idVoyage) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException {
         this.gestionReservation.departVoyage(idVoyage);
     }
 
     @Override
-    public void arriveeVoyage(long idVoyage) {
+    public void arriveeVoyage(long idVoyage) throws AucunVoyageException {
         this.gestionReservation.arriveeVoyage(idVoyage);
     }
     
