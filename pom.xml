@@ -10,4 +10,11 @@
     <module>visiospace-web</module>
     <module>visiospace-ejb</module>
   </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>VspaceShared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
