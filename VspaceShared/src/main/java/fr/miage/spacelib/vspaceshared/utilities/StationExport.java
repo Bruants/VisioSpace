@@ -15,8 +15,6 @@ import java.util.List;
 public class StationExport implements Serializable {
     
     private Long id;
-
-    private List<QuaiExport> quais;
     
     /**Coordonées stellaire */
     private String coordonnee;
@@ -24,9 +22,8 @@ public class StationExport implements Serializable {
     public StationExport() {
     }
 
-    public StationExport(Long id, List<QuaiExport> quais, String coordonnee) {
+    public StationExport(Long id, String coordonnee) {
         this.id = id;
-        this.quais = quais;
         this.coordonnee = coordonnee;
     }
 
@@ -36,14 +33,6 @@ public class StationExport implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<QuaiExport> getQuais() {
-        return quais;
-    }
-
-    public void setQuais(List<QuaiExport> quais) {
-        this.quais = quais;
     }
 
     public String getCoordonnee() {

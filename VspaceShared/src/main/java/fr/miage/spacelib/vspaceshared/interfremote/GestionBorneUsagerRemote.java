@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.vspaceshared.interfremote;
 
+import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import java.util.Date;
 import javax.ejb.Remote;
 
@@ -14,7 +15,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface GestionBorneUsagerRemote {
-    void reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee);
+    ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee);
 
     void departVoyage(long idVoyage);
 

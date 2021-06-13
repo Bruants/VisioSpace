@@ -6,7 +6,6 @@
 package fr.miage.spacelib.vspaceshared.utilities;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  *
@@ -16,14 +15,17 @@ public class UsagerExport implements Serializable {
     
     private Long id;
     
-    private List<ReservationExport> reservations;
+    private String nom = "";
+    
+    private String prenom = "";
 
     public UsagerExport() {
     }
 
-    public UsagerExport(Long id, List<ReservationExport> reservations) {
+    public UsagerExport(Long id, String nom, String prenom) {
         this.id = id;
-        this.reservations = reservations;
+        this.nom = nom;
+        this.prenom = prenom;
     }
 
     public Long getId() {
@@ -34,13 +36,20 @@ public class UsagerExport implements Serializable {
         this.id = id;
     }
 
-    public List<ReservationExport> getReservations() {
-        return reservations;
+    public String getNom() {
+        return nom;
     }
 
-    public void setReservations(List<ReservationExport> reservations) {
-        this.reservations = reservations;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
-    
-    
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
 }
