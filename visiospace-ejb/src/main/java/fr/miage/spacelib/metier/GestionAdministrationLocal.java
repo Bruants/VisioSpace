@@ -9,12 +9,17 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
  * @author AlexisVivier
+ * @author audric.pouzelgues
  */
 @Local
 public interface GestionAdministrationLocal {
 
+    /**
+     * Crée une nouvelle station
+     * @param coordonnees coordonnées de la station à ajouter
+     * @param navettes liste des navettes à ajouter dans la nouvelle station
+     */
     void creerStation(String coordonnees, List<Long> navettes);
     
 }
