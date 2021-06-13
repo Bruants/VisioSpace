@@ -7,7 +7,7 @@ package fr.miage.spacelib.utilities;
 
 /**
  *
- * @author apouz
+ * @author audric.pouzelgues
  */
 public class NombreNavettesException extends Exception {
 
@@ -19,14 +19,15 @@ public class NombreNavettesException extends Exception {
      * avec un message par défaut
      */
     public NombreNavettesException() {
+        super(MESSAGE_ERREUR_EXCEPTION);
     }
 
     /**
      * Crée une instance de NombreNavettesException
      * avec un message en argument
-     * @param message 
+     * @param message message plus détaillé
      */
     public NombreNavettesException(String message) {
-        super(message);
+        super(MESSAGE_ERREUR_EXCEPTION + "\n" + message);
     }
 }
