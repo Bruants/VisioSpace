@@ -77,11 +77,16 @@ public class GestionAdministration implements GestionAdministrationLocal {
     public void setAdministrateur(AdministrateurFacadeLocal administrateur) {
         this.administrateur = administrateur;
     }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-
+    
+    /**
+     * Crée une nouvelle station
+     * @param coordonnees coordonnées de la station à ajouter
+     * @param navettes liste des navettes à ajouter dans la nouvelle station
+     */
     @Override
     public void creerStation(String coordonnees, List<Long> navettes) {
     }
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
 }
