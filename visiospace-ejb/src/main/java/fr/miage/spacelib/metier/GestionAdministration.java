@@ -19,70 +19,14 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionAdministration implements GestionAdministrationLocal {
 
-    @EJB(beanName = "AdministrateurEJB")
-    private AdministrateurFacadeLocal administrateur;
-    
-    @EJB(beanName = "GestionStationAdministrateurEJB")
-    private GestionStationLocal gestionStation;
-    
-    @EJB(beanName = "GestionNavetteAdministrateurEJB")
+    @EJB
     private GestionNavetteLocal gestionNavette;
 
-    /**
-     * Get the value of gestionNavette
-     *
-     * @return the value of gestionNavette
-     */
-    public GestionNavetteLocal getGestionNavette() {
-        return gestionNavette;
-    }
+    @EJB
+    private GestionStationLocal gestionStation;
 
-    /**
-     * Set the value of gestionNavette
-     *
-     * @param gestionNavette new value of gestionNavette
-     */
-    public void setGestionNavette(GestionNavetteLocal gestionNavette) {
-        this.gestionNavette = gestionNavette;
-    }
-
-
-    /**
-     * Get the value of gestionStation
-     *
-     * @return the value of gestionStation
-     */
-    public GestionStationLocal getGestionStation() {
-        return gestionStation;
-    }
-
-    /**
-     * Set the value of gestionStation
-     *
-     * @param gestionStation new value of gestionStation
-     */
-    public void setGestionStation(GestionStationLocal gestionStation) {
-        this.gestionStation = gestionStation;
-    }
-
-
-    /**
-     * Get the value of administrateur
-     *
-     * @return the value of administrateur
-     */
-    public AdministrateurFacadeLocal getAdministrateur() {
-        return administrateur;
-    }
-
-    /**
-     * Set the value of administrateur
-     *
-     * @param administrateur new value of administrateur
-     */
-    public void setAdministrateur(AdministrateurFacadeLocal administrateur) {
-        this.administrateur = administrateur;
-    }
+    @EJB
+    private AdministrateurFacadeLocal administrateurFacade;
     
     /**
      * Crée une nouvelle station

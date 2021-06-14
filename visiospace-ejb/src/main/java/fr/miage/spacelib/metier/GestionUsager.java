@@ -17,7 +17,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionUsager implements GestionUsagerLocal {
 
-    @EJB(beanName = "UsagerEJB")
+    @EJB
     private UsagerFacadeLocal usagerFacade;
 
     @Override

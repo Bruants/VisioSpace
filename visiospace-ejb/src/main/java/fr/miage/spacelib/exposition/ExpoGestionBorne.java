@@ -11,13 +11,12 @@ import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.entities.Usager;
 import fr.miage.spacelib.metier.GestionReservationLocal;
 import fr.miage.spacelib.metier.GestionUsagerLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
+import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
-import fr.miage.spacelib.vspaceshared.interfremote.GestionBorneUsagerRemote;
-import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
-import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.QuaiExport;
@@ -29,18 +28,19 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import fr.miage.spacelib.vspaceshared.interfremote.ExpoGestionBorneRemote;
 
 /**
  *
  * @author AlexisVivier
  */
 @Stateless
-public class GestionBorneUsager implements GestionBorneUsagerRemote {
+public class ExpoGestionBorne implements ExpoGestionBorneRemote {
 
-    @EJB(beanName = "GestionUsagerBorneReservationEJB")
+    @EJB
     private GestionUsagerLocal gestionUsager;
 
-    @EJB(beanName = "BorneReservationEJB")
+    @EJB
     private GestionReservationLocal gestionReservation;
 
     @Override
@@ -116,5 +116,9 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
         }
         return false;
     }
-
+    
+    @Override
+    public void testNul(String chaine){
+        System.out.println("TOTO " + chaine);
+    }
 }

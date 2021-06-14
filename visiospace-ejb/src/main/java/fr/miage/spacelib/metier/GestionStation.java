@@ -30,14 +30,14 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionStation implements GestionStationLocal {
 
-    @EJB(beanName = "NavetteStationEJB")
-    private NavetteFacadeLocal navetteFacade;
-
-    @EJB(beanName = "QuaiStationEJB")
-    private QuaiFacadeLocal quaiFacade;
-    
-    @EJB(beanName = "StationEJB")
+    @EJB
     private StationFacadeLocal stationFacade;
+
+    @EJB
+    private QuaiFacadeLocal quaiFacade;
+
+    @EJB
+    private NavetteFacadeLocal navetteFacade;
 
     /**
      * Crée une station avec les navettes amarés
