@@ -42,7 +42,7 @@ public interface GestionReservationLocal {
     
     public List<Station> toutesStations();
 
-    Reservation lastReservation(long idUsager);
+    Reservation lastReservation(long idUsager) throws AucunVoyageException ;
 
     Reservation trouver(long idReservation);
     

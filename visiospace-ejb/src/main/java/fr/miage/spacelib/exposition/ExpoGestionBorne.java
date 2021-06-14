@@ -69,8 +69,10 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
     }
 
     @Override
-    public UsagerExport connecter(long idUtilisateur) {
+    public UsagerExport connecter(long idUtilisateur) throws AucunUsagerException {
+        System.out.println("debut connecter()");
         Usager nouveauUsager = this.gestionUsager.connecter(idUtilisateur);
+        System.out.println(nouveauUsager);
         return new UsagerExport(nouveauUsager.getId(),
                 nouveauUsager.getNom(),
                 nouveauUsager.getPrenom());
@@ -95,7 +97,7 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
     }
 
     @Override
-    public ReservationExport reservationEnCours(long idUtilisateur) {
+    public ReservationExport reservationEnCours(long idUtilisateur) throws AucunVoyageException {
         Reservation enCours = gestionReservation.lastReservation(idUtilisateur);
         if (enCours.getVoyage().getDateDepart().after(new Date())
                 && !enCours.getVoyage().isTerminee()) {
@@ -105,16 +107,13 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
                     new UsagerExport(enCours.getUsager().getId(), enCours.getUsager().getNom(), enCours.getUsager().getPrenom()),
                     enCours.getNbPassagers());
         }
-        return null;
+        throw new AucunVoyageException(" de l'utilisateur : " + idUtilisateur);
     }
 
     @Override
-    public boolean isReservationArrivee(long idUtilisateur) {
+    public boolean isReservationArrivee(long idUtilisateur) throws AucunVoyageException {
         Reservation res = gestionReservation.trouver(reservationEnCours(idUtilisateur).getId());
-        if (res.getVoyage().getDateArrivee().before(new Date())) {
-            return true;
-        }
-        return false;
+        return res.getVoyage().getDateArrivee().before(new Date());
     }
     
     @Override

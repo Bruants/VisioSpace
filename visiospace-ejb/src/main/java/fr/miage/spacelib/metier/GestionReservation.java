@@ -173,7 +173,10 @@ public class GestionReservation implements GestionReservationLocal {
     }
 
     @Override
-    public Reservation lastReservation(long idUsager) {
+    public Reservation lastReservation(long idUsager) throws AucunVoyageException {
+        if(reservationFacade.findUsager(idUsager).size() <= 0){
+            throw new AucunVoyageException(" de l'utilisateur : " + idUsager);
+        }
         return reservationFacade.findUsager(idUsager).get(0);
     }
 

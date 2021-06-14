@@ -6,6 +6,7 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.entities.Usager;
+import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
 import javax.ejb.Local;
 
 /**
@@ -15,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface GestionUsagerLocal {
 
-    Usager connecter(long idUtilisateur);
+    Usager connecter(long idUtilisateur) throws AucunUsagerException;
     
     Usager inscrire(String nom, String prenom);
     
