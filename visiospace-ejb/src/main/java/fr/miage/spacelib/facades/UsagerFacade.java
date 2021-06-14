@@ -32,7 +32,7 @@ public class UsagerFacade extends AbstractFacade<Usager> implements UsagerFacade
 
     @Override
     public Usager findWithNames(String nom, String prenom) {
-        Query recupererNavettePourEntretien = this.em.createQuery("SELECT id FROM Usager WHERE nom = :nom AND prenom = :prenom");
+        Query recupererNavettePourEntretien = this.em.createQuery("SELECT U.id FROM Usager U WHERE U.nom = :nom AND U.prenom = :prenom");
         recupererNavettePourEntretien.setParameter("nom", nom);
         recupererNavettePourEntretien.setParameter("prenom", prenom);
         return find((Long) recupererNavettePourEntretien.getSingleResult());
