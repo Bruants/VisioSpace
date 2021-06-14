@@ -11,7 +11,7 @@ import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
-import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -34,7 +34,15 @@ public class GestionNavette implements GestionNavetteLocal {
      * @param idStation Identifiant de la station ou est stationné la navette
      */
     @Override
-    public void creerNavette(int nbPlaces, long idStation) throws NombrePassagersInvalideException, AucuneStationException {
+    public void creerNavette(int nbPlaces, long idStation) throws NombrePlacesInvalideException, AucuneStationException {
+        
+        if (nbPlaces != 2 || nbPlaces != 5 || nbPlaces != 10 || nbPlaces != 15) {
+            throw new NombrePlacesInvalideException();
+        }
+        
+        if (gestionStation.trouverStation(idStation) == null) {
+            throw new AucuneStationException();
+        }
     }
 
     /**
