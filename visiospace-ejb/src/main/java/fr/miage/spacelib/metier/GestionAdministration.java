@@ -97,6 +97,8 @@ public class GestionAdministration implements GestionAdministrationLocal {
     @Override
     public void creerStation(String coordonnees, List<Long> navettes) 
             throws CoordonneesInvalideException, NombreNavetteInvalideException {
+        
+        gestionStation.creerStation(coordonnees, navettes);
     }
 
     // Add business logic below. (Right-click in editor and choose
