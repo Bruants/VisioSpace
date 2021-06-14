@@ -48,5 +48,7 @@ public interface GestionStationLocal {
     List<Long> navettesAReviser(long idStation) throws AucuneStationException;
     
     public List<Station> toutesStations();
+
+    Station trouverStation(long id);
     
 }

@@ -255,4 +255,11 @@ public class GestionStation implements GestionStationLocal {
         return stationFacade.findAll();
     }
 
+    @Override
+    public Station trouverStation(long id) {
+        return stationFacade.find(id);
+    }
+    
+    
+
 }
