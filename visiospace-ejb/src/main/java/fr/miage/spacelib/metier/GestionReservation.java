@@ -11,11 +11,14 @@ import fr.miage.spacelib.entities.Reservation;
 import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
 import fr.miage.spacelib.facades.ReservationFacadeLocal;
+import fr.miage.spacelib.facades.StationFacade;
 import fr.miage.spacelib.facades.UsagerFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
+import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import java.util.Date;
@@ -30,14 +33,17 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionReservation implements GestionReservationLocal {
 
-    @EJB(beanName = "ReservationUsagerEJB")
+    @EJB(beanName = "UsagerReservationEJB")
     private UsagerFacadeLocal usagerFacade;
-
+    
     @EJB(beanName = "ReservationEJB")
-    private ReservationFacadeLocal reservations;
+    private ReservationFacadeLocal reservationFacade;
+    
+    @EJB(beanName = "StationReservationEJB")
+    private StationFacade stationFacade;
     
     @EJB(beanName = "OperationReservationEJB")
-    private OperationFacadeLocal operations;
+    private OperationFacadeLocal operationFacade;
     
     @EJB(beanName = "GestionStationReservationEJB")
     private GestionStationLocal stations;
@@ -89,7 +95,7 @@ public class GestionReservation implements GestionReservationLocal {
      * @return the value of operations
      */
     public OperationFacadeLocal getOperations() {
-        return operations;
+        return operationFacade;
     }
 
     /**
@@ -98,7 +104,7 @@ public class GestionReservation implements GestionReservationLocal {
      * @param operations new value of operations
      */
     public void setOperations(OperationFacadeLocal operations) {
-        this.operations = operations;
+        this.operationFacade = operations;
     }
 
     /**
@@ -107,7 +113,7 @@ public class GestionReservation implements GestionReservationLocal {
      * @return the value of reservations
      */
     public ReservationFacadeLocal getReservations() {
-        return reservations;
+        return reservationFacade;
     }
 
     /**
@@ -116,7 +122,7 @@ public class GestionReservation implements GestionReservationLocal {
      * @param reservations new value of reservations
      */
     public void setReservations(ReservationFacadeLocal reservations) {
-        this.reservations = reservations;
+        this.reservationFacade = reservations;
     }
     
     /**
@@ -139,7 +145,26 @@ public class GestionReservation implements GestionReservationLocal {
             long stationDepart, long stationArrivee)
             
             throws AucunQuaiException, AucuneStationException, 
-            AucuneNavetteException, NombrePlacesInvalideException {
+            AucuneNavetteException, NombrePlacesInvalideException, 
+            AucunUsagerException, DateInvalideException, NombrePassagersInvalideException {
+        
+        if (usagerFacade.find(idUsager) == null) {
+            throw new AucunUsagerException();
+        }
+        
+        if (dateDepart.after(dateArrivee)) {
+            throw new DateInvalideException();
+        }
+                 
+        if (nbPassagers <= 0) {
+            throw new NombrePassagersInvalideException();
+        }
+        
+        if (stationFacade.find(stationDepart) == null 
+                || stationFacade.find(stationArrivee) == null) {
+            throw new AucuneStationException();
+        }
+                
         
         Reservation reservation = new Reservation();
         Operation voyage = new Operation();
@@ -168,7 +193,7 @@ public class GestionReservation implements GestionReservationLocal {
                 stations.reserverQuai(stationArrivee, navette.getId())
         );
         
-        reservations.create(reservation);
+        reservationFacade.create(reservation);
         
         return reservation;
     }
@@ -184,7 +209,12 @@ public class GestionReservation implements GestionReservationLocal {
     public void departVoyage(long idVoyage) 
             throws AucuneNavetteException, AucunVoyageException, 
             AucunQuaiException {
-        Navette navette = reservations.find(idVoyage).getUtilisee();
+        Navette navette = reservationFacade.find(idVoyage).getUtilisee();
+        
+        if (navette == null) {
+            throw new AucuneNavetteException();
+        }
+        
         navettes.lancerNavette(navette.getId());
     }
 
@@ -199,11 +229,16 @@ public class GestionReservation implements GestionReservationLocal {
     public void arriveeVoyage(long idVoyage) 
      throws AucunVoyageException {
         
-        Reservation reservation = reservations.find(idVoyage);
+        Reservation reservation = reservationFacade.find(idVoyage);
+        
+        if (reservation == null) {
+            throw new AucunVoyageException();
+        }
+        
         Operation voyage = reservation.getVoyage();
         
         voyage.setTerminee(true);
-        reservations.edit(reservation);
+        reservationFacade.edit(reservation);
     }
     
     @Override
