@@ -41,5 +41,9 @@ public interface GestionReservationLocal {
     void arriveeVoyage(long idVoyage) throws AucunVoyageException;
     
     public List<Station> toutesStations();
+
+    Reservation lastReservation(long idUsager);
+
+    Reservation trouver(long idReservation);
     
 }

@@ -246,4 +246,15 @@ public class GestionReservation implements GestionReservationLocal {
         return stations.toutesStations();
     }
 
+    @Override
+    public Reservation lastReservation(long idUsager) {
+        return reservationFacade.findUsager(idUsager).get(0);
+    }
+
+    @Override
+    public Reservation trouver(long idReservation) {
+        return reservationFacade.find(idReservation);
+    }
+   
+
 }

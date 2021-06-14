@@ -15,10 +15,10 @@ import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
-import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.interfremote.GestionBorneUsagerRemote;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.QuaiExport;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
@@ -42,20 +42,19 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
 
     @EJB(beanName = "BorneReservationEJB")
     private GestionReservationLocal gestionReservation;
-    
 
     @Override
     public ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
-        throws AucunUsagerException, NombrePlacesInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException {
+            throws AucunUsagerException, NombrePlacesInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException, NombrePassagersInvalideException {
         Reservation res = this.gestionReservation.reserverVoyage(idUsager, nbPassagers, dateDepart, dateArrivee, stationDepart, stationArrivee);
         Quai quaiDepart = res.getArrivee();
         Quai quaiArrivee = res.getArrivee();
         Usager usager = res.getUsager();
-        
-        return new ReservationExport(res.getId(), 
+
+        return new ReservationExport(res.getId(),
                 new QuaiExport(quaiDepart.getId(), new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee())),
-                new QuaiExport(quaiArrivee.getId(), new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee())), 
-                new UsagerExport(usager.getId(), usager.getNom(), usager.getPrenom()), 
+                new QuaiExport(quaiArrivee.getId(), new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee())),
+                new UsagerExport(usager.getId(), usager.getNom(), usager.getPrenom()),
                 res.getNbPassagers());
     }
 
@@ -84,15 +83,38 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
                 nouveauUsager.getNom(),
                 nouveauUsager.getPrenom());
     }
-    
+
     @Override
-    public List<StationExport> toutesStations(){
-        List<Station> stations =  gestionReservation.toutesStations();
+    public List<StationExport> toutesStations() {
+        List<Station> stations = gestionReservation.toutesStations();
         List<StationExport> stationsExp = new ArrayList<>();
-        for(Station stat : stations ){
+        for (Station stat : stations) {
             stationsExp.add(new StationExport(stat.getId(), stat.getCoordonnee()));
         }
-        
         return stationsExp;
     }
+
+    @Override
+    public ReservationExport reservationEnCours(long idUtilisateur) {
+        Reservation enCours = gestionReservation.lastReservation(idUtilisateur);
+        if (enCours.getVoyage().getDateDepart().after(new Date())
+                && !enCours.getVoyage().isTerminee()) {
+            return new ReservationExport(enCours.getId(),
+                    new QuaiExport(enCours.getDepart().getId(), new StationExport(enCours.getDepart().getStation().getId(), enCours.getDepart().getStation().getCoordonnee())),
+                    new QuaiExport(enCours.getArrivee().getId(), new StationExport(enCours.getArrivee().getStation().getId(), enCours.getArrivee().getStation().getCoordonnee())),
+                    new UsagerExport(enCours.getUsager().getId(), enCours.getUsager().getNom(), enCours.getUsager().getPrenom()),
+                    enCours.getNbPassagers());
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isReservationArrivee(long idUtilisateur) {
+        Reservation res = gestionReservation.trouver(reservationEnCours(idUtilisateur).getId());
+        if (res.getVoyage().getDateArrivee().before(new Date())) {
+            return true;
+        }
+        return false;
+    }
+
 }

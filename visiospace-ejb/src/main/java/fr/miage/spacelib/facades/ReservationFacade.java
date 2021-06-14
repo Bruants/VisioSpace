@@ -6,9 +6,14 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Reservation;
+import fr.miage.spacelib.entities.Station;
+import static fr.miage.spacelib.facades.StationFacade.NB_VOYAGES_ENTRETIENS;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -23,6 +28,18 @@ public class ReservationFacade extends AbstractFacade<Reservation> implements Re
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    @Override
+    public List<Reservation> findUsager(long idUsager) {
+        List<Reservation> reservations = new ArrayList<>();
+        Query recupererNavettePourEntretien = this.em.createQuery("SELECT R.id FROM Reservation R WHERE R.usager = :idUsager ORDER BY id DESC");
+        recupererNavettePourEntretien.setParameter("idUsager", idUsager);
+        
+        for( Object id : recupererNavettePourEntretien.getResultList()){
+            reservations.add(find((long) id));
+        }
+        return reservations;
     }
 
     public ReservationFacade() {

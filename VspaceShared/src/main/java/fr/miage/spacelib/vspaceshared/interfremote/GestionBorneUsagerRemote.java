@@ -27,7 +27,7 @@ import javax.ejb.Remote;
 @Remote
 public interface GestionBorneUsagerRemote {
     ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
-             throws AucunUsagerException, NombrePlacesInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException ;
+             throws AucunUsagerException, NombrePlacesInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException,NombrePassagersInvalideException ;
 
     void departVoyage(long idVoyage) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
 
@@ -38,4 +38,9 @@ public interface GestionBorneUsagerRemote {
     UsagerExport inscrire(String nom, String prenom);
     
     public List<StationExport> toutesStations();
+    
+    public ReservationExport reservationEnCours(long idUtilisateur);
+    
+    public boolean isReservationArrivee(long idUtilisateur);
+
 }
