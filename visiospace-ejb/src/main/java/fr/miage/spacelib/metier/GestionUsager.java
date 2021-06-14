@@ -7,6 +7,7 @@ package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.entities.Usager;
 import fr.miage.spacelib.facades.UsagerFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -21,8 +22,12 @@ public class GestionUsager implements GestionUsagerLocal {
     private UsagerFacadeLocal usagerFacade;
 
     @Override
-    public Usager connecter(long idUtilisateur) {
-        return usagerFacade.find(idUtilisateur);
+    public Usager connecter(long idUtilisateur) throws AucunUsagerException {
+        Usager usager = usagerFacade.find(idUtilisateur);
+        if(usager == null){
+            throw new AucunUsagerException(Long.toString(idUtilisateur));
+        }
+        return usager;
     }
 
     @Override

@@ -33,15 +33,15 @@ public interface ExpoGestionBorneRemote {
 
     void arriveeVoyage(long idReservation)  throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
     
-    UsagerExport connecter(long idUtilisateur);
+    UsagerExport connecter(long idUtilisateur) throws AucunUsagerException;
     
     UsagerExport inscrire(String nom, String prenom);
     
     public List<StationExport> toutesStations();
     
-    public ReservationExport reservationEnCours(long idUtilisateur);
+    public ReservationExport reservationEnCours(long idUtilisateur) throws AucunVoyageException;
     
-    public boolean isReservationArrivee(long idUtilisateur);
+    public boolean isReservationArrivee(long idUtilisateur) throws AucunVoyageException;
     
     public void testNul(String chaine);
 }
