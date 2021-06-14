@@ -31,7 +31,7 @@ public interface QuaiFacadeLocal {
 
     int count();
 
-    long findNavette(long navette, long station);
+    Quai findNavette(long navette);
 
     Quai quaiDisponible(long idStation);
     

@@ -29,5 +29,7 @@ public interface UsagerFacadeLocal {
     List<Usager> findRange(int[] range);
 
     int count();
+
+    Usager findWithNames(String nom, String prenom);
     
 }

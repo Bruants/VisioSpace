@@ -11,7 +11,7 @@ import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
-import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -21,12 +21,12 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class GestionNavette implements GestionNavetteLocal {
-    
-    @EJB(beanName = "NavetteEJB")
-    private NavetteFacadeLocal navetteFacade;
-    
-    @EJB(beanName = "GestionStationNavetteEJB")
+
+    @EJB
     private GestionStationLocal gestionStation;
+
+    @EJB
+    private NavetteFacadeLocal navetteFacade;
 
     /**
      * Créer une nouvelle navette
@@ -34,7 +34,15 @@ public class GestionNavette implements GestionNavetteLocal {
      * @param idStation Identifiant de la station ou est stationné la navette
      */
     @Override
-    public void creerNavette(int nbPlaces, long idStation) throws NombrePassagersInvalideException, AucuneStationException {
+    public void creerNavette(int nbPlaces, long idStation) throws NombrePlacesInvalideException, AucuneStationException {
+        
+        if (nbPlaces != 2 || nbPlaces != 5 || nbPlaces != 10 || nbPlaces != 15) {
+            throw new NombrePlacesInvalideException();
+        }
+        
+        if (gestionStation.trouverStation(idStation) == null) {
+            throw new AucuneStationException();
+        }
     }
 
     /**
@@ -44,7 +52,12 @@ public class GestionNavette implements GestionNavetteLocal {
      *          false : en attente d'entretien
      */
     @Override
-    public boolean etatNavette(long identifiant) throws AucuneStationException {
+    public boolean etatNavette(long identifiant) throws AucuneNavetteException {
+        
+        if (navetteFacade.find(identifiant) == null) {
+            throw new AucuneNavetteException();
+        }
+        
         return false;
     }
 
@@ -54,25 +67,45 @@ public class GestionNavette implements GestionNavetteLocal {
      * @return quai ou la navette est arrimé
      */
     @Override
-    public Quai quai(long id) throws AucunQuaiException {
+        public Quai quai(long id) throws AucuneNavetteException {
+        
+            if (navetteFacade.find(id) == null) {
+                throw new AucuneNavetteException();
+            }
+        
         return null;
     }
 
+    /**
+     * La navette démarre son trajet
+     * @param id identifiant de la navette à lancer
+     * @throws AucuneNavetteException  -> l'id ne correspond à aucune navette existante
+     * @throws AucunQuaiException -> Le quai à libérer n'existe pas
+     */
     @Override
     public void lancerNavette(long id) throws AucuneNavetteException, AucunQuaiException {
         Navette navette = navetteFacade.find(id);
+        
+        if (navette == null) {
+            throw new AucuneNavetteException();
+        }
         gestionStation.libererQuai(navette.getStationeSur().getId());
     }
 
+    /**
+     * La navette arrive à destination
+     * @param id identifiant de la navette
+     * @throws AucuneNavetteException  -> l'id ne correspond à aucune navette existante
+     * @throws AucunQuaiException -> Le quai à libérer n'existe pas
+     */
     @Override
-    public void arriveeNavette(long id) throws AucuneNavetteException {
+    public void arriveeNavette(long id) throws AucuneNavetteException, AucunQuaiException {
         Navette navette = navetteFacade.find(id);
+        
+        if (navette == null) {
+            throw new AucuneNavetteException();
+        }
         navette.addCompteurVoyage();
         gestionStation.arrimerNavette(id);
     }
-    
-    
-    
-    
-
 }

@@ -30,4 +30,6 @@ public interface ReservationFacadeLocal {
 
     int count();
     
+    public List<Reservation> findUsager(long idUsager);
+    
 }

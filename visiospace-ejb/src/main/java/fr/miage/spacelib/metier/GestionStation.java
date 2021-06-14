@@ -15,7 +15,9 @@ import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -28,14 +30,14 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionStation implements GestionStationLocal {
 
-    @EJB(beanName = "NavetteStationEJB")
-    private NavetteFacadeLocal navetteFacade;
-
-    @EJB(beanName = "QuaiStationEJB")
-    private QuaiFacadeLocal quaiFacade;
-    
-    @EJB(beanName = "StationEJB")
+    @EJB
     private StationFacadeLocal stationFacade;
+
+    @EJB
+    private QuaiFacadeLocal quaiFacade;
+
+    @EJB
+    private NavetteFacadeLocal navetteFacade;
 
     /**
      * Crée une station avec les navettes amarés
@@ -48,9 +50,24 @@ public class GestionStation implements GestionStationLocal {
      */
     @Override
     public void creerStation(String coordonnees, List<Long> navettes) 
-            throws AucuneNavetteException, CoordonneesInvalideException {
+            throws NombreNavetteInvalideException, CoordonneesInvalideException {
         Station station = new Station();
         List<Quai> quais = new ArrayList<>();
+        
+        List<Station> stations = stationFacade.findAll();
+        
+        // recherche d'une station possédant les mêmes coordonnées
+        for(Station s: stations) {
+           
+            if (s.getCoordonnee().equals(coordonnees)) {
+                throw new CoordonneesInvalideException();
+            }
+        }
+        
+        // aucune navette n'est affectée à la nouvelle station
+        if (navettes.size() <= 0) {
+            throw new NombreNavetteInvalideException();
+        }
         
         station.setCoordonnee(coordonnees);
         for(Long idNavette:navettes){
@@ -78,6 +95,14 @@ public class GestionStation implements GestionStationLocal {
             throws AucuneStationException, AucuneNavetteException, 
             AucunQuaiException {
         
+        if (stationFacade.find(idStation) == null) {
+           throw new AucuneStationException();
+        }
+        
+        if (navetteFacade.find(navette) == null) {
+            throw new AucuneNavetteException();
+        }
+        
         return reserverQuai(quaiDisponible(idStation), navette); 
 
     }
@@ -91,7 +116,15 @@ public class GestionStation implements GestionStationLocal {
      */
     @Override
     public Quai reserverQuai(Quai quai, long navette)
-            throws AucuneNavetteException {
+            throws AucuneNavetteException, AucunQuaiException {
+        
+        if (navetteFacade.find(navette) == null) {
+            throw new AucuneNavetteException();
+        }
+        
+        if (quaiFacade.find(quai) == null) {
+            throw new AucunQuaiException();
+        }
         
         quai.setReservation(navetteFacade.find(navette));
         
@@ -107,6 +140,14 @@ public class GestionStation implements GestionStationLocal {
     public void arrimerNavette(long idQuai, long navette) 
             throws AucunQuaiException, AucuneNavetteException {
         
+        if (quaiFacade.find(idQuai) == null) {
+            throw new AucunQuaiException();
+        }
+        
+        if (navetteFacade.find(navette) == null) {
+            throw new AucuneNavetteException();
+        }
+        
         Quai quai = quaiFacade.find(idQuai);
         
         //La navette est attachée au quai
@@ -119,14 +160,20 @@ public class GestionStation implements GestionStationLocal {
      * @param idNavette identifiant de la navette à stationné
      */
     @Override
-    public void arrimerNavette(long idNavette) throws AucuneNavetteException {
+    public void arrimerNavette(long idNavette) throws AucuneNavetteException, AucunQuaiException {
         Navette navette = navetteFacade.find(idNavette);
-
-        Quai quai = quaiFacade.find(navette);
-        quai.setStationne(navetteFacade.find(navette.getId()));
-
         
-        //La navette est attachée au quai
+        if (navette == null) {
+            throw new AucuneNavetteException();
+        }
+
+        Quai quai = quaiFacade.findNavette(idNavette);
+        
+        if (quai == null) {
+            throw new AucunQuaiException();
+        }
+        
+        quai.setStationne(navetteFacade.find(navette.getId()));   //La navette est attachée au quai
     }
 
     /**
@@ -137,7 +184,11 @@ public class GestionStation implements GestionStationLocal {
     public void libererQuai(long idQuai) throws AucunQuaiException {
         Quai quai = quaiFacade.find(idQuai);
         
-        //Si il y avais une reservation de quai, cette derniére disparait
+        if (quai == null) {
+            throw new AucunQuaiException();
+        }
+        
+        //Si il y avait une réservation de quai, cette dernière disparait
         quai.setReservation(null);
         
         //La navette n'est plus attachée au quai
@@ -153,7 +204,16 @@ public class GestionStation implements GestionStationLocal {
      * @return identifiant d'une navette disponible
      */
     @Override
-    public Navette navettesDispo(long idStation, int nbPlaces) throws AucuneStationException, NombrePassagersInvalideException {
+    public Navette navettesDispo(long idStation, int nbPlaces) throws AucuneStationException, NombrePlacesInvalideException {
+        
+        if (stationFacade.find(idStation) == null) {
+            throw new AucuneStationException();
+        }
+        
+        if (nbPlaces != 2 || nbPlaces != 5 || nbPlaces != 10 || nbPlaces != 15) {
+            throw new NombrePlacesInvalideException();
+        }
+        
         return quaiFacade.navetteDisponible(idStation, nbPlaces);
     }
 
@@ -164,6 +224,11 @@ public class GestionStation implements GestionStationLocal {
      */
     @Override
     public Quai quaiDisponible(long idStation) throws AucuneStationException {
+        
+        if (stationFacade.find(idStation) == null) {
+            throw new AucuneStationException();
+        }
+        
         return quaiFacade.quaiDisponible(idStation);
     }
 
@@ -176,8 +241,25 @@ public class GestionStation implements GestionStationLocal {
     @Override
     public List<Long> navettesAReviser(long idStation) throws AucuneStationException {
         //TODO: faire une requéte SQL trié de la plus 
-        //      ancienn en attente a la derniére
+        //      ancienne en attente à la dernière
+        
+        if (stationFacade.find(idStation) == null) {
+            throw new AucuneStationException();
+        }
+        
         return null;
     }
+    
+    @Override
+    public List<Station> toutesStations(){
+        return stationFacade.findAll();
+    }
+
+    @Override
+    public Station trouverStation(long id) {
+        return stationFacade.find(id);
+    }
+    
+    
 
 }

@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Usager;
 import fr.miage.spacelib.facades.UsagerFacadeLocal;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -16,27 +17,18 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionUsager implements GestionUsagerLocal {
 
-    @EJB(beanName = "UsagerEJB")
-    private UsagerFacadeLocal usager;
+    @EJB
+    private UsagerFacadeLocal usagerFacade;
 
-    /**
-     * Get the value of usager
-     *
-     * @return the value of usager
-     */
-    public UsagerFacadeLocal getUsager() {
-        return usager;
+    @Override
+    public Usager connecter(long idUtilisateur) {
+        return usagerFacade.find(idUtilisateur);
     }
 
-    /**
-     * Set the value of usager
-     *
-     * @param usager new value of usager
-     */
-    public void setUsager(UsagerFacadeLocal usager) {
-        this.usager = usager;
+    @Override
+    public Usager inscrire(String nom, String prenom){
+        usagerFacade.create(new Usager(prenom, nom));
+        return usagerFacade.findWithNames(nom, prenom);
     }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    
 }

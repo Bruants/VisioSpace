@@ -18,51 +18,11 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionMecanicien implements GestionMecanicienLocal {
 
-    @EJB(beanName = "MecanicienEJB")
-    private MecanicienFacadeLocal mecanicien;
-    
-    @EJB(beanName = "OperationMecanicienEJB")
-    private OperationFacadeLocal operation;
+    @EJB
+    private OperationFacadeLocal operationFacade;
 
-    /**
-     * Get the value of operation
-     *
-     * @return the value of operation
-     */
-    public OperationFacadeLocal getOperation() {
-        return operation;
-    }
-
-    /**
-     * Set the value of operation
-     *
-     * @param operation new value of operation
-     */
-    public void setOperation(OperationFacadeLocal operation) {
-        this.operation = operation;
-    }
-
-
-    /**
-     * Get the value of mecanicien
-     *
-     * @return the value of mecanicien
-     */
-    public MecanicienFacadeLocal getMecanicien() {
-        return mecanicien;
-    }
-
-    /**
-     * Set the value of mecanicien
-     *
-     * @param mecanicien new value of mecanicien
-     */
-    public void setMecanicien(MecanicienFacadeLocal mecanicien) {
-        this.mecanicien = mecanicien;
-    }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @EJB
+    private MecanicienFacadeLocal mecanicienFacade;
 
     
     /**
@@ -73,7 +33,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public long debutRevision(long navette) throws AucuneNavetteException{
+    public long debutRevision(long navette){
         return 0L;
     }
 
@@ -84,7 +44,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public void clotureRevision(long navette) throws AucuneNavetteException{
+    public void clotureRevision(long navette){
     }
     
     
