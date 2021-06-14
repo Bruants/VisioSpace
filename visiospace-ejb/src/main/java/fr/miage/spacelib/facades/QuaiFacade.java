@@ -34,11 +34,10 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
     }
 
     @Override
-    public long findNavette(long navette, long station) {
-        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q.id FROM Quai Q JOIN Q.station S JOIN Q.stationne N WHERE S.id LIKE ':idStation' AND N.id = :idNavette");
+    public Quai findNavette(long navette) {
+        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q.id FROM Quai Q JOIN Q.stationne N WHERE N.id = :idNavette");
         recupererNavetteQuiStationne.setParameter("idStation", navette);
-        recupererNavetteQuiStationne.setParameter("idNavette", station);
-        return (Long)recupererNavetteQuiStationne.getSingleResult();
+        return find((Long)recupererNavetteQuiStationne.getSingleResult());
     }
 
     @Override
