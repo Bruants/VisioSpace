@@ -6,12 +6,14 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.entities.Reservation;
+import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -31,5 +33,7 @@ public interface GestionReservationLocal {
             AucunQuaiException;
 
     void arriveeVoyage(long idVoyage) throws AucunVoyageException;
+    
+    public List<Station> toutesStations();
     
 }

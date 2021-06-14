@@ -8,6 +8,7 @@ package fr.miage.spacelib.metier;
 import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Operation;
 import fr.miage.spacelib.entities.Reservation;
+import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
 import fr.miage.spacelib.facades.ReservationFacadeLocal;
 import fr.miage.spacelib.facades.UsagerFacadeLocal;
@@ -17,6 +18,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -198,6 +200,9 @@ public class GestionReservation implements GestionReservationLocal {
         reservations.edit(reservation);
     }
     
-    
+    @Override
+    public List<Station> toutesStations(){
+        return stations.toutesStations();
+    }
 
 }

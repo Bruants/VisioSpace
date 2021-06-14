@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Usager;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +14,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionUsagerLocal {
+
+    Usager connecter(long idUtilisateur);
+    
+    Usager inscrire(String nom, String prenom);
     
 }

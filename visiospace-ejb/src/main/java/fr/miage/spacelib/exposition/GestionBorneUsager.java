@@ -7,8 +7,10 @@ package fr.miage.spacelib.exposition;
 
 import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.entities.Reservation;
+import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.entities.Usager;
 import fr.miage.spacelib.metier.GestionReservationLocal;
+import fr.miage.spacelib.metier.GestionUsagerLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
@@ -21,7 +23,9 @@ import fr.miage.spacelib.vspaceshared.utilities.QuaiExport;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import fr.miage.spacelib.vspaceshared.utilities.StationExport;
 import fr.miage.spacelib.vspaceshared.utilities.UsagerExport;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -32,8 +36,12 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionBorneUsager implements GestionBorneUsagerRemote {
 
+    @EJB(beanName = "GestionUsagerBorneReservationEJB")
+    private GestionUsagerLocal gestionUsager;
+
     @EJB(beanName = "BorneReservationEJB")
     private GestionReservationLocal gestionReservation;
+    
 
     @Override
     public ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
@@ -59,5 +67,31 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
     public void arriveeVoyage(long idVoyage) throws AucunVoyageException {
         this.gestionReservation.arriveeVoyage(idVoyage);
     }
+
+    @Override
+    public UsagerExport connecter(long idUtilisateur) {
+        Usager nouveauUsager = this.gestionUsager.connecter(idUtilisateur);
+        return new UsagerExport(nouveauUsager.getId(),
+                nouveauUsager.getNom(),
+                nouveauUsager.getPrenom());
+    }
+
+    @Override
+    public UsagerExport inscrire(String nom, String prenom) {
+        Usager nouveauUsager = this.gestionUsager.inscrire(nom, prenom);
+        return new UsagerExport(nouveauUsager.getId(),
+                nouveauUsager.getNom(),
+                nouveauUsager.getPrenom());
+    }
     
+    @Override
+    public List<StationExport> toutesStations(){
+        List<Station> stations =  gestionReservation.toutesStations();
+        List<StationExport> stationsExp = new ArrayList<>();
+        for(Station stat : stations ){
+            stationsExp.add(new StationExport(stat.getId(), stat.getCoordonnee()));
+        }
+        
+        return stationsExp;
+    }
 }

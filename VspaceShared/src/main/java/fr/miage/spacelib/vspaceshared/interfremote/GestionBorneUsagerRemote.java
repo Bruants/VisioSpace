@@ -13,7 +13,10 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
+import fr.miage.spacelib.vspaceshared.utilities.StationExport;
+import fr.miage.spacelib.vspaceshared.utilities.UsagerExport;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -28,4 +31,10 @@ public interface GestionBorneUsagerRemote {
     void departVoyage(long idVoyage) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
 
     void arriveeVoyage(long idVoyage)  throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
+    
+    UsagerExport connecter(long idUtilisateur);
+    
+    UsagerExport inscrire(String nom, String prenom);
+    
+    public List<StationExport> toutesStations();
 }

@@ -7,6 +7,7 @@ package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Quai;
+import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
@@ -44,5 +45,7 @@ public interface GestionStationLocal {
     Quai quaiDisponible(long idStation) throws AucuneStationException;
 
     List<Long> navettesAReviser(long idStation) throws AucuneStationException;
+    
+    public List<Station> toutesStations();
     
 }

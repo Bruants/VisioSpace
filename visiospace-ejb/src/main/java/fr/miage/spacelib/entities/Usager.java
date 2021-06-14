@@ -30,6 +30,11 @@ public class Usager extends Utilisateur implements Serializable {
     public Usager() {
     }
 
+    public Usager(String prenom, String nom) {
+        this.prenom = prenom;
+        this.nom = nom;
+    }
+
     public Long getId() {
         return id;
     }

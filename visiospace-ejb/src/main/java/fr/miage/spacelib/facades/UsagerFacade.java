@@ -9,6 +9,7 @@ import fr.miage.spacelib.entities.Usager;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +28,14 @@ public class UsagerFacade extends AbstractFacade<Usager> implements UsagerFacade
 
     public UsagerFacade() {
         super(Usager.class);
+    }
+
+    @Override
+    public Usager findWithNames(String nom, String prenom) {
+        Query recupererNavettePourEntretien = this.em.createQuery("SELECT id FROM Usager WHERE nom = :nom AND prenom = :prenom");
+        recupererNavettePourEntretien.setParameter("nom", nom);
+        recupererNavettePourEntretien.setParameter("prenom", prenom);
+        return find((Long) recupererNavettePourEntretien.getSingleResult());
     }
     
 }

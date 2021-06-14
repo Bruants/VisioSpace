@@ -179,5 +179,10 @@ public class GestionStation implements GestionStationLocal {
         //      ancienn en attente a la derniére
         return null;
     }
+    
+    @Override
+    public List<Station> toutesStations(){
+        return stationFacade.findAll();
+    }
 
 }
