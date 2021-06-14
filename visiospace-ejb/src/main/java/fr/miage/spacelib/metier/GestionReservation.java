@@ -206,10 +206,10 @@ public class GestionReservation implements GestionReservationLocal {
      * @param idVoyage Identifiant du voyage courant
      */
     @Override
-    public void departVoyage(long idVoyage) 
+    public void departVoyage(long idReservation) 
             throws AucuneNavetteException, AucunVoyageException, 
             AucunQuaiException {
-        Navette navette = reservationFacade.find(idVoyage).getUtilisee();
+        Navette navette = reservationFacade.find(idReservation).getUtilisee();
         
         if (navette == null) {
             throw new AucuneNavetteException();
@@ -226,10 +226,10 @@ public class GestionReservation implements GestionReservationLocal {
      * @param idVoyage Identifiant du voyage courant
      */
     @Override
-    public void arriveeVoyage(long idVoyage) 
+    public void arriveeVoyage(long idReservation) 
      throws AucunVoyageException {
         
-        Reservation reservation = reservationFacade.find(idVoyage);
+        Reservation reservation = reservationFacade.find(idReservation);
         
         if (reservation == null) {
             throw new AucunVoyageException();

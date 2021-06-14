@@ -29,9 +29,9 @@ public interface GestionBorneUsagerRemote {
     ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
              throws AucunUsagerException, NombrePlacesInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException,NombrePassagersInvalideException ;
 
-    void departVoyage(long idVoyage) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
+    void departVoyage(long idReservation) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
 
-    void arriveeVoyage(long idVoyage)  throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
+    void arriveeVoyage(long idReservation)  throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
     
     UsagerExport connecter(long idUtilisateur);
     

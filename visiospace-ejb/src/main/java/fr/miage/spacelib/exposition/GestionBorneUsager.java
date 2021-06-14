@@ -59,13 +59,13 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
     }
 
     @Override
-    public void departVoyage(long idVoyage) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException {
-        this.gestionReservation.departVoyage(idVoyage);
+    public void departVoyage(long idReservation) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException {
+        this.gestionReservation.departVoyage(idReservation);
     }
 
     @Override
-    public void arriveeVoyage(long idVoyage) throws AucunVoyageException {
-        this.gestionReservation.arriveeVoyage(idVoyage);
+    public void arriveeVoyage(long idReservation) throws AucunVoyageException {
+        this.gestionReservation.arriveeVoyage(idReservation);
     }
 
     @Override

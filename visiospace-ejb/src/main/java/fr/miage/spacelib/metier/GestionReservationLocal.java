@@ -34,11 +34,11 @@ public interface GestionReservationLocal {
             AucunUsagerException, DateInvalideException, 
             NombrePassagersInvalideException;
 
-    void departVoyage(long idVoyage)
+    void departVoyage(long idReservation)
             throws AucuneNavetteException, AucunVoyageException, 
             AucunQuaiException;
 
-    void arriveeVoyage(long idVoyage) throws AucunVoyageException;
+    void arriveeVoyage(long idReservation) throws AucunVoyageException;
     
     public List<Station> toutesStations();
 
