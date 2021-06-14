@@ -22,8 +22,7 @@ import javax.jws.WebParam;
 public class WSMecanicien {
 
     @EJB
-    private ExpoWebMecanicienLocal ejbRef;// Add business logic below. (Right-click in editor and choose
-    // "Web Service > Add Operation"
+    private ExpoWebMecanicienLocal ejbRef;
 
     @WebMethod(operationName = "debutRevision")
     public long debutRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
@@ -33,6 +32,11 @@ public class WSMecanicien {
     @WebMethod(operationName = "clotureRevision")
     public void clotureRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
         ejbRef.clotureRevision(navette);
+    }
+    
+    @WebMethod(operationName = "hello")
+    public String hello(@WebParam(name = "name") String txt) {
+        return "Hello " + txt + " !";
     }
     
 }
