@@ -22,9 +22,9 @@ public interface GestionNavetteLocal {
     void creerNavette(int nbPlaces, long idStation) 
         throws NombrePassagersInvalideException, AucuneStationException;
 
-    boolean etatNavette(long identifiant) throws AucuneStationException;
+    boolean etatNavette(long identifiant) throws AucuneNavetteException;
 
-    Quai quai(long id) throws AucunQuaiException;
+    Quai quai(long id) throws AucuneNavetteException;
 
     void lancerNavette(long id) 
         throws AucuneNavetteException, AucunQuaiException;

@@ -44,7 +44,12 @@ public class GestionNavette implements GestionNavetteLocal {
      *          false : en attente d'entretien
      */
     @Override
-    public boolean etatNavette(long identifiant) throws AucuneStationException {
+    public boolean etatNavette(long identifiant) throws AucuneNavetteException {
+        
+        if (navetteFacade.find(identifiant) == null) {
+            throw new AucuneNavetteException();
+        }
+        
         return false;
     }
 
@@ -54,25 +59,45 @@ public class GestionNavette implements GestionNavetteLocal {
      * @return quai ou la navette est arrimé
      */
     @Override
-    public Quai quai(long id) throws AucunQuaiException {
+        public Quai quai(long id) throws AucuneNavetteException {
+        
+            if (navetteFacade.find(id) == null) {
+                throw new AucuneNavetteException();
+            }
+        
         return null;
     }
 
+    /**
+     * La navette démarre son trajet
+     * @param id identifiant de la navette à lancer
+     * @throws AucuneNavetteException  -> l'id ne correspond à aucune navette existante
+     * @throws AucunQuaiException -> Le quai à libérer n'existe pas
+     */
     @Override
     public void lancerNavette(long id) throws AucuneNavetteException, AucunQuaiException {
         Navette navette = navetteFacade.find(id);
+        
+        if (navette == null) {
+            throw new AucuneNavetteException();
+        }
         gestionStation.libererQuai(navette.getStationeSur().getId());
     }
 
+    /**
+     * La navette arrive à destination
+     * @param id identifiant de la navette
+     * @throws AucuneNavetteException  -> l'id ne correspond à aucune navette existante
+     * @throws AucunQuaiException -> Le quai à libérer n'existe pas
+     */
     @Override
     public void arriveeNavette(long id) throws AucuneNavetteException, AucunQuaiException {
         Navette navette = navetteFacade.find(id);
+        
+        if (navette == null) {
+            throw new AucuneNavetteException();
+        }
         navette.addCompteurVoyage();
         gestionStation.arrimerNavette(id);
     }
-    
-    
-    
-    
-
 }
