@@ -73,7 +73,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public long debutRevision(long navette) throws AucuneNavetteException{
+    public long debutRevision(long navette){
         return 0L;
     }
 
@@ -84,7 +84,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public void clotureRevision(long navette) throws AucuneNavetteException{
+    public void clotureRevision(long navette){
     }
     
     
