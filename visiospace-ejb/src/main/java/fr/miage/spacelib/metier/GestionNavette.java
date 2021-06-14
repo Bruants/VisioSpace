@@ -65,7 +65,7 @@ public class GestionNavette implements GestionNavetteLocal {
     }
 
     @Override
-    public void arriveeNavette(long id) throws AucuneNavetteException {
+    public void arriveeNavette(long id) throws AucuneNavetteException, AucunQuaiException {
         Navette navette = navetteFacade.find(id);
         navette.addCompteurVoyage();
         gestionStation.arrimerNavette(id);

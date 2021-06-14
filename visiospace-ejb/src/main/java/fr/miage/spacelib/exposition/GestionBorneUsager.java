@@ -19,6 +19,7 @@ import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException
 import fr.miage.spacelib.vspaceshared.interfremote.GestionBorneUsagerRemote;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.QuaiExport;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import fr.miage.spacelib.vspaceshared.utilities.StationExport;
@@ -45,7 +46,7 @@ public class GestionBorneUsager implements GestionBorneUsagerRemote {
 
     @Override
     public ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
-        throws AucunUsagerException, NombrePassagersInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException {
+        throws AucunUsagerException, NombrePlacesInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException {
         Reservation res = this.gestionReservation.reserverVoyage(idUsager, nbPassagers, dateDepart, dateArrivee, stationDepart, stationArrivee);
         Quai quaiDepart = res.getArrivee();
         Quai quaiArrivee = res.getArrivee();

@@ -12,6 +12,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import fr.miage.spacelib.vspaceshared.utilities.StationExport;
 import fr.miage.spacelib.vspaceshared.utilities.UsagerExport;
@@ -26,7 +27,7 @@ import javax.ejb.Remote;
 @Remote
 public interface GestionBorneUsagerRemote {
     ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
-             throws AucunUsagerException, NombrePassagersInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException ;
+             throws AucunUsagerException, NombrePlacesInvalideException, DateInvalideException, AucuneStationException, AucunQuaiException, AucuneNavetteException ;
 
     void departVoyage(long idVoyage) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
 

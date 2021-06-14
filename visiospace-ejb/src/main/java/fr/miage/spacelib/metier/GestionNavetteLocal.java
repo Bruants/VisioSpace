@@ -29,6 +29,6 @@ public interface GestionNavetteLocal {
     void lancerNavette(long id) 
         throws AucuneNavetteException, AucunQuaiException;
 
-    void arriveeNavette(long id) throws AucuneNavetteException;
+    void arriveeNavette(long id) throws AucuneNavetteException, AucunQuaiException;
     
 }

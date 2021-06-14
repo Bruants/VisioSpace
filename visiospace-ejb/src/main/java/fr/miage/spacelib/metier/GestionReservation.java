@@ -17,6 +17,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -133,9 +134,12 @@ public class GestionReservation implements GestionReservationLocal {
      * @return reservation   Le voyage réservé 
      */
     @Override
-    public Reservation reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, 
-            Date dateArrivee, long stationDepart, long stationArrivee) 
-            throws AucunQuaiException, AucuneStationException, NombrePassagersInvalideException, AucuneNavetteException {
+    public Reservation reserverVoyage(long idUsager, int nbPassagers, 
+            Date dateDepart, Date dateArrivee, 
+            long stationDepart, long stationArrivee)
+            
+            throws AucunQuaiException, AucuneStationException, 
+            AucuneNavetteException, NombrePlacesInvalideException {
         
         Reservation reservation = new Reservation();
         Operation voyage = new Operation();
@@ -160,7 +164,9 @@ public class GestionReservation implements GestionReservationLocal {
         
         reservation.setDepart(navettes.quai(navette.getId()));
         //Recherche d'un quai de libre
-        reservation.setArrivee(stations.reserverQuai(stationArrivee, navette.getId()));
+        reservation.setArrivee(
+                stations.reserverQuai(stationArrivee, navette.getId())
+        );
         
         reservations.create(reservation);
         
