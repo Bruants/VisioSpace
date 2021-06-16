@@ -9,7 +9,6 @@ import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
-import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import javax.ejb.Local;
 
@@ -20,10 +19,12 @@ import javax.ejb.Local;
 @Local
 public interface GestionNavetteLocal {
 
-    void creerNavette(int nbPlaces, long idStation) 
+    Long creerNavette(int nbPlaces) 
         throws NombrePlacesInvalideException, AucuneStationException;
 
-    boolean etatNavette(long identifiant) throws AucuneNavetteException;
+    boolean etatNavettePourRevision(long identifiant) throws AucuneNavetteException;
+    boolean etatNavettePourVoyage(long identifiant) throws AucuneNavetteException;
+
 
     Quai quai(long id) throws AucuneNavetteException;
 
@@ -31,5 +32,7 @@ public interface GestionNavetteLocal {
         throws AucuneNavetteException, AucunQuaiException;
 
     void arriveeNavette(long id) throws AucuneNavetteException, AucunQuaiException;
+
+    Long derniereNavetteAjoutee();
     
 }

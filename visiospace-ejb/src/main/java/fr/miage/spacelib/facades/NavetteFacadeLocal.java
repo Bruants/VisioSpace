@@ -29,5 +29,10 @@ public interface NavetteFacadeLocal {
     List<Navette> findRange(int[] range);
 
     int count();
+
+    boolean estDisponiblePourRevision(long idNavette);
     
+    boolean estDisponiblePourVoyage(long idNavette);    
+
+    Long derniereNavette();
 }

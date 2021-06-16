@@ -30,4 +30,6 @@ public interface AdministrateurFacadeLocal {
 
     int count();
     
+    Administrateur findWithNames(String nom, String prenom);
+    
 }

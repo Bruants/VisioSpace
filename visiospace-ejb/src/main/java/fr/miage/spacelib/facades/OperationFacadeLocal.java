@@ -6,6 +6,7 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Operation;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface OperationFacadeLocal {
     List<Operation> findRange(int[] range);
 
     int count();
+
+    void revisionNavette(long idNavette) throws AucuneNavetteException;
     
 }

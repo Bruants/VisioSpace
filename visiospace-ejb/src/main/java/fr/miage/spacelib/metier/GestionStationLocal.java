@@ -25,7 +25,7 @@ import javax.ejb.Local;
 @Local
 public interface GestionStationLocal {
 
-    void creerStation(String coordonnees, List<Long> navettes) 
+    long creerStation(String coordonnees, List<Long> navettes) 
         throws NombreNavetteInvalideException, CoordonneesInvalideException ;
 
     Quai reserverQuai(Quai quai, long navette) throws AucuneNavetteException, AucunQuaiException;
@@ -44,6 +44,8 @@ public interface GestionStationLocal {
             throws AucuneStationException, NombrePlacesInvalideException;
 
     Quai quaiDisponible(long idStation) throws AucuneStationException;
+    
+    List<Quai> quaisDisponible(long idStation) throws AucuneStationException;
 
     List<Long> navettesAReviser(long idStation) throws AucuneStationException;
     

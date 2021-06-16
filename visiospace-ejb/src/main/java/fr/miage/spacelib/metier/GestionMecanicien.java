@@ -10,6 +10,7 @@ import fr.miage.spacelib.facades.OperationFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
@@ -19,11 +20,19 @@ import javax.ejb.Stateless;
 public class GestionMecanicien implements GestionMecanicienLocal {
 
     @EJB
+    private GestionNavetteLocal gestionNavette;
+
+    @EJB
+    private GestionStationLocal gestionStation;
+
+    @EJB
     private OperationFacadeLocal operationFacade;
 
     @EJB
     private MecanicienFacadeLocal mecanicienFacade;
-
+    
+    
+    
     
     /**
      * Crée une opération de révision
@@ -33,7 +42,9 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public long debutRevision(long navette){
+    public long debutRevision(long navette) throws AucuneNavetteException {
+        
+        operationFacade.revisionNavette(navette);
         return 0L;
     }
 
@@ -44,7 +55,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public void clotureRevision(long navette){
+    public void clotureRevision(long navette) throws AucuneNavetteException {
     }
     
     

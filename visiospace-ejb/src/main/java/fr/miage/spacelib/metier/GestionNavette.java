@@ -14,6 +14,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  * Gestions des navettes traités dans le systéme
@@ -34,15 +35,16 @@ public class GestionNavette implements GestionNavetteLocal {
      * @param idStation Identifiant de la station ou est stationné la navette
      */
     @Override
-    public void creerNavette(int nbPlaces, long idStation) throws NombrePlacesInvalideException, AucuneStationException {
+    public Long creerNavette(int nbPlaces) throws NombrePlacesInvalideException, AucuneStationException {
         
-        if (nbPlaces != 2 || nbPlaces != 5 || nbPlaces != 10 || nbPlaces != 15) {
+        if (nbPlaces != 2 && nbPlaces != 5 && nbPlaces != 10 && nbPlaces != 15) {
             throw new NombrePlacesInvalideException();
         }
         
-        if (gestionStation.trouverStation(idStation) == null) {
-            throw new AucuneStationException();
-        }
+        Navette navette = new Navette(nbPlaces);
+        
+        navetteFacade.create(navette);
+        return this.derniereNavetteAjoutee();
     }
 
     /**
@@ -52,13 +54,29 @@ public class GestionNavette implements GestionNavetteLocal {
      *          false : en attente d'entretien
      */
     @Override
-    public boolean etatNavette(long identifiant) throws AucuneNavetteException {
+    public boolean etatNavettePourRevision(long identifiant) throws AucuneNavetteException {
         
         if (navetteFacade.find(identifiant) == null) {
             throw new AucuneNavetteException();
         }
         
-        return false;
+        return navetteFacade.estDisponiblePourRevision(identifiant);
+    }
+    
+        /**
+     * Donne l'état actuelle de la navette
+     * @param identifiant identifiant de la navette 
+     * @return  true : aucun entretien de prévu
+     *          false : en attente d'entretien
+     */
+    @Override
+    public boolean etatNavettePourVoyage(long identifiant) throws AucuneNavetteException {
+        
+        if (navetteFacade.find(identifiant) == null) {
+            throw new AucuneNavetteException();
+        }
+       return navetteFacade.estDisponiblePourVoyage(identifiant);
+        
     }
 
     /**
@@ -107,5 +125,14 @@ public class GestionNavette implements GestionNavetteLocal {
         }
         navette.addCompteurVoyage();
         gestionStation.arrimerNavette(id);
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public Long derniereNavetteAjoutee() {
+        return navetteFacade.derniereNavette();
     }
 }

@@ -5,10 +5,17 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Administrateur;
+import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.facades.AdministrateurFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -41,10 +48,32 @@ public class GestionAdministration implements GestionAdministrationLocal {
     @Override
     public void creerStation(String coordonnees, List<Long> navettes) 
             throws CoordonneesInvalideException, NombreNavetteInvalideException {
+
         
-        gestionStation.creerStation(coordonnees, navettes);
+
+        try {
+            List<Long> idNavettes = new ArrayList<>();
+            for(int i = 0 ; i < navettes.size() ; i++) {
+                idNavettes.add(this.creerNavette(navettes.get(i)));
+                System.out.println("fr.miage.spacelib.metier.GestionAdministration.creerStation()");
+                System.out.println(gestionNavette.derniereNavetteAjoutee());
+            }
+            System.out.println(idNavettes);
+            gestionStation.creerStation(coordonnees, idNavettes);
+        } catch (AucuneStationException | NombrePlacesInvalideException ex) {
+            Logger.getLogger(GestionAdministration.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    private Long creerNavette(long nbPlaces) throws AucuneStationException, NombrePlacesInvalideException {
+        return gestionNavette.creerNavette((int)nbPlaces);
+    }
+
+    @Override
+    public Administrateur creerAdministrateur(String nom, String prenom) {
+        administrateurFacade.create(new Administrateur(prenom, nom));
+        return administrateurFacade.findWithNames(nom, prenom);
+    }
+    
+    
 }

@@ -35,6 +35,8 @@ public interface QuaiFacadeLocal {
 
     Quai quaiDisponible(long idStation);
     
+    List<Quai> quaisDisponible(long idStation);
+    
     Navette navetteDisponible(long idStation, int nbPlaces);
     
 }

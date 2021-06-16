@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 /**
@@ -17,6 +18,7 @@ import javax.persistence.OneToOne;
  * @author AlexisVivier
  */
 @Entity
+@NamedQuery(query ="SELECT MAX(N.id) FROM Navette N", name = "get last ID navette added")
 public class Navette implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,6 +40,11 @@ public class Navette implements Serializable {
     private Quai stationeSur;
     
     public Navette() {
+    }
+    
+    public Navette(int nbPlaces) {
+        this.nbPlace = nbPlaces;
+        this.nbVoyagesDepuisDernierEntretien = 0;
     }
 
     public Quai getStationeSur() {

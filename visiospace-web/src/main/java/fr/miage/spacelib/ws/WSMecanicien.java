@@ -5,7 +5,7 @@
  */
 package fr.miage.spacelib.ws;
 
-import fr.miage.spacelib.exposition.ExpoWebMecanicienLocal;
+import fr.miage.spacelib.exposition.ExpoWebMecanicienLegLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -22,16 +22,16 @@ import javax.jws.WebParam;
 public class WSMecanicien {
 
     @EJB
-    private ExpoWebMecanicienLocal ejbRef;
-
+    private ExpoWebMecanicienLegLocal expoWebMecanicienLeg;
+    
     @WebMethod(operationName = "debutRevision")
     public long debutRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
-        return ejbRef.debutRevision(navette);
+        return expoWebMecanicienLeg.debutRevision(navette);
     }
 
     @WebMethod(operationName = "clotureRevision")
     public void clotureRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
-        ejbRef.clotureRevision(navette);
+        expoWebMecanicienLeg.clotureRevision(navette);
     }
     
     @WebMethod(operationName = "hello")

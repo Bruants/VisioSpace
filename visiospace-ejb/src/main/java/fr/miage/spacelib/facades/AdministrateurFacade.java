@@ -6,9 +6,11 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Administrateur;
+import fr.miage.spacelib.entities.Usager;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,14 @@ public class AdministrateurFacade extends AbstractFacade<Administrateur> impleme
 
     public AdministrateurFacade() {
         super(Administrateur.class);
+    }
+    
+    @Override
+    public Administrateur findWithNames(String nom, String prenom) {
+        Query recupererNavettePourEntretien = this.em.createQuery("SELECT A.id FROM Administrateur A WHERE A.nom = :nom AND A.prenom = :prenom");
+        recupererNavettePourEntretien.setParameter("nom", nom);
+        recupererNavettePourEntretien.setParameter("prenom", prenom);
+        return find((Long) recupererNavettePourEntretien.getSingleResult());
     }
     
 }

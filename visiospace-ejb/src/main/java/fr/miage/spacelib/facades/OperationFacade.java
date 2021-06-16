@@ -6,6 +6,7 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Operation;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,11 @@ public class OperationFacade extends AbstractFacade<Operation> implements Operat
     public OperationFacade() {
         super(Operation.class);
     }
+
+    @Override
+    public void revisionNavette(long idNavette) throws AucuneNavetteException {
+    }
+    
+    
     
 }
