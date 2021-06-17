@@ -74,8 +74,6 @@ public class GestionStation implements GestionStationLocal {
             // Ajout du quai avec la navette
             Quai nouveauQuai = new Quai(station, navetteFacade.find(idNavette));
             quais.add(nouveauQuai);
-            System.out.println(idNavette);
-            System.out.println(navetteFacade.find(idNavette));
             navetteFacade.find(idNavette).setStationeSur(nouveauQuai);
             // Ajout du quai vide
             quais.add(new Quai(station));

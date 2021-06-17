@@ -6,7 +6,6 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.entities.Administrateur;
-import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.facades.AdministrateurFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
@@ -55,10 +54,7 @@ public class GestionAdministration implements GestionAdministrationLocal {
             List<Long> idNavettes = new ArrayList<>();
             for(int i = 0 ; i < navettes.size() ; i++) {
                 idNavettes.add(this.creerNavette(navettes.get(i)));
-                System.out.println("fr.miage.spacelib.metier.GestionAdministration.creerStation()");
-                System.out.println(gestionNavette.derniereNavetteAjoutee());
             }
-            System.out.println(idNavettes);
             gestionStation.creerStation(coordonnees, idNavettes);
         } catch (AucuneStationException | NombrePlacesInvalideException ex) {
             Logger.getLogger(GestionAdministration.class.getName()).log(Level.SEVERE, null, ex);

@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
  * @author AlexisVivier
  */
 @Entity
-public class Mecanicien implements Serializable {
+public class Mecanicien extends Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,6 +30,11 @@ public class Mecanicien implements Serializable {
     private List<Operation> revisions;
 
     public Mecanicien() {
+    }
+    
+    public Mecanicien(String prenom, String nom) {
+        this.prenom = prenom;
+        this.nom = nom;
     }
 
     public List<Operation> getRevisions() {

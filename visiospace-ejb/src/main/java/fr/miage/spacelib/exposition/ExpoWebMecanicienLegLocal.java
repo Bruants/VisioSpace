@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.exposition;
 
+import fr.miage.spacelib.entities.Mecanicien;
 import javax.ejb.Local;
 
 /**
@@ -13,8 +14,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface ExpoWebMecanicienLegLocal {
-    long debutRevision(long navette);
+    long debutRevision(long navette, long idMecanicien);
 
     void clotureRevision(long navette);
+
+    Mecanicien creerMecanicien(String nom, String prenom);
     
 }

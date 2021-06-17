@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ import javax.validation.constraints.NotNull;
  * @author AlexisVivier
  */
 @Entity
+@NamedQuery(query ="SELECT MAX(O.id) FROM Operation O", name = "get last ID operation added")
 public class Operation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,6 +77,17 @@ public class Operation implements Serializable {
      *  false : Révision ou voyage non terminée
      */
     private boolean terminee;
+    
+    public Operation() {
+        this.terminee = false;
+    }
+    
+    public Operation(Mecanicien mecanicien) {
+        this.typeOperation = TYPES.REVISION;
+        this.mecanicien = mecanicien;
+        this.terminee = false;
+        this.date = new Date();
+    }
 
     public Long getId() {
         return id;

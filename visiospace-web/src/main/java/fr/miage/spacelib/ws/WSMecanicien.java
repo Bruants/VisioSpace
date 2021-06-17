@@ -5,6 +5,7 @@
  */
 package fr.miage.spacelib.ws;
 
+import fr.miage.spacelib.entities.Mecanicien;
 import fr.miage.spacelib.exposition.ExpoWebMecanicienLegLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.EJB;
@@ -25,8 +26,8 @@ public class WSMecanicien {
     private ExpoWebMecanicienLegLocal expoWebMecanicienLeg;
     
     @WebMethod(operationName = "debutRevision")
-    public long debutRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
-        return expoWebMecanicienLeg.debutRevision(navette);
+    public long debutRevision(@WebParam(name = "navette") long navette, @WebParam(name = "idMecanicien") long idMecanicien) throws AucuneNavetteException {
+        return expoWebMecanicienLeg.debutRevision(navette, idMecanicien);
     }
 
     @WebMethod(operationName = "clotureRevision")
@@ -34,9 +35,9 @@ public class WSMecanicien {
         expoWebMecanicienLeg.clotureRevision(navette);
     }
     
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") String txt) {
-        return "Hello " + txt + " !";
+    @WebMethod(operationName = "creerMecanicien")
+    public Mecanicien creerMecanicien(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
+        return expoWebMecanicienLeg.creerMecanicien(nom, prenom);
     }
-    
+
 }

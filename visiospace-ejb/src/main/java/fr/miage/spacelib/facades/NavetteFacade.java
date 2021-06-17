@@ -6,6 +6,7 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Navette;
+import fr.miage.spacelib.entities.Operation;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -56,5 +57,13 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         System.out.println(dernierNavette.getResultList());
         return (Long)(long)dernierNavette.getResultList().get(0);
     }
-    
+
+    @Override
+    public void ajouterOperation(long idNavette, Operation operation) {
+        Navette navette = this.find(idNavette);
+        if(navette.getDerniereOperation() != null) {
+            operation.setPrecedenteOperation(navette.getDerniereOperation());
+        }
+        navette.setDerniereOperation(operation);
+    }
 }
