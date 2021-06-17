@@ -6,6 +6,7 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Navette;
+import fr.miage.spacelib.entities.Operation;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,12 @@ public interface NavetteFacadeLocal {
     List<Navette> findRange(int[] range);
 
     int count();
+
+    boolean estDisponiblePourRevision(long idNavette);
     
+    boolean estDisponiblePourVoyage(long idNavette);    
+
+    Long derniereNavette();
+
+    void ajouterOperation(long idNavette, Operation operation);
 }

@@ -29,5 +29,7 @@ public interface MecanicienFacadeLocal {
     List<Mecanicien> findRange(int[] range);
 
     int count();
+
+    Mecanicien findWithNames(String nom, String prenom);
     
 }

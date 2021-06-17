@@ -5,11 +5,15 @@
  */
 package fr.miage.spacelib.metier;
 
+import fr.miage.spacelib.entities.Mecanicien;
+import fr.miage.spacelib.entities.Operation;
 import fr.miage.spacelib.facades.MecanicienFacadeLocal;
+import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
@@ -19,11 +23,22 @@ import javax.ejb.Stateless;
 public class GestionMecanicien implements GestionMecanicienLocal {
 
     @EJB
+    private NavetteFacadeLocal navetteFacade;
+
+    @EJB
+    private GestionNavetteLocal gestionNavette;
+
+    @EJB
+    private GestionStationLocal gestionStation;
+
+    @EJB
     private OperationFacadeLocal operationFacade;
 
     @EJB
     private MecanicienFacadeLocal mecanicienFacade;
-
+    
+    
+    
     
     /**
      * Crée une opération de révision
@@ -33,8 +48,9 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public long debutRevision(long navette){
-        return 0L;
+    public void debutRevision(long navette, long idMecanicien) throws AucuneNavetteException {
+        Operation operation = operationFacade.revisionNavette(navette, mecanicienFacade.find(idMecanicien));
+        navetteFacade.ajouterOperation(navette, operation);
     }
 
     /**
@@ -44,8 +60,17 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public void clotureRevision(long navette){
+    public void clotureRevision(long navette) throws AucuneNavetteException {
+        operationFacade.terminerRevisionNavette(navette);
     }
+
+    @Override
+    public Mecanicien creerMecanicien(String nom, String prenom) {
+        mecanicienFacade.create(new Mecanicien(prenom, nom));
+        return mecanicienFacade.findWithNames(nom, prenom);
+    }
+    
+    
     
     
     

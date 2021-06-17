@@ -5,7 +5,8 @@
  */
 package fr.miage.spacelib.ws;
 
-import fr.miage.spacelib.exposition.ExpoWebMecanicienLocal;
+import fr.miage.spacelib.entities.Mecanicien;
+import fr.miage.spacelib.exposition.ExpoWebMecanicienLegLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -22,17 +23,21 @@ import javax.jws.WebParam;
 public class WSMecanicien {
 
     @EJB
-    private ExpoWebMecanicienLocal ejbRef;// Add business logic below. (Right-click in editor and choose
-    // "Web Service > Add Operation"
-
+    private ExpoWebMecanicienLegLocal expoWebMecanicienLeg;
+    
     @WebMethod(operationName = "debutRevision")
-    public long debutRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
-        return ejbRef.debutRevision(navette);
+    public long debutRevision(@WebParam(name = "navette") long navette, @WebParam(name = "idMecanicien") long idMecanicien) throws AucuneNavetteException {
+        return expoWebMecanicienLeg.debutRevision(navette, idMecanicien);
     }
 
     @WebMethod(operationName = "clotureRevision")
     public void clotureRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
-        ejbRef.clotureRevision(navette);
+        expoWebMecanicienLeg.clotureRevision(navette);
     }
     
+    @WebMethod(operationName = "creerMecanicien")
+    public Mecanicien creerMecanicien(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
+        return expoWebMecanicienLeg.creerMecanicien(nom, prenom);
+    }
+
 }

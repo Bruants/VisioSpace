@@ -49,7 +49,7 @@ public class GestionStation implements GestionStationLocal {
      * @param navettes    Liste des navettes a ajouter
      */
     @Override
-    public void creerStation(String coordonnees, List<Long> navettes) 
+    public long creerStation(String coordonnees, List<Long> navettes) 
             throws NombreNavetteInvalideException, CoordonneesInvalideException {
         Station station = new Station();
         List<Quai> quais = new ArrayList<>();
@@ -72,14 +72,31 @@ public class GestionStation implements GestionStationLocal {
         station.setCoordonnee(coordonnees);
         for(Long idNavette:navettes){
             // Ajout du quai avec la navette
-            quais.add(new Quai(station, navetteFacade.find(idNavette)));
+            Quai nouveauQuai = new Quai(station, navetteFacade.find(idNavette));
+            quais.add(nouveauQuai);
+            navetteFacade.find(idNavette).setStationeSur(nouveauQuai);
             // Ajout du quai vide
             quais.add(new Quai(station));
         }
         
+            for(int i = 0 ; i < quais.size() ; i++) {
+                quaiFacade.create(quais.get(i));
+            }
+        
         station.setQuais(quais);
         
         stationFacade.create(station);
+        
+        stations = stationFacade.findAll();
+        
+        // recherche d'une station possédant les mêmes coordonnées
+        long idStation = -1;
+        for(int i = 0 ; i < stations.size() && idStation == -1; i++) {
+            if (stations.get(i).getCoordonnee().equals(coordonnees)) {
+                idStation = stations.get(i).getId();
+            }
+        }
+        return idStation;
     }
 
     /**
@@ -230,6 +247,21 @@ public class GestionStation implements GestionStationLocal {
         }
         
         return quaiFacade.quaiDisponible(idStation);
+    }
+    
+        /**
+     * Récupére un quai disponible dans la station
+     * @param idStation La station dans laquelle on recherche une navette
+     * @return Quai disponible
+     */
+    @Override
+    public List<Quai> quaisDisponible(long idStation) throws AucuneStationException {
+        
+        if (stationFacade.find(idStation) == null) {
+            throw new AucuneStationException();
+        }
+        
+        return quaiFacade.quaisDisponible(idStation);
     }
 
     /**

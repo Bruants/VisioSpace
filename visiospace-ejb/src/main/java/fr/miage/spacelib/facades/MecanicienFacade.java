@@ -9,6 +9,7 @@ import fr.miage.spacelib.entities.Mecanicien;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +28,14 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
 
     public MecanicienFacade() {
         super(Mecanicien.class);
+    }
+
+    @Override
+    public Mecanicien findWithNames(String nom, String prenom) {
+        Query idDuMecanicien = this.em.createQuery("SELECT M.id FROM Mecanicien M WHERE M.nom = :nom AND M.prenom = :prenom");
+        idDuMecanicien.setParameter("nom", nom);
+        idDuMecanicien.setParameter("prenom", prenom);
+        return find((Long) idDuMecanicien.getSingleResult());
     }
     
 }

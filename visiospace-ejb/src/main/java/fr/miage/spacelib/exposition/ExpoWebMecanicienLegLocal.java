@@ -3,22 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.miage.spacelib.metier;
+package fr.miage.spacelib.exposition;
 
 import fr.miage.spacelib.entities.Mecanicien;
-import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import javax.ejb.Local;
 
 /**
  *
- * @author AlexisVivier
+ * @author Kevin
  */
 @Local
-public interface GestionMecanicienLocal {
+public interface ExpoWebMecanicienLegLocal {
+    long debutRevision(long navette, long idMecanicien);
 
-    void debutRevision(long navette, long idMecanicien) throws AucuneNavetteException;
-
-    void clotureRevision(long navette) throws AucuneNavetteException;
+    void clotureRevision(long navette);
 
     Mecanicien creerMecanicien(String nom, String prenom);
     
