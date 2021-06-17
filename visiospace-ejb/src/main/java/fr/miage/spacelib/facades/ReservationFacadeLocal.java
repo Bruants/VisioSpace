@@ -6,6 +6,7 @@
 package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Reservation;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,5 +32,7 @@ public interface ReservationFacadeLocal {
     int count();
     
     public List<Reservation> findUsager(long idUsager);
+
+    public Reservation findEnCoursQuai(long idQuai, Date dateJour);
     
 }

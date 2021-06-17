@@ -7,6 +7,7 @@ package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Reservation;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,7 +28,16 @@ public class ReservationFacade extends AbstractFacade<Reservation> implements Re
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    @Override
+    public Reservation findEnCoursQuai(long idQuai, Date dateJour) {
+        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT R.id FROM Quai Q JOIN Q.reservee R JOIN R.voyage V WHERE Q.id = :idQuai AND V.dateArrivee > :dateJour AND V.dateArrivee < :dateFinJour");
+        recupererNavetteQuiStationne.setParameter("idQuai", idQuai);
+        recupererNavetteQuiStationne.setParameter("dateJour", new Date(dateJour.getYear(), dateJour.getMonth(), dateJour.getDate(), 0, 0, 0));
+        recupererNavetteQuiStationne.setParameter("dateFinJour", new Date(dateJour.getYear(), dateJour.getMonth(), dateJour.getDate(), 23, 59, 59));
+        return find((Long) recupererNavetteQuiStationne.getSingleResult());
+    }
+
     @Override
     public List<Reservation> findUsager(long idUsager) {
         List<Reservation> reservations = new ArrayList<>();
@@ -37,8 +47,8 @@ public class ReservationFacade extends AbstractFacade<Reservation> implements Re
         recupererNavettePourEntretien.setParameter("idUsager", idUsager);
 
         resultat = recupererNavettePourEntretien.getResultList();
-        
-        for( Object id : resultat ){
+
+        for (Object id : resultat) {
             reservations.add(find((long) id));
         }
         return reservations;
@@ -47,5 +57,5 @@ public class ReservationFacade extends AbstractFacade<Reservation> implements Re
     public ReservationFacade() {
         super(Reservation.class);
     }
-    
+
 }
