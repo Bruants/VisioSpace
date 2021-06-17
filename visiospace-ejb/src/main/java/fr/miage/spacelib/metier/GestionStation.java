@@ -143,8 +143,6 @@ public class GestionStation implements GestionStationLocal {
             throw new AucunQuaiException();
         }
         
-        quai.setReservation(navetteFacade.find(navette));
-        
         return quai;
     }
 
@@ -206,6 +204,7 @@ public class GestionStation implements GestionStationLocal {
         }
         
         //Si il y avait une réservation de quai, cette dernière disparait
+        //TODO: Retirer seulement la derniére commande
         quai.setReservation(null);
         
         //La navette n'est plus attachée au quai

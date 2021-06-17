@@ -6,11 +6,13 @@
 package fr.miage.spacelib.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -32,8 +34,8 @@ public class Quai implements Serializable {
     @ManyToOne
     private Station station;
     
-    @OneToOne
-    private Navette reservee;
+    @OneToMany(mappedBy = "arrivee")
+    private List<Reservation> reservee;
 
     public Quai() {
     }
@@ -71,11 +73,11 @@ public class Quai implements Serializable {
         this.station = station;
     }
 
-    public Navette getReservation() {
+    public List<Reservation> getReservation() {
         return reservee;
     }
 
-    public void setReservation(Navette reservee) {
+    public void setReservation(List<Reservation> reservee) {
         this.reservee = reservee;
     }
 
