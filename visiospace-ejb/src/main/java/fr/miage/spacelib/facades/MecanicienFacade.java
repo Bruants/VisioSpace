@@ -38,4 +38,6 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
         return find((Long) idDuMecanicien.getSingleResult());
     }
     
+    
+    
 }

@@ -51,5 +51,7 @@ public interface GestionStationLocal {
     public List<Station> toutesStations();
 
     Station trouverStation(long id);
+
+    boolean stationExiste(long idStation);
     
 }

@@ -6,7 +6,10 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.entities.Mecanicien;
+import fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,10 +19,16 @@ import javax.ejb.Local;
 @Local
 public interface GestionMecanicienLocal {
 
-    void debutRevision(long navette, long idMecanicien) throws AucuneNavetteException;
+    Long debutRevision(long navette, long idMecanicien) throws AucuneNavetteException;
 
     void clotureRevision(long navette) throws AucuneNavetteException;
 
     Mecanicien creerMecanicien(String nom, String prenom);
+
+    Mecanicien connexion(long id, long idStation) throws AucunMecanicienException, AucuneStationException;
+
+    List<Long> navettesAReviser(long idStation);
+
+    List<Long> navettesEnCoursDeRevision(long idStation);
     
 }

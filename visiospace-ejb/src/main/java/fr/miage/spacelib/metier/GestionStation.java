@@ -282,6 +282,8 @@ public class GestionStation implements GestionStationLocal {
         return null;
     }
     
+    
+    
     @Override
     public List<Station> toutesStations(){
         return stationFacade.findAll();
@@ -290,6 +292,11 @@ public class GestionStation implements GestionStationLocal {
     @Override
     public Station trouverStation(long id) {
         return stationFacade.find(id);
+    }
+
+    @Override
+    public boolean stationExiste(long idStation) {
+        return stationFacade.find(idStation) != null;
     }
     
     
