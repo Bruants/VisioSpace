@@ -12,9 +12,9 @@ import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.Query;
 
 /**
  * Gestions des navettes traités dans le systéme
@@ -135,4 +135,17 @@ public class GestionNavette implements GestionNavetteLocal {
     public Long derniereNavetteAjoutee() {
         return navetteFacade.derniereNavette();
     }
+
+    @Override
+    public List<Long> navettesAReviser(long idStation) {
+        return navetteFacade.sontAReviser(idStation);
+    }
+
+    @Override
+    public List<Long> navettesEnCoursDeRevision(long idStation) {
+        return navetteFacade.sontEnRevision(idStation);
+    }
+    
+    
+    
 }

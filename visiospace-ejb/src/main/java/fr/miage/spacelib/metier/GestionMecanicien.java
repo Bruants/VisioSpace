@@ -10,10 +10,12 @@ import fr.miage.spacelib.entities.Operation;
 import fr.miage.spacelib.facades.MecanicienFacadeLocal;
 import fr.miage.spacelib.facades.NavetteFacadeLocal;
 import fr.miage.spacelib.facades.OperationFacadeLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.Query;
 
 /**
  *
@@ -37,9 +39,6 @@ public class GestionMecanicien implements GestionMecanicienLocal {
     @EJB
     private MecanicienFacadeLocal mecanicienFacade;
     
-    
-    
-    
     /**
      * Crée une opération de révision
      * 
@@ -48,9 +47,10 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
      */
     @Override
-    public void debutRevision(long navette, long idMecanicien) throws AucuneNavetteException {
+    public Long debutRevision(long navette, long idMecanicien) throws AucuneNavetteException {
         Operation operation = operationFacade.revisionNavette(navette, mecanicienFacade.find(idMecanicien));
         navetteFacade.ajouterOperation(navette, operation);
+        return navetteFacade.find(navette).getStationeSur().getId();
     }
 
     /**
@@ -62,6 +62,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
     @Override
     public void clotureRevision(long navette) throws AucuneNavetteException {
         operationFacade.terminerRevisionNavette(navette);
+        navetteFacade.razNbOperationsDepuisDerniereRevision(navette);
     }
 
     @Override
@@ -69,7 +70,28 @@ public class GestionMecanicien implements GestionMecanicienLocal {
         mecanicienFacade.create(new Mecanicien(prenom, nom));
         return mecanicienFacade.findWithNames(nom, prenom);
     }
-    
+
+    @Override
+    public Mecanicien connexion(long id, long idStation) throws AucunMecanicienException, AucuneStationException {
+        Mecanicien mecanicien = mecanicienFacade.find(id);
+        if(mecanicien == null) {
+            throw new AucunMecanicienException(Long.toString(id));
+        }
+        if(gestionStation.stationExiste(idStation) == false) {
+            throw new AucuneStationException();
+        }
+        return mecanicien;
+    }
+
+    @Override
+    public List<Long> navettesAReviser(long idStation) {
+        return gestionNavette.navettesAReviser(idStation);
+    }
+
+    @Override
+    public List<Long> navettesEnCoursDeRevision(long idStation) {
+        return gestionNavette.navettesEnCoursDeRevision(idStation);
+    }
     
     
     

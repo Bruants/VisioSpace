@@ -24,7 +24,7 @@ public class Mecanicien extends Utilisateur implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
     /** Liste des revisions dont le mécanicien à eu la charge */
     @OneToMany(mappedBy = "mecanicien")
     private List<Operation> revisions;

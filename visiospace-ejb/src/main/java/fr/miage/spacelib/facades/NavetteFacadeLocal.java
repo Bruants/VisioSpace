@@ -38,4 +38,10 @@ public interface NavetteFacadeLocal {
     Long derniereNavette();
 
     void ajouterOperation(long idNavette, Operation operation);
+
+    List<Long> sontAReviser(long idStation);
+
+    List<Long> sontEnRevision(long idStation);
+
+    void razNbOperationsDepuisDerniereRevision(long idNavette);
 }

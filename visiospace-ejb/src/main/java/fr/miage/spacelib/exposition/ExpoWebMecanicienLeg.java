@@ -7,7 +7,10 @@ package fr.miage.spacelib.exposition;
 
 import fr.miage.spacelib.entities.Mecanicien;
 import fr.miage.spacelib.metier.GestionMecanicienLocal;
+import fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -22,17 +25,14 @@ public class ExpoWebMecanicienLeg implements ExpoWebMecanicienLegLocal {
 
     @EJB
     private GestionMecanicienLocal gestionMecanicien;
-
-    
     
     @Override
     public long debutRevision(long navette, long idMecanicien) {
         try {
-            gestionMecanicien.debutRevision(navette, idMecanicien);
-            return 1;
+            return gestionMecanicien.debutRevision(navette, idMecanicien);
         } catch (AucuneNavetteException ex) {
             Logger.getLogger(ExpoWebMecanicienLeg.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
+            return -1;
         }
     }
   
@@ -49,6 +49,19 @@ public class ExpoWebMecanicienLeg implements ExpoWebMecanicienLegLocal {
     public Mecanicien creerMecanicien(String nom, String prenom) {
         return gestionMecanicien.creerMecanicien(nom, prenom);
     }
-    
-    
+
+    @Override
+    public Mecanicien connexion(long id, long idStation) throws AucunMecanicienException, AucuneStationException { //
+        return gestionMecanicien.connexion(id, idStation);
+    }
+
+    @Override
+    public List<Long> navettesAReviser(long idStation) {
+        return gestionMecanicien.navettesAReviser(idStation);
+    }
+
+    @Override
+    public List<Long> navettesEnCoursDeRevision(long idStation) {
+        return gestionMecanicien.navettesEnCoursDeRevision(idStation);
+    }
 }

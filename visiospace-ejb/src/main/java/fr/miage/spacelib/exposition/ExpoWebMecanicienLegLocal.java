@@ -6,6 +6,9 @@
 package fr.miage.spacelib.exposition;
 
 import fr.miage.spacelib.entities.Mecanicien;
+import fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -19,5 +22,10 @@ public interface ExpoWebMecanicienLegLocal {
     void clotureRevision(long navette);
 
     Mecanicien creerMecanicien(String nom, String prenom);
-    
+
+    Mecanicien connexion(long id, long idStation) throws AucunMecanicienException, AucuneStationException;//
+
+    List<Long> navettesAReviser(long idStation);
+
+    List<Long> navettesEnCoursDeRevision(long idStation);
 }

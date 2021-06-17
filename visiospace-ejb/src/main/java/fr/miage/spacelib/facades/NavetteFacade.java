@@ -7,6 +7,7 @@ package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Operation;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,9 +36,10 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
     public boolean estDisponiblePourRevision(long idNavette) {
         Query recupererNavettePourEntretien = this.em.createQuery("SELECT N FROM Navette N WHERE N.id = :idNavette");
         recupererNavettePourEntretien.setParameter("idNavette", idNavette);
-
-        Navette resultat = (Navette)recupererNavettePourEntretien.getResultList();
-        
+        Navette resultat = (Navette)recupererNavettePourEntretien.getSingleResult();
+        if(resultat.getDerniereOperation() == null) {
+            return true;
+        }
         return resultat.getDerniereOperation().isTerminee();
     }
     
@@ -66,4 +68,40 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         }
         navette.setDerniereOperation(operation);
     }
+    
+    
+
+    @Override
+    public List<Long> sontAReviser(long idStation) {
+        Query navettesAReviser = this.em.createQuery("SELECT N.id FROM Navette N JOIN N.stationeSur Q JOIN Q.station S WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien >= 3");
+        navettesAReviser.setParameter("idStation", idStation);
+
+        List<Long> resultats = (List<Long>)navettesAReviser.getResultList();
+        for(int i = 0; i < resultats.size() ; i++) {
+            if(!estDisponiblePourRevision(resultats.get(i))) {
+                resultats.remove(i);
+                i--;
+            }
+        }
+        return resultats;
+    }
+
+    @Override
+    public List<Long> sontEnRevision(long idStation) {
+        Query navettesAReviser = this.em.createQuery("SELECT N.id FROM Navette N JOIN N.derniereOperation O JOIN N.stationeSur Q JOIN Q.station S WHERE S.id = :idStation AND O.terminee = false AND O.typeOperation = :typeAReviser");
+        navettesAReviser.setParameter("idStation", idStation);
+        navettesAReviser.setParameter("typeAReviser", Operation.TYPES.REVISION);
+
+        return (List<Long>)navettesAReviser.getResultList();//
+    }
+
+    @Override
+    public void razNbOperationsDepuisDerniereRevision(long idNavette) {
+        Navette navette = this.find(idNavette);
+        navette.setNbVoyagesDepuisDernierEntretien(0);
+    }
+    
+    
+    
+    
 }

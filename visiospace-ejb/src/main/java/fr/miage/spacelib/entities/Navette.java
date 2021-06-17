@@ -79,6 +79,10 @@ public class Navette implements Serializable {
         derniereOperation.setPrecedenteOperation(this.derniereOperation);
         this.derniereOperation = derniereOperation;
     }
+    
+    public void setNbVoyagesDepuisDernierEntretien(int nbVoyagesDepuisDernierEntretien) {
+        this.nbVoyagesDepuisDernierEntretien = nbVoyagesDepuisDernierEntretien;
+    }
 
     /**
      * Donne l'etat de la navette courante
