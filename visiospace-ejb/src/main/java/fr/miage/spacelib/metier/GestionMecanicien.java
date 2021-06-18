@@ -113,8 +113,5 @@ public class GestionMecanicien implements GestionMecanicienLocal {
         }
         return gestionNavette.navettesEnCoursDeRevision(idStation);
     }
-    
-    
-    
-    
+
 }

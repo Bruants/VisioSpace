@@ -16,7 +16,6 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
-import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import java.util.ArrayList;
 import java.util.List;
