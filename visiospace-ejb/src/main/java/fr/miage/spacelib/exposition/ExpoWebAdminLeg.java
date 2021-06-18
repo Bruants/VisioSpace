@@ -30,14 +30,13 @@ public class ExpoWebAdminLeg implements ExpoWebAdminLegLocal {
         try {
             gestionAdministration.creerStation(coordonnees, navettes);
         } catch (CoordonneesInvalideException | NombreNavetteInvalideException ex) {
-            Logger.getLogger(ExpoWebAdminLeg.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         return true;
     }
 
     @Override
-    public Administrateur creerAdministrateur(String nom, String prenom) {
+    public Long creerAdministrateur(String nom, String prenom) {
         return gestionAdministration.creerAdministrateur(nom, prenom);
     }
 

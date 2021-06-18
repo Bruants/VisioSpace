@@ -66,9 +66,9 @@ public class GestionAdministration implements GestionAdministrationLocal {
     }
 
     @Override
-    public Administrateur creerAdministrateur(String nom, String prenom) {
+    public Long creerAdministrateur(String nom, String prenom) {
         administrateurFacade.create(new Administrateur(prenom, nom));
-        return administrateurFacade.findWithNames(nom, prenom);
+        return administrateurFacade.findWithNames(nom, prenom).getId();
     }
     
     

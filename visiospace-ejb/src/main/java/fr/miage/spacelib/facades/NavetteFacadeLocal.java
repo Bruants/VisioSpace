@@ -7,6 +7,7 @@ package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Operation;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -43,5 +44,6 @@ public interface NavetteFacadeLocal {
 
     List<Long> sontEnRevision(long idStation);
 
-    void razNbOperationsDepuisDerniereRevision(long idNavette);
+    void razNbOperationsDepuisDerniereRevision(long idNavette) throws AucuneNavetteException;
+
 }
