@@ -24,10 +24,9 @@ public class AucunQuaiException extends Exception {
 
     /**
      * Crée une instance de QuaiInvalideException
-     * avec l'identifiant du quai
-     * @param identifiant identidiant du quai 
+     * @param msg message de l'exception
      */
-    public AucunQuaiException(String identifiant) {
-        super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
+    public AucunQuaiException(String msg) {
+        super(msg);
     }
 }

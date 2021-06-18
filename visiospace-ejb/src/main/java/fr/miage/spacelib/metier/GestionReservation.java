@@ -120,7 +120,7 @@ public class GestionReservation implements GestionReservationLocal {
         reservation.setDepart(gestionNavette.quai(navette.getId()));
         //Recherche d'un quai de libre
         reservation.setArrivee(
-                gestionStation.reserverQuai(stationArrivee, navette.getId())
+                gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
         );
 
         reservationFacade.create(reservation);
