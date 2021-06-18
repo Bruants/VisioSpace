@@ -28,7 +28,7 @@ public class AucuneNavetteException extends Exception {
      * avec l'identifiant de la navette
      * @param identifiant identidiant de la navette 
      */
-    public AucuneNavetteException(String identifiant) {
-        super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
+    public AucuneNavetteException(String message) {
+        super(message);
     }
 }

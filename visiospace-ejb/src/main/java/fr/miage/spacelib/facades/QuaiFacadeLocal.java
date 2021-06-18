@@ -7,6 +7,9 @@ package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Quai;
+import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -33,10 +36,11 @@ public interface QuaiFacadeLocal {
 
     Quai findNavette(long navette);
 
-    Quai quaiDisponible(long idStation);
+    Quai quaiDisponible(long idStation, Date dateReservation)  throws  AucunQuaiException;
     
-    List<Quai> quaisDisponible(long idStation);
+    List<Quai> quaisDisponible(long idStation, Date dateReservation);
     
-    Navette navetteDisponible(long idStation, int nbPlaces);
+    Navette navetteDisponible(long idStation, int nbPlaces) 
+        throws AucuneNavetteException;
     
 }

@@ -14,6 +14,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -26,10 +27,8 @@ public interface GestionStationLocal {
 
     long creerStation(String coordonnees, List<Long> navettes) 
         throws NombreNavetteInvalideException, CoordonneesInvalideException ;
-
-    Quai reserverQuai(Quai quai, long navette) throws AucuneNavetteException, AucunQuaiException;
     
-    Quai reserverQuai(long idStation, long navette) 
+    Quai reserverQuai(long idStation, long navette, Date dateReservation) 
             throws AucuneStationException, AucuneNavetteException,
             AucunQuaiException;
 
@@ -40,11 +39,11 @@ public interface GestionStationLocal {
     void libererQuai(long quai) throws AucunQuaiException;
 
     Navette navettesDispo(long idStation, int nbPlaces) 
-            throws AucuneStationException, NombrePlacesInvalideException;
+            throws AucuneStationException, AucuneNavetteException;
 
-    Quai quaiDisponible(long idStation) throws AucuneStationException;
+    Quai quaiDisponible(long idStation, Date dateReservation) throws AucuneStationException, AucunQuaiException;
     
-    List<Quai> quaisDisponible(long idStation) throws AucuneStationException;
+    List<Quai> quaisDisponible(long idStation, Date dateReservation) throws AucuneStationException, AucunQuaiException;
 
     List<Long> navettesAReviser(long idStation) throws AucuneStationException;
     
