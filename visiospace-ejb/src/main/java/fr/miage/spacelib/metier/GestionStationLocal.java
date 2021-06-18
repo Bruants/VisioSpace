@@ -39,7 +39,7 @@ public interface GestionStationLocal {
     void libererQuai(long quai) throws AucunQuaiException;
 
     Navette navettesDispo(long idStation, int nbPlaces) 
-            throws AucuneStationException, NombrePlacesInvalideException;
+            throws AucuneStationException, AucuneNavetteException;
 
     Quai quaiDisponible(long idStation, Date dateReservation) throws AucuneStationException, AucunQuaiException;
     

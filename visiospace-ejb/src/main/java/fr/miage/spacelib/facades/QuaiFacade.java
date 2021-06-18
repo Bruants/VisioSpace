@@ -9,6 +9,7 @@ import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Operation;
 import fr.miage.spacelib.entities.Quai;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -61,12 +62,17 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
     }
 
     @Override
-    public Navette navetteDisponible(long idStation, int nbPlaces) {
-        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT N FROM Navette N JOIN N.stationeSur Q, Q.station S JOIN N.historique O WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien < :nbVoyagesEntretiens AND N.nbPlace = :nbPlaces");
+    public Navette navetteDisponible(long idStation, int nbPlaces) throws AucuneNavetteException {
+        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT N FROM Navette N JOIN N.stationeSur Q, Q.station S WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien < :nbVoyagesEntretiens AND N.nbPlace = :nbPlaces");
         recupererNavetteQuiStationne.setParameter("idStation", idStation);
         recupererNavetteQuiStationne.setParameter("nbVoyagesEntretiens", StationFacade.NB_VOYAGES_ENTRETIENS);
         recupererNavetteQuiStationne.setParameter("nbPlaces", nbPlaces);
         List<Navette> navettes = recupererNavetteQuiStationne.getResultList();
+                
+        if (navettes.size() == 0) {
+            throw new AucuneNavetteException("Aucune navette n'est disponible");
+        }
+        
         boolean valide = false;
         for (int i = 0; i < navettes.size() && !valide; i++) {
             Operation operation = navettes.get(i).getDerniereOperation();

@@ -207,14 +207,10 @@ public class GestionStation implements GestionStationLocal {
      * @return identifiant d'une navette disponible
      */
     @Override
-    public Navette navettesDispo(long idStation, int nbPlaces) throws AucuneStationException, NombrePlacesInvalideException {
+    public Navette navettesDispo(long idStation, int nbPlaces) throws AucuneStationException, AucuneNavetteException {
 
         if (stationFacade.find(idStation) == null) {
             throw new AucuneStationException();
-        }
-
-        if (nbPlaces != 2 || nbPlaces != 5 || nbPlaces != 10 || nbPlaces != 15) {
-            throw new NombrePlacesInvalideException();
         }
 
         return quaiFacade.navetteDisponible(idStation, nbPlaces);

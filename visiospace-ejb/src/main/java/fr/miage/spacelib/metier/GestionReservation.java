@@ -108,10 +108,10 @@ public class GestionReservation implements GestionReservationLocal {
 
         reservation.setNbPassagers(nbPassagers);
 
-        //Identifie le nombres de places a reszerver
-        nbPlacesNavette = nbPassagers <= 10 ? 10 : 15;
-        nbPlacesNavette = nbPassagers <= 5 ? 5 : -1;
+        //Identifie le nombres de places a reserver
         nbPlacesNavette = nbPassagers <= 2 ? 2 : -1;
+        nbPlacesNavette = nbPassagers <= 5 ? 5 : -1;
+        nbPlacesNavette = nbPassagers <= 10 ? 10 : 15;
 
         //Recherche d'une navette correspondante
         navette = gestionStation.navettesDispo(stationDepart, nbPlacesNavette);
@@ -120,7 +120,7 @@ public class GestionReservation implements GestionReservationLocal {
         reservation.setDepart(gestionNavette.quai(navette.getId()));
         //Recherche d'un quai de libre
         reservation.setArrivee(
-                gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
+            gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
         );
 
         reservationFacade.create(reservation);
