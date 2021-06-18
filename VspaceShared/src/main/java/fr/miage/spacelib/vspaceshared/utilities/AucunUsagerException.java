@@ -12,7 +12,7 @@ package fr.miage.spacelib.vspaceshared.utilities;
 public class AucunUsagerException extends Exception {
 
         private static final String MESSAGE_ERREUR_EXCEPTION
-            = "L'identifiant du quai est introuvable";
+            = "L'identifiant de l'usager est introuvable";
     
     /**
      * Crée une instance de QuaiInvalideException

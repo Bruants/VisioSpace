@@ -77,23 +77,34 @@ public class GestionReservation implements GestionReservationLocal {
         Operation voyage = new Operation();
         Navette navette;
         int nbPlacesNavette;
-
+       
+        System.out.println("Gestion Reservation USAGER : " + usagerFacade.find(idUsager));
+        
+         System.out.println("Coucou1");
+        
         if (usagerFacade.find(idUsager) == null) {
             throw new AucunUsagerException();
         }
+        
+        System.out.println("Coucou2");
 
         if (dateDepart.after(dateArrivee)) {
             throw new DateInvalideException();
         }
+        System.out.println("Coucou3");        
 
         if (nbPassagers <= 0 || nbPassagers > 15) {
             throw new NombrePassagersInvalideException();
         }
+        
+        System.out.println("Coucou4");
 
         if (stationFacade.find(stationDepart) == null
                 || stationFacade.find(stationArrivee) == null) {
             throw new AucuneStationException();
         }
+        
+        System.out.println("Coucou5");
 
         /* Création de l'opération voyage */
         voyage.setTypeOperation(Operation.TYPES.VOYAGE);
@@ -101,13 +112,20 @@ public class GestionReservation implements GestionReservationLocal {
         voyage.setDate(new Date());
         voyage.setDateDepart(dateDepart);
         voyage.setDateArrivee(dateArrivee);
+        operationFacade.create(voyage);
         reservation.setVoyage(voyage);
+        
+        System.out.println("Coucou6");
 
         /* Création de la réservation */
         reservation.setUsager(usagerFacade.find(idUsager));
 
+        System.out.println("Coucou7");
+        
         reservation.setNbPassagers(nbPassagers);
 
+        System.out.println("Coucou8");
+        
         //Identifie le nombres de places a reserver
         nbPlacesNavette = nbPassagers <= 2 ? 2 : -1;
         nbPlacesNavette = nbPassagers <= 5 ? 5 : -1;
@@ -116,14 +134,22 @@ public class GestionReservation implements GestionReservationLocal {
         //Recherche d'une navette correspondante
         navette = gestionStation.navettesDispo(stationDepart, nbPlacesNavette);
         reservation.setUtilisee(navette);
-
+        
+        System.out.println("Coucou9");
+        
         reservation.setDepart(gestionNavette.quai(navette.getId()));
+        
+        System.out.println("Coucou10");
         //Recherche d'un quai de libre
         reservation.setArrivee(
             gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
         );
+        
+        System.out.println("Coucou11");
 
         reservationFacade.create(reservation);
+        
+        System.out.println("Coucou12");
 
         return reservation;
     }

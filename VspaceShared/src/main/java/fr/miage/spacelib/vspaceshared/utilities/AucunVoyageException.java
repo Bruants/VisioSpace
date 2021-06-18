@@ -24,10 +24,9 @@ public class AucunVoyageException extends Exception {
 
     /**
      * Crée une instance de IdentifiantVoyageException
-     * avec l'identifiant de la navette
-     * @param identifiant identidiant du voyage 
+     * @param msg message de l'exception
      */
-    public AucunVoyageException(String identifiant) {
-        super(MESSAGE_ERREUR_EXCEPTION + "\n" + identifiant);
+    public AucunVoyageException(String msg) {
+        super(msg);
     }
 }

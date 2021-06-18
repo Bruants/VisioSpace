@@ -44,9 +44,9 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
     }
 
     @Override
-    public Quai quaiDisponible(long idStation, Date dateReservation) throws  AucunQuaiException {
+    public Quai quaiDisponible(long idStation, Date dateReservation) throws AucunQuaiException {
         List<Quai> quais = quaisDisponible(idStation, dateReservation);
-        if(quais.size() <= 0 ) {
+        if(quais.size() <= 0) {
             throw new AucunQuaiException("Aucun quai disponible à la station " + idStation + " a la date du " + dateReservation);
         }
         return quais.get(0);
@@ -54,7 +54,7 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
 
     @Override
     public List<Quai> quaisDisponible(long idStation, Date dateReservation) {
-        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S JOIN Q.reservee R WHERE S.id = :idStation AND NOT EXISTS (SELECT R FROM Reservation R JOIN R.voyage V WHERE V.dateArrivee > :dateJour AND V.dateArrivee < :dateFinJour)");
+        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL AND NOT EXISTS (SELECT Q FROM Reservation R JOIN R.voyage V JOIN R.depart Q WHERE V.dateArrivee >= :dateJour AND V.dateArrivee <= :dateFinJour)");
         recupererNavetteQuiStationne.setParameter("idStation", idStation);
         recupererNavetteQuiStationne.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
         recupererNavetteQuiStationne.setParameter("dateFinJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 23, 59, 59));
@@ -74,12 +74,19 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
         }
         
         boolean valide = false;
-        for (int i = 0; i < navettes.size() && !valide; i++) {
+        int i;
+        
+        for (i = 0; i < navettes.size() && !valide; i++) {
             Operation operation = navettes.get(i).getDerniereOperation();
-            valide = operation.isTerminee();
+            
+            valide = operation == null ? true : operation.isTerminee();
         }
-
-        return navettes.get(0); // TODO Exception pas de navette dispo
+        
+        if (!valide) {
+            throw new AucuneNavetteException("Aucune navette n'est disponible");
+        }
+        
+        return navettes.get(i-1); // TODO Exception pas de navette dispo
     }
 
 }

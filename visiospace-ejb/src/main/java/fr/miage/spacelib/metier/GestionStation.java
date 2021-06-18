@@ -124,7 +124,7 @@ public class GestionStation implements GestionStationLocal {
 
         quai = quaiDisponible(idStation, dateReservation);
 
-        if (quaiFacade.find(quai) == null) {
+        if (quaiFacade.find(quai.getId()) == null) {
             throw new AucunQuaiException();
         }
 
