@@ -18,7 +18,7 @@ public interface ExpoWebAdminLegLocal {
 
     boolean creerStation(String coordonnees, List<Long> navettes);
 
-    Administrateur creerAdministrateur(String nom, String prenom);
+    Long creerAdministrateur(String nom, String prenom);
     
     
   

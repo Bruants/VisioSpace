@@ -5,7 +5,6 @@
  */
 package fr.miage.spacelib.metier;
 
-import fr.miage.spacelib.entities.Administrateur;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
 import java.util.List;
@@ -28,5 +27,5 @@ public interface GestionAdministrationLocal {
     void creerStation(String coordonnees, List<Long> navettes) 
             throws CoordonneesInvalideException, NombreNavetteInvalideException ;    
 
-    Administrateur creerAdministrateur(String nom, String prenom);
+    Long creerAdministrateur(String nom, String prenom);
 }

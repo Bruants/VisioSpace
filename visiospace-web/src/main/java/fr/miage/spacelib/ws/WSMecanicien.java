@@ -5,11 +5,7 @@
  */
 package fr.miage.spacelib.ws;
 
-import fr.miage.spacelib.entities.Mecanicien;
 import fr.miage.spacelib.exposition.ExpoWebMecanicienLegLocal;
-import fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException;
-import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
-import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -29,28 +25,23 @@ public class WSMecanicien {
     private ExpoWebMecanicienLegLocal expoWebMecanicienLeg;
     
     @WebMethod(operationName = "debutRevision")
-    public long debutRevision(@WebParam(name = "navette") long navette, @WebParam(name = "idMecanicien") long idMecanicien) throws AucuneNavetteException {
+    public long debutRevision(@WebParam(name = "navette") long navette, @WebParam(name = "idMecanicien") long idMecanicien) {
         return expoWebMecanicienLeg.debutRevision(navette, idMecanicien);
     }
 
     @WebMethod(operationName = "clotureRevision")
-    public void clotureRevision(@WebParam(name = "navette") long navette) throws AucuneNavetteException {
-        expoWebMecanicienLeg.clotureRevision(navette);
+    public boolean clotureRevision(@WebParam(name = "navette") long navette) {
+        return expoWebMecanicienLeg.clotureRevision(navette);
     }
-    
+
     @WebMethod(operationName = "creerMecanicien")
-    public Mecanicien creerMecanicien(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
+    public Long creerMecanicien(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
         return expoWebMecanicienLeg.creerMecanicien(nom, prenom);
     }
-    
+
     @WebMethod(operationName = "connexionMecanicien")
-    public boolean connexionMecanicien(@WebParam(name = "id") long id, @WebParam(name = "idStation") long idStation) {
-        try {
-            expoWebMecanicienLeg.connexion(id, idStation);
-            return true;//
-        } catch (AucunMecanicienException | AucuneStationException e) {
-            return false;
-        }
+    public boolean connexionMecanicien(@WebParam(name = "idMecanicien") long idMecanicien, @WebParam(name = "idStation") long idStation) {
+       return expoWebMecanicienLeg.connexion(idMecanicien, idStation);
     }
 
     @WebMethod(operationName = "navettesAReviser")
@@ -62,7 +53,4 @@ public class WSMecanicien {
     public List<Long> navettesEnCoursDeRevision(@WebParam(name = "idStation") long idStation) {
         return expoWebMecanicienLeg.navettesEnCoursDeRevision(idStation);
     }
-    
-    
-
 }

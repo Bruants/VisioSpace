@@ -30,7 +30,7 @@ public class WSAdministrateur {
     }
 
     @WebMethod(operationName = "creerAdministrateur")
-    public Administrateur creerAdministrateur(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
+    public Long creerAdministrateur(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
         return ejbRef.creerAdministrateur(nom, prenom);
     }
     

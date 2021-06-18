@@ -8,6 +8,7 @@ package fr.miage.spacelib.facades;
 import fr.miage.spacelib.entities.Mecanicien;
 import fr.miage.spacelib.entities.Operation;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneOperationException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,16 +41,16 @@ public class OperationFacade extends AbstractFacade<Operation> implements Operat
     }
 
     @Override
-    public void terminerRevisionNavette(long idNavette) {
-        Query idDuMecanicien = this.em.createQuery("SELECT N.derniereOperation FROM Navette N WHERE N.id = :idNavette");
-        idDuMecanicien.setParameter("idNavette", idNavette);
-        Operation revision = (Operation) idDuMecanicien.getSingleResult();
-        revision.setTerminee(true);
+    public void terminerRevisionNavette(long idNavette) throws AucuneOperationException {
+        Query idDernierOperationNavette = this.em.createQuery("SELECT N.derniereOperation FROM Navette N JOIN N.derniereOperation O WHERE N.id = :idNavette AND O.typeOperation = :typeOperation AND O.terminee = false");
+        idDernierOperationNavette.setParameter("idNavette", idNavette);
+        idDernierOperationNavette.setParameter("typeOperation", Operation.TYPES.REVISION);
+        
+        try {
+            Operation revision = (Operation) idDernierOperationNavette.getSingleResult();
+            revision.setTerminee(true);
+        } catch(Exception e) {
+            throw new AucuneOperationException();
+        }
     }
-    
-    
-    
-    
-    
-    
 }

@@ -7,7 +7,9 @@ package fr.miage.spacelib.facades;
 
 import fr.miage.spacelib.entities.Navette;
 import fr.miage.spacelib.entities.Operation;
+import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -73,7 +75,7 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
 
     @Override
     public List<Long> sontAReviser(long idStation) {
-        Query navettesAReviser = this.em.createQuery("SELECT N.id FROM Navette N JOIN N.stationeSur Q JOIN Q.station S WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien >= 3");
+        Query navettesAReviser = this.em.createQuery("SELECT N.id FROM Navette N JOIN N.stationeSur Q JOIN Q.station S JOIN N.derniereOperation O WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien >= 3 AND O.terminee = true");
         navettesAReviser.setParameter("idStation", idStation);
 
         List<Long> resultats = (List<Long>)navettesAReviser.getResultList();
@@ -92,16 +94,16 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         navettesAReviser.setParameter("idStation", idStation);
         navettesAReviser.setParameter("typeAReviser", Operation.TYPES.REVISION);
 
-        return (List<Long>)navettesAReviser.getResultList();//
+        return (List<Long>)navettesAReviser.getResultList();
     }
 
     @Override
-    public void razNbOperationsDepuisDerniereRevision(long idNavette) {
+    public void razNbOperationsDepuisDerniereRevision(long idNavette) throws AucuneNavetteException {
         Navette navette = this.find(idNavette);
+        if (navette == null) {
+            throw new AucuneNavetteException(Objects.toString(idNavette));
+        }
         navette.setNbVoyagesDepuisDernierEntretien(0);
     }
-    
-    
-    
-    
+
 }
