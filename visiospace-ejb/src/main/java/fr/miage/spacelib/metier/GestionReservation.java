@@ -21,6 +21,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.VoyageDejaCommenceException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -206,7 +207,7 @@ public class GestionReservation implements GestionReservationLocal {
     }
 
     @Override
-    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException {
+    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException, VoyageDejaCommenceException {
         Operation ancienneOperation;
         Reservation res = reservationFacade.find(idReservation);
 
@@ -217,14 +218,18 @@ public class GestionReservation implements GestionReservationLocal {
         if (res.getUsager().getId() != idUsager) {
             throw new AucunUsagerException("Mauvais usager : " + idUsager);
         }
+        ancienneOperation = res.getVoyage();
+
+        if((new Date()).after(ancienneOperation.getDateDepart()) && !res.isAnnulee()) {
+            throw new VoyageDejaCommenceException();
+        } // todo split exception avec voyage annulé
 
         res.setAnnulee(true);
         // Annulation de l'opération
-        ancienneOperation = res.getVoyage();
         res.setVoyage(ancienneOperation.getPrecedenteOperation());
         operationFacade.remove(ancienneOperation);
 
-        reservationFacade.edit(res);
+        reservationFacade.remove(res);
     }
 
 }

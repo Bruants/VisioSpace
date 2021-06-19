@@ -16,6 +16,7 @@ import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import fr.miage.spacelib.vspaceshared.utilities.StationExport;
+import fr.miage.spacelib.vspaceshared.utilities.VoyageDejaCommenceException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -45,7 +46,7 @@ public class WSUsager {
     }
 
     @WebMethod(operationName = "annulerReservation")
-    public void annulerReservation(@WebParam(name = "idUsager") String idUsager, @WebParam(name = "idReservation") String idReservation) throws AucunUsagerException, AucunVoyageException {
+    public void annulerReservation(@WebParam(name = "idUsager") String idUsager, @WebParam(name = "idReservation") String idReservation) throws AucunUsagerException, AucunVoyageException, VoyageDejaCommenceException {
         ejbRef.annulerReservation(Long.parseLong(idUsager), Long.parseLong(idReservation));
     }
     
