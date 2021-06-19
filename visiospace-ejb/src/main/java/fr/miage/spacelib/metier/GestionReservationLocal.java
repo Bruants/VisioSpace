@@ -45,5 +45,7 @@ public interface GestionReservationLocal {
     Reservation lastReservation(long idUsager) throws AucunVoyageException ;
 
     Reservation trouver(long idReservation);
+
+    void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException;
     
 }
