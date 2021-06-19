@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.miage.spacelib.metier;
+package fr.miage.spacelib.exposition;
 
-import fr.miage.spacelib.entities.Reservation;
-import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
@@ -15,6 +13,8 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
+import fr.miage.spacelib.vspaceshared.utilities.StationExport;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -24,27 +24,15 @@ import javax.ejb.Local;
  * @author AlexisVivier
  */
 @Local
-public interface GestionReservationLocal {
+public interface ExpoWebUsagerLocal {
 
-    Reservation reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, 
-            Date dateArrivee, long stationDepart, long stationArrivee)
-            throws 
-            AucunQuaiException, AucuneStationException, 
+    List<StationExport> carteSpacelib();
+
+    ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee) 
+            throws AucunQuaiException, AucuneStationException, 
             AucuneNavetteException, NombrePlacesInvalideException, 
             AucunUsagerException, DateInvalideException, 
             NombrePassagersInvalideException;
-
-    void departVoyage(long idReservation)
-            throws AucuneNavetteException, AucunVoyageException, 
-            AucunQuaiException;
-
-    void arriveeVoyage(long idReservation) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
-    
-    public List<Station> toutesStations();
-
-    Reservation lastReservation(long idUsager) throws AucunVoyageException ;
-
-    Reservation trouver(long idReservation);
 
     void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException;
     

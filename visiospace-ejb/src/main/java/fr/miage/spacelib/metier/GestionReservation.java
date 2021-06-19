@@ -95,7 +95,6 @@ public class GestionReservation implements GestionReservationLocal {
             throw new AucuneStationException();
         }
 
-
         /* Création de l'opération voyage */
         voyage.setTypeOperation(Operation.TYPES.VOYAGE);
         voyage.setTerminee(false);
@@ -107,7 +106,6 @@ public class GestionReservation implements GestionReservationLocal {
 
         /* Création de la réservation */
         reservation.setUsager(usagerFacade.find(idUsager));
-
         
         reservation.setNbPassagers(nbPassagers);
 
@@ -131,15 +129,13 @@ public class GestionReservation implements GestionReservationLocal {
         
         reservation.setDepart(navette.getStationeSur());
         reservation.setUtilisee(navette);
-               
         //Recherche d'un quai de libre
         reservation.setArrivee(
-            gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
+                gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
         );
 
         reservationFacade.create(reservation);
                 voyage.setReservation(reservation);
-
 
         return reservation;
     }
@@ -155,7 +151,7 @@ public class GestionReservation implements GestionReservationLocal {
     public void departVoyage(long idReservation)
             throws AucuneNavetteException, AucunVoyageException,
             AucunQuaiException {
-        
+
         Navette navette = reservationFacade.find(idReservation).getUtilisee();
 
         if (navette == null) {
@@ -183,7 +179,7 @@ public class GestionReservation implements GestionReservationLocal {
         }
 
         Operation voyage = reservation.getVoyage();
-        
+
         gestionStation.arrimerNavette(reservation.getArrivee().getId(), reservation.getUtilisee().getId());
 
         voyage.setTerminee(true);
@@ -207,6 +203,28 @@ public class GestionReservation implements GestionReservationLocal {
     @Override
     public Reservation trouver(long idReservation) {
         return reservationFacade.find(idReservation);
+    }
+
+    @Override
+    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException {
+        Operation ancienneOperation;
+        Reservation res = reservationFacade.find(idReservation);
+
+        if (res == null) {
+            throw new AucunVoyageException("La reservation n'existe pas");
+        }
+
+        if (res.getUsager().getId() != idUsager) {
+            throw new AucunUsagerException("Mauvais usager : " + idUsager);
+        }
+
+        res.setAnnulee(true);
+        // Annulation de l'opération
+        ancienneOperation = res.getVoyage();
+        res.setVoyage(ancienneOperation.getPrecedenteOperation());
+        operationFacade.remove(ancienneOperation);
+
+        reservationFacade.edit(res);
     }
 
 }

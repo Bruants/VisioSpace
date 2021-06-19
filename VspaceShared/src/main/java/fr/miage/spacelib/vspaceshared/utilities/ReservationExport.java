@@ -22,7 +22,9 @@ public class ReservationExport implements Serializable {
     private UsagerExport usager;
     
     private int nbPassagers;
-
+    
+    private long idNavette;
+    
     public ReservationExport() {
     }
 
@@ -31,6 +33,15 @@ public class ReservationExport implements Serializable {
         this.depart = depart;
         this.arrivee = arrivee;
         this.usager = usager;
+        this.nbPassagers = nbPassagers;
+    }
+
+    public ReservationExport(Long id, QuaiExport depart, QuaiExport arrivee, UsagerExport usager, int nbPassagers, long idNavette ) {
+        this.id = id;
+        this.depart = depart;
+        this.arrivee = arrivee;
+        this.usager = usager;
+        this.idNavette = idNavette;
         this.nbPassagers = nbPassagers;
     }
 
@@ -73,6 +84,13 @@ public class ReservationExport implements Serializable {
     public void setNbPassagers(int nbPassagers) {
         this.nbPassagers = nbPassagers;
     }
-    
-    
+
+    public long getIdNavette() {
+        return idNavette;
+    }
+
+    public void setIdNavette(long idNavette) {
+        this.idNavette = idNavette;
+    }
+
 }
