@@ -58,7 +58,6 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
     @Override
     public Long derniereNavette() {
         Query dernierNavette = this.em.createNamedQuery("get last ID navette added");
-        System.out.println(dernierNavette.getResultList());
         return (Long)(long)dernierNavette.getResultList().get(0);
     }
 

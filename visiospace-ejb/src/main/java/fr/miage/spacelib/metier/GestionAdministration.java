@@ -47,9 +47,6 @@ public class GestionAdministration implements GestionAdministrationLocal {
     @Override
     public void creerStation(String coordonnees, List<Long> navettes) 
             throws CoordonneesInvalideException, NombreNavetteInvalideException {
-
-        
-
         try {
             List<Long> idNavettes = new ArrayList<>();
             for(int i = 0 ; i < navettes.size() ; i++) {
