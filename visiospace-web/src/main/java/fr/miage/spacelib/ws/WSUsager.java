@@ -8,6 +8,7 @@ package fr.miage.spacelib.ws;
 import fr.miage.spacelib.exposition.ExpoWebUsagerLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
+import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
@@ -18,7 +19,6 @@ import fr.miage.spacelib.vspaceshared.utilities.StationExport;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -45,8 +45,7 @@ public class WSUsager {
     }
 
     @WebMethod(operationName = "annulerReservation")
-    @Oneway
-    public void annulerReservation(@WebParam(name = "idUsager") String idUsager, @WebParam(name = "idReservation") String idReservation) {
+    public void annulerReservation(@WebParam(name = "idUsager") String idUsager, @WebParam(name = "idReservation") String idReservation) throws AucunUsagerException, AucunVoyageException {
         ejbRef.annulerReservation(Long.parseLong(idUsager), Long.parseLong(idReservation));
     }
     
