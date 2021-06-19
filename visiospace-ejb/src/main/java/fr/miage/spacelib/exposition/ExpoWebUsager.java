@@ -11,6 +11,7 @@ import fr.miage.spacelib.metier.GestionReservationLocal;
 import fr.miage.spacelib.metier.GestionStationLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
+import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
@@ -23,6 +24,8 @@ import fr.miage.spacelib.vspaceshared.utilities.UsagerExport;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -43,19 +46,19 @@ public class ExpoWebUsager implements ExpoWebUsagerLocal {
     public List<StationExport> carteSpacelib() {
         List<Station> stations = gestionStation.toutesStations();
         List<StationExport> stationsExport = new ArrayList<>();
-        
-        for( Station s : stations) {
+
+        for (Station s : stations) {
             stationsExport.add(new StationExport(s.getId(), s.getCoordonnee()));
         }
-        
+
         return stationsExport;
     }
 
     @Override
-    public ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee) 
-            throws AucunQuaiException, AucuneStationException, 
-            AucuneNavetteException, NombrePlacesInvalideException, 
-            AucunUsagerException, DateInvalideException, 
+    public ReservationExport reserverVoyage(long idUsager, int nbPassagers, Date dateDepart, Date dateArrivee, long stationDepart, long stationArrivee)
+            throws AucunQuaiException, AucuneStationException,
+            AucuneNavetteException, NombrePlacesInvalideException,
+            AucunUsagerException, DateInvalideException,
             NombrePassagersInvalideException {
 
         Reservation res = gestionReservation.reserverVoyage(idUsager, nbPassagers, dateDepart, dateArrivee, stationDepart, stationArrivee);
@@ -69,7 +72,7 @@ public class ExpoWebUsager implements ExpoWebUsagerLocal {
     }
 
     @Override
-    public void annulerReservation(long idUsager, long idReservation) {
-        
+    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException {
+        gestionReservation.annulerReservation(idUsager, idReservation);
     }
 }

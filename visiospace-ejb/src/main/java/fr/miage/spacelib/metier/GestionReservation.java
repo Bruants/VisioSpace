@@ -218,6 +218,7 @@ public class GestionReservation implements GestionReservationLocal {
 
     @Override
     public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException {
+        Operation ancienneOperation;
         Reservation res = reservationFacade.find(idReservation);
 
         if (res == null) {
@@ -230,7 +231,9 @@ public class GestionReservation implements GestionReservationLocal {
 
         res.setAnnulee(true);
         // Annulation de l'opération
-        res.setVoyage(res.getVoyage().getPrecedenteOperation());
+        ancienneOperation = res.getVoyage();
+        res.setVoyage(ancienneOperation.getPrecedenteOperation());
+        operationFacade.remove(ancienneOperation);
 
         reservationFacade.edit(res);
     }

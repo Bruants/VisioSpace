@@ -7,6 +7,7 @@ package fr.miage.spacelib.exposition;
 
 import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException;
+import fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
@@ -33,6 +34,6 @@ public interface ExpoWebUsagerLocal {
             AucunUsagerException, DateInvalideException, 
             NombrePassagersInvalideException;
 
-    void annulerReservation(long idUsager, long idReservation);
+    void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException;
     
 }
