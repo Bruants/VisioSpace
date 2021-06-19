@@ -107,7 +107,10 @@ public class GestionNavette implements GestionNavetteLocal {
         if (navette == null) {
             throw new AucuneNavetteException();
         }
-        gestionStation.libererQuai(navette.getStationeSur().getId());
+        
+        //gestionStation.libererQuai(navette.getStationeSur().getId());
+        navette.setStationeSur(null);
+        navetteFacade.edit(navette);
     }
 
     /**

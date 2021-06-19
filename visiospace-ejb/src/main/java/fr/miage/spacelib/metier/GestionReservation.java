@@ -133,13 +133,11 @@ public class GestionReservation implements GestionReservationLocal {
 
         //Recherche d'une navette correspondante
         navette = gestionStation.navettesDispo(stationDepart, nbPlacesNavette);
+        reservation.setDepart(navette.getStationeSur());
         reservation.setUtilisee(navette);
         
         System.out.println("Coucou9");
-        
-        reservation.setDepart(gestionNavette.quai(navette.getId()));
-        
-        System.out.println("Coucou10");
+               
         //Recherche d'un quai de libre
         reservation.setArrivee(
             gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
@@ -165,6 +163,7 @@ public class GestionReservation implements GestionReservationLocal {
     public void departVoyage(long idReservation)
             throws AucuneNavetteException, AucunVoyageException,
             AucunQuaiException {
+        
         Navette navette = reservationFacade.find(idReservation).getUtilisee();
 
         if (navette == null) {
@@ -183,7 +182,7 @@ public class GestionReservation implements GestionReservationLocal {
      */
     @Override
     public void arriveeVoyage(long idReservation)
-            throws AucunVoyageException {
+            throws AucunVoyageException, AucuneNavetteException, AucunQuaiException {
 
         Reservation reservation = reservationFacade.find(idReservation);
 
@@ -192,6 +191,8 @@ public class GestionReservation implements GestionReservationLocal {
         }
 
         Operation voyage = reservation.getVoyage();
+        
+        gestionStation.arrimerNavette(reservation.getArrivee().getId(), reservation.getUtilisee().getId());
 
         voyage.setTerminee(true);
         reservationFacade.edit(reservation);

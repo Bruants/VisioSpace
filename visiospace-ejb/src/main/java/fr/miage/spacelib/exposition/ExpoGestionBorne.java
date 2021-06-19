@@ -50,9 +50,9 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
         System.out.println("USAGER : " + idUsager);
         
         Reservation res = this.gestionReservation.reserverVoyage(idUsager, nbPassagers, dateDepart, dateArrivee, stationDepart, stationArrivee);
-        System.out.println("zizi 1");
-        Quai quaiDepart = res.getArrivee();
-        System.out.println("zizi 2");
+        System.out.println("Quai depart : " + res.getDepart());
+        Quai quaiDepart = res.getDepart();
+        System.out.println("Quai arrivee : " + res.getArrivee());
         Quai quaiArrivee = res.getArrivee();
         System.out.println("zizi 3");
         Usager usager = res.getUsager();
@@ -93,7 +93,7 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
     }
 
     @Override
-    public void arriveeVoyage(long idReservation) throws AucunVoyageException {
+    public void arriveeVoyage(long idReservation) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException {
         this.gestionReservation.arriveeVoyage(idReservation);
     }
 
@@ -132,13 +132,15 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
         
         Reservation enCours = gestionReservation.lastReservation(idUtilisateur);
         
-        System.out.println("enCours.getVoyage().getDateDepart() = " + enCours.getVoyage().getDateDepart().after(new Date()));
+        System.out.println("enCours.getVoyage().getDateDepart() = " + enCours.getVoyage().getDateDepart().before(new Date()));
         
         System.out.println("VOYAGE PAS TERMINE ? = " + !enCours.getVoyage().isTerminee());
         
-        // Si la date de départ est dépassée et que le voyage n'est pas terminé
-        if (enCours.getVoyage().getDateDepart().after(new Date())) { // TRUE
-            if (!enCours.getVoyage().isTerminee()) { // TRUE 
+        // Si la date de départ est déjà commencée et que le voyage n'est pas terminé
+        if (enCours.getVoyage().getDateDepart().before(new Date())) {
+            if (!enCours.getVoyage().isTerminee()) { 
+                
+                System.out.println("Reservation export");
             return new ReservationExport(enCours.getId(),
                     new QuaiExport(enCours.getDepart().getId(), new StationExport(enCours.getDepart().getStation().getId(), enCours.getDepart().getStation().getCoordonnee())),
                     new QuaiExport(enCours.getArrivee().getId(), new StationExport(enCours.getArrivee().getStation().getId(), enCours.getArrivee().getStation().getCoordonnee())),
@@ -146,18 +148,22 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
                     enCours.getNbPassagers());
             }
             
-            throw new AucunVoyageException("Le voyage n'a pas commencé !");
+            throw new AucunVoyageException("La réservation est terminée !");
         }
                 
-        throw new AucunVoyageException("Le voyage n'est pas terminé");
+        throw new AucunVoyageException("Aucune réservation n'est en cours");
     }
 
     @Override
     public boolean isReservationArrivee(long idUtilisateur) throws AucunVoyageException {
+        System.out.println("ID UTILISATEUR ISRESERVATION ARRIVEE = " + idUtilisateur);
         System.out.println("reservationEnCours(idUtilisateur).getId()  : " + reservationEnCours(idUtilisateur).getId());
         System.out.println("gestionReservation.trouver  : " + gestionReservation.trouver(reservationEnCours(idUtilisateur).getId()));
+        
         Reservation res = gestionReservation.trouver(reservationEnCours(idUtilisateur).getId());
+        
         System.out.println("res.getVoyage().getDateArrivee().before(new Date())  : " + res.getVoyage().getDateArrivee().before(new Date()));
+        
         return res.getVoyage().getDateArrivee().before(new Date());
     }
     

@@ -38,7 +38,7 @@ public interface GestionReservationLocal {
             throws AucuneNavetteException, AucunVoyageException, 
             AucunQuaiException;
 
-    void arriveeVoyage(long idReservation) throws AucunVoyageException;
+    void arriveeVoyage(long idReservation) throws AucunVoyageException, AucuneNavetteException, AucunQuaiException;
     
     public List<Station> toutesStations();
 
