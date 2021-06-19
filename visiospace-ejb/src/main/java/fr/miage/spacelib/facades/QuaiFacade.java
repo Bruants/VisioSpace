@@ -12,6 +12,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,7 +32,6 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
     protected EntityManager getEntityManager() {
         return em;
     }
-
     public QuaiFacade() {
         super(Quai.class);
     }
@@ -48,28 +48,65 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
         List<Quai> quais = quaisDisponible(idStation, dateReservation);
         if(quais.size() <= 0) {
             throw new AucunQuaiException("Aucun quai disponible à la station " + idStation + " a la date du " + dateReservation);
+
         }
         return quais.get(0);
     }
 
     @Override
     public List<Quai> quaisDisponible(long idStation, Date dateReservation) {
-        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL AND NOT EXISTS (SELECT Q FROM Reservation R JOIN R.voyage V JOIN R.depart Q WHERE V.dateArrivee >= :dateJour AND V.dateArrivee <= :dateFinJour)");
+        /*System.out.println("idStation quais dispo" + idStation);
+        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL AND NOT EXISTS (SELECT QA FROM Reservation R JOIN R.voyage V JOIN R.arrivee QA JOIN QA.station S WHERE V.dateArrivee >= :dateJour AND V.terminee = false AND S.id = :idStation)");
         recupererNavetteQuiStationne.setParameter("idStation", idStation);
         recupererNavetteQuiStationne.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
-        recupererNavetteQuiStationne.setParameter("dateFinJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 23, 59, 59));
-        return (List<Quai>) recupererNavetteQuiStationne.getResultList();
+*/
+        Query quaisAvecReservation = this.em.createQuery("SELECT QA FROM Reservation R JOIN R.voyage V JOIN R.arrivee QA JOIN QA.station S WHERE V.dateArrivee >= :dateJour AND V.terminee = false AND S.id = :idStation");
+        quaisAvecReservation.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
+        quaisAvecReservation.setParameter("idStation", idStation);
+        List<Quai> resultatsReservation = (List<Quai>)quaisAvecReservation.getResultList();
+        System.out.println("resultatsReservation " + resultatsReservation);
+
+        //System.out.println("Quais avec réservation : " + quaisAvecReservation.getResultList());
+        Query quaisSansReservation = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL ");
+        quaisSansReservation.setParameter("idStation", idStation);
+        List<Quai> resultatsSansReservation = (List<Quai>)quaisSansReservation.getResultList();
+                System.out.println("resultatsSansReservation " + resultatsSansReservation);
+
+        for(int i = 0 ; i < resultatsReservation.size() ; i++) {
+            for(int j = 0 ; j < resultatsSansReservation.size() ; j++) {
+                if(Objects.equals(resultatsReservation.get(i).getId(), resultatsSansReservation.get(j).getId())) {
+                    resultatsReservation.remove(i);
+                    resultatsSansReservation.remove(j);
+                    j = resultatsSansReservation.size()+1;
+                }
+            }
+        }
+        System.out.println("resultatsSansReservation après transfo " + resultatsSansReservation);
+
+//
+       // System.out.println("Quais sans réservation : " + test.getResultList());
+/*
+        System.out.println("requete complete : "  +recupererNavetteQuiStationne.getResultList() );
+        
+        test = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL AND NOT EXISTS (SELECT QA FROM Reservation R JOIN R.voyage V JOIN R.arrivee QA JOIN QA.station S WHERE V.dateArrivee >= :dateJour AND V.terminee = false AND S.id = :idStation)");
+        test.setParameter("idStation", idStation);
+        test.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
+
+        System.out.println("AVEC LE NOT EXIST : " + test.getResultList());
+        */
+        return resultatsSansReservation;
     }
 
     @Override
     public Navette navetteDisponible(long idStation, int nbPlaces) throws AucuneNavetteException {
-        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT N FROM Navette N JOIN N.stationeSur Q, Q.station S WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien < :nbVoyagesEntretiens AND N.nbPlace = :nbPlaces");
+        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT N FROM Navette N JOIN N.stationeSur Q JOIN Q.station S WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien < :nbVoyagesEntretiens AND N.nbPlace >= :nbPlaces ORDER BY N.nbPlace ASC");
+
         recupererNavetteQuiStationne.setParameter("idStation", idStation);
         recupererNavetteQuiStationne.setParameter("nbVoyagesEntretiens", StationFacade.NB_VOYAGES_ENTRETIENS);
         recupererNavetteQuiStationne.setParameter("nbPlaces", nbPlaces);
         List<Navette> navettes = recupererNavetteQuiStationne.getResultList();
                 
-        if (navettes.size() == 0) {
+        if (navettes.isEmpty()) {
             throw new AucuneNavetteException("Aucune navette n'est disponible");
         }
         
@@ -86,7 +123,7 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
             throw new AucuneNavetteException("Aucune navette n'est disponible");
         }
         
-        return navettes.get(i-1); // TODO Exception pas de navette dispo
+        return navettes.get(i-1);
     }
 
 }

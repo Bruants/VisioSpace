@@ -141,14 +141,14 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
             if (!enCours.getVoyage().isTerminee()) { 
                 
                 System.out.println("Reservation export");
-            return new ReservationExport(enCours.getId(),
-                    new QuaiExport(enCours.getDepart().getId(), new StationExport(enCours.getDepart().getStation().getId(), enCours.getDepart().getStation().getCoordonnee())),
-                    new QuaiExport(enCours.getArrivee().getId(), new StationExport(enCours.getArrivee().getStation().getId(), enCours.getArrivee().getStation().getCoordonnee())),
-                    new UsagerExport(enCours.getUsager().getId(), enCours.getUsager().getNom(), enCours.getUsager().getPrenom()),
-                    enCours.getNbPassagers());
+                    return new ReservationExport(enCours.getId(),
+                            new QuaiExport(enCours.getDepart().getId(), new StationExport(enCours.getDepart().getStation().getId(), enCours.getDepart().getStation().getCoordonnee())),
+                            new QuaiExport(enCours.getArrivee().getId(), new StationExport(enCours.getArrivee().getStation().getId(), enCours.getArrivee().getStation().getCoordonnee())),
+                            new UsagerExport(enCours.getUsager().getId(), enCours.getUsager().getNom(), enCours.getUsager().getPrenom()),
+                            enCours.getNbPassagers());
             }
-            
             throw new AucunVoyageException("La réservation est terminée !");
+            
         }
                 
         throw new AucunVoyageException("Aucune réservation n'est en cours");
