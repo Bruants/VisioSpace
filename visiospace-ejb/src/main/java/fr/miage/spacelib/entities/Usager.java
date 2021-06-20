@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 public class Usager extends Utilisateur implements Serializable {
@@ -28,6 +28,11 @@ public class Usager extends Utilisateur implements Serializable {
     private List<Reservation> reservations;
 
     public Usager() {
+    }
+
+    public Usager(String prenom, String nom) {
+        this.prenom = prenom;
+        this.nom = nom;
     }
 
     public Long getId() {

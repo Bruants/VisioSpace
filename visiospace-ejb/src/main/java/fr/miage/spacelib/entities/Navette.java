@@ -6,20 +6,19 @@
 package fr.miage.spacelib.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
+@NamedQuery(query ="SELECT MAX(N.id) FROM Navette N", name = "get last ID navette added")
 public class Navette implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,14 +29,22 @@ public class Navette implements Serializable {
     /** Nombre de places disponibles */
     private int nbPlace;
     
-    @OneToMany
-    private List<Operation> historique;
+    /** Le nombre de voyage que l'on a fait depuis le dernier entretien */
+    private int nbVoyagesDepuisDernierEntretien;
+    
+    @OneToOne
+    private Operation derniereOperation;
         
     /** Stationne sur le quai */
     @OneToOne(mappedBy = "stationne")
     private Quai stationeSur;
     
     public Navette() {
+    }
+    
+    public Navette(int nbPlaces) {
+        this.nbPlace = nbPlaces;
+        this.nbVoyagesDepuisDernierEntretien = 0;
     }
 
     public Quai getStationeSur() {
@@ -64,6 +71,19 @@ public class Navette implements Serializable {
         this.id = id;
     }
 
+    public Operation getDerniereOperation() {
+        return derniereOperation;
+    }
+
+    public void setDerniereOperation(Operation derniereOperation) {
+        derniereOperation.setPrecedenteOperation(this.derniereOperation);
+        this.derniereOperation = derniereOperation;
+    }
+    
+    public void setNbVoyagesDepuisDernierEntretien(int nbVoyagesDepuisDernierEntretien) {
+        this.nbVoyagesDepuisDernierEntretien = nbVoyagesDepuisDernierEntretien;
+    }
+
     /**
      * Donne l'etat de la navette courante
      * @return true  : navette utilisable
@@ -72,6 +92,10 @@ public class Navette implements Serializable {
     public boolean isActive(){
         //TODO: Recupérer etat navette
         return false;
+    }
+    
+    public void addCompteurVoyage() {
+        this.nbVoyagesDepuisDernierEntretien++;
     }
     
     @Override

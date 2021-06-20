@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 public class Reservation implements Serializable {
@@ -41,6 +41,27 @@ public class Reservation implements Serializable {
     private Operation voyage;
     
     private int nbPassagers;
+    
+    private boolean annulee = false;
+
+    /**
+     * Get the value of annulee
+     *
+     * @return the value of annulee
+     */
+    public boolean isAnnulee() {
+        return annulee;
+    }
+
+    /**
+     * Set the value of annulee
+     *
+     * @param annulee new value of annulee
+     */
+    public void setAnnulee(boolean annulee) {
+        this.annulee = annulee;
+    }
+
 
     public Reservation() {
     }

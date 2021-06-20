@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -25,9 +26,10 @@ import javax.validation.constraints.NotNull;
  *     - Révision
  * 
  * Seules les valeurs nécessaire du type sont renseignées
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
+@NamedQuery(query ="SELECT MAX(O.id) FROM Operation O", name = "get last ID operation added")
 public class Operation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +37,10 @@ public class Operation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /** Chainage arriére operation */
+    @OneToOne
+    private Operation precedenteOperation;
+    
     public enum TYPES {
         VOYAGE, REVISION
     }
@@ -66,11 +72,22 @@ public class Operation implements Serializable {
     private Mecanicien mecanicien;
         
     /** 
-     * Etat de la révision courante
-     *  true : Révision terminée
-     *  false : Révision non terminée
+     * Etat de la révision ou voyage courante
+     *  true : Révision ou voyage terminée
+     *  false : Révision ou voyage non terminée
      */
-    private boolean etatRevision;
+    private boolean terminee;
+    
+    public Operation() {
+        this.terminee = false;
+    }
+    
+    public Operation(Mecanicien mecanicien) {
+        this.typeOperation = TYPES.REVISION;
+        this.mecanicien = mecanicien;
+        this.terminee = false;
+        this.date = new Date();
+    }
 
     public Long getId() {
         return id;
@@ -128,12 +145,12 @@ public class Operation implements Serializable {
         this.dateArrivee = dateArrivee;
     }
 
-    public boolean isEtatRevision() {
-        return etatRevision;
+    public boolean isTerminee() {
+        return terminee;
     }
 
-    public void setEtatRevision(boolean etatRevision) {
-        this.etatRevision = etatRevision;
+    public void setTerminee(boolean terminee) {
+        this.terminee = terminee;
     }
     
     public Station getStationDepart() {
@@ -157,6 +174,14 @@ public class Operation implements Serializable {
         if(typeOperation == TYPES.VOYAGE)
             return reservation.getNbPassagers();
         return -1;
+    }
+
+    public Operation getPrecedenteOperation() {
+        return precedenteOperation;
+    }
+
+    public void setPrecedenteOperation(Operation precedenteOperation) {
+        this.precedenteOperation = precedenteOperation;
     }
     
     @Override

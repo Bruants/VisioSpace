@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier
  */
 @Entity
 public class Quai implements Serializable {
@@ -33,8 +33,20 @@ public class Quai implements Serializable {
     
     @ManyToOne
     private Station station;
+    
+    @OneToMany(mappedBy = "arrivee")
+    private List<Reservation> reservee;
 
     public Quai() {
+    }
+    
+    public Quai(Station station){
+        this.station = station;
+    }
+    
+    public Quai(Station station, Navette navette){
+        this.station = station;
+        this.stationne = navette;
     }
     
     public Long getId() {
@@ -59,6 +71,14 @@ public class Quai implements Serializable {
 
     public void setStation(Station station) {
         this.station = station;
+    }
+
+    public List<Reservation> getReservation() {
+        return reservee;
+    }
+
+    public void setReservation(List<Reservation> reservee) {
+        this.reservee = reservee;
     }
 
     @Override

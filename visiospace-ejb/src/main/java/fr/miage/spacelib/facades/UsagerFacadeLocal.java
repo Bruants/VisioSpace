@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Local
 public interface UsagerFacadeLocal {
@@ -29,5 +29,7 @@ public interface UsagerFacadeLocal {
     List<Usager> findRange(int[] range);
 
     int count();
+
+    Usager findWithNames(String nom, String prenom);
     
 }

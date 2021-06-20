@@ -15,21 +15,26 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
-public class Mecanicien implements Serializable {
+public class Mecanicien extends Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
     /** Liste des revisions dont le mécanicien à eu la charge */
     @OneToMany(mappedBy = "mecanicien")
     private List<Operation> revisions;
 
     public Mecanicien() {
+    }
+    
+    public Mecanicien(String prenom, String nom) {
+        this.prenom = prenom;
+        this.nom = nom;
     }
 
     public List<Operation> getRevisions() {

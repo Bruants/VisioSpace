@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 public class Administrateur extends Utilisateur implements Serializable {
@@ -22,6 +22,14 @@ public class Administrateur extends Utilisateur implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    public Administrateur() {
+    }
+    
+    public Administrateur(String prenom, String nom) {
+        this.prenom = prenom;
+        this.nom = nom;
+    }
 
     public Long getId() {
         return id;
