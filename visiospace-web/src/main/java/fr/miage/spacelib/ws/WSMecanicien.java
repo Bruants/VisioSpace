@@ -25,13 +25,16 @@ public class WSMecanicien {
     private ExpoWebMecanicienLegLocal expoWebMecanicienLeg;
     
     @WebMethod(operationName = "debutRevision")
-    public long debutRevision(@WebParam(name = "navette") long navette, @WebParam(name = "idMecanicien") long idMecanicien) {
-        return expoWebMecanicienLeg.debutRevision(navette, idMecanicien);
+    public long debutRevision(@WebParam(name = "navette") String navette, @WebParam(name = "idMecanicien") String idMecanicien) {
+        Long idn = Long.parseLong(navette);
+        Long idm = Long.parseLong(idMecanicien);
+        return expoWebMecanicienLeg.debutRevision(idn, idm);
     }
 
     @WebMethod(operationName = "clotureRevision")
-    public boolean clotureRevision(@WebParam(name = "navette") long navette) {
-        return expoWebMecanicienLeg.clotureRevision(navette);
+    public boolean clotureRevision(@WebParam(name = "navette") String navette) {
+        Long idn = Long.parseLong(navette);
+        return expoWebMecanicienLeg.clotureRevision(idn);
     }
 
     @WebMethod(operationName = "creerMecanicien")
@@ -40,17 +43,21 @@ public class WSMecanicien {
     }
 
     @WebMethod(operationName = "connexionMecanicien")
-    public boolean connexionMecanicien(@WebParam(name = "idMecanicien") long idMecanicien, @WebParam(name = "idStation") long idStation) {
-       return expoWebMecanicienLeg.connexion(idMecanicien, idStation);
+    public boolean connexionMecanicien(@WebParam(name = "idMecanicien") String idMecanicien, @WebParam(name = "idStation") String idStation) {
+        Long idm = Long.parseLong(idMecanicien);
+        Long ids = Long.parseLong(idStation);
+       return expoWebMecanicienLeg.connexion(idm, ids);
     }
 
     @WebMethod(operationName = "navettesAReviser")
-    public List<Long> navettesAReviser(@WebParam(name = "idStation") long idStation) {
-        return expoWebMecanicienLeg.navettesAReviser(idStation);
+    public List<Long> navettesAReviser(@WebParam(name = "idStation") String idStation) {
+        Long ids = Long.parseLong(idStation);
+        return expoWebMecanicienLeg.navettesAReviser(ids);
     }
     
     @WebMethod(operationName = "navettesEnCoursDeRevision")
-    public List<Long> navettesEnCoursDeRevision(@WebParam(name = "idStation") long idStation) {
-        return expoWebMecanicienLeg.navettesEnCoursDeRevision(idStation);
+    public List<Long> navettesEnCoursDeRevision(@WebParam(name = "idStation") String idStation) {
+        Long ids = Long.parseLong(idStation);
+        return expoWebMecanicienLeg.navettesEnCoursDeRevision(ids);
     }
 }

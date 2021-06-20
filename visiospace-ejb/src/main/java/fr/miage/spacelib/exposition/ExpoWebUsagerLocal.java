@@ -35,5 +35,5 @@ public interface ExpoWebUsagerLocal {
             NombrePassagersInvalideException;
 
     void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException;
-    
+
 }

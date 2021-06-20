@@ -7,6 +7,7 @@ package fr.miage.spacelib.ws;
 
 import fr.miage.spacelib.entities.Administrateur;
 import fr.miage.spacelib.exposition.ExpoWebAdminLegLocal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebMethod;
@@ -25,8 +26,12 @@ public class WSAdministrateur {
     // "Web Service > Add Operation"
 
     @WebMethod(operationName = "creerStation")
-    public boolean creerStation(@WebParam(name = "coordonnees") String coordonnees, @WebParam(name = "navettes") List<Long> navettes) {
-        return ejbRef.creerStation(coordonnees, navettes);
+    public boolean creerStation(@WebParam(name = "coordonnees") String coordonnees, @WebParam(name = "navettes") List<String> navettes) {
+        List<Long> idn = new ArrayList<>();
+        for(String navette : navettes) {
+            idn.add(Long.parseLong(navette));
+        }
+        return ejbRef.creerStation(coordonnees, idn);
     }
 
     @WebMethod(operationName = "creerAdministrateur")
