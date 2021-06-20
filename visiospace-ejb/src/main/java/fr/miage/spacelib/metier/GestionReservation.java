@@ -65,6 +65,13 @@ public class GestionReservation implements GestionReservationLocal {
      * @param stationDepart Station de départ du voyage
      * @param stationArrivee Station d'arrivée du voyage
      * @return reservation Le voyage réservé
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunUsagerException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.DateInvalideException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException
      */
     @Override
     public Reservation reserverVoyage(long idUsager, int nbPassagers,
@@ -146,7 +153,10 @@ public class GestionReservation implements GestionReservationLocal {
      * départ et une opération de départ est créer dans l'historique de la
      * navette
      *
-     * @param idVoyage Identifiant du voyage courant
+     * @param idReservation Identifiant du voyage courant
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
      */
     @Override
     public void departVoyage(long idReservation)
