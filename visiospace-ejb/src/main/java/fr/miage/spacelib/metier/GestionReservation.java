@@ -166,8 +166,10 @@ public class GestionReservation implements GestionReservationLocal {
      * Termine le voyage initié La navette s'amarre alors au quai de la station
      * d'arrivée et une opération d'arrivée est créer dans l'historique de la
      * navette
-     *
-     * @param idVoyage Identifiant du voyage courant
+     * @param idReservation Identifiant du voyage courant
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunVoyageException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
      */
     @Override
     public void arriveeVoyage(long idReservation)
@@ -188,11 +190,19 @@ public class GestionReservation implements GestionReservationLocal {
         reservationFacade.edit(reservation);
     }
 
+    /**
+     * @return Toutes les stations existantes
+     */
     @Override
     public List<Station> toutesStations() {
         return gestionStation.toutesStations();
     }
 
+    /**
+     * @param idUsager L'utilisateur dont on veut l'information
+     * @return La dernière révision enregistrée par l'utilisateur dans le système
+     * @throws AucunVoyageException 
+     */
     @Override
     public Reservation lastReservation(long idUsager) throws AucunVoyageException {
         if (reservationFacade.findUsager(idUsager).size() <= 0) {
@@ -201,11 +211,23 @@ public class GestionReservation implements GestionReservationLocal {
         return reservationFacade.findUsager(idUsager).get(0);
     }
 
+    /**
+     * @param idReservation L'id de la réservation que l'on veut obtenir
+     * @return La réservation associée à l'idReservation
+     */
     @Override
     public Reservation trouver(long idReservation) {
         return reservationFacade.find(idReservation);
     }
 
+    /**
+     * Annuler la réservation de l'usager, il est nécessaire que la réservation ne pas commencée et pas déjà annulée
+     * @param idUsager L'utilisateur qui initie la réservation
+     * @param idReservation La réservation que l'on veut annuler
+     * @throws AucunUsagerException
+     * @throws AucunVoyageException
+     * @throws VoyageDejaCommenceException 
+     */
     @Override
     public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException, VoyageDejaCommenceException {
         Operation ancienneOperation;

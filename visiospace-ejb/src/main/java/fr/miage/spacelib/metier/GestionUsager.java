@@ -21,6 +21,13 @@ public class GestionUsager implements GestionUsagerLocal {
     @EJB
     private UsagerFacadeLocal usagerFacade;
 
+    /**
+     * Teste la connexion d'un usager
+     * TODO : Token ou Variable Session
+     * @param idUtilisateur l'id de l'usager
+     * @return l'objet usager
+     * @throws AucunUsagerException 
+     */
     @Override
     public Usager connecter(long idUtilisateur) throws AucunUsagerException {
         Usager usager = usagerFacade.find(idUtilisateur);
@@ -30,6 +37,12 @@ public class GestionUsager implements GestionUsagerLocal {
         return usager;
     }
 
+    /**
+     * Crée un usager
+     * @param nom
+     * @param prenom
+     * @return L'objet usager correspondant
+     */
     @Override
     public Usager inscrire(String nom, String prenom){
         usagerFacade.create(new Usager(prenom, nom));

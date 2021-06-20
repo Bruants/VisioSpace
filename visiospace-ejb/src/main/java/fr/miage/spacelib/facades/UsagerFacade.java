@@ -29,7 +29,13 @@ public class UsagerFacade extends AbstractFacade<Usager> implements UsagerFacade
     public UsagerFacade() {
         super(Usager.class);
     }
-
+    
+    /**
+     * Trouve un usager en fonction de son nom/prenom
+     * @param nom
+     * @param prenom
+     * @return L'Usager correspondant
+     */
     @Override
     public Usager findWithNames(String nom, String prenom) {
         Query recupererNavettePourEntretien = this.em.createQuery("SELECT U.id FROM Usager U WHERE U.nom = :nom AND U.prenom = :prenom");

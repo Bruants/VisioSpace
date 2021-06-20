@@ -31,6 +31,12 @@ public class AdministrateurFacade extends AbstractFacade<Administrateur> impleme
         super(Administrateur.class);
     }
     
+    /**
+     * Trouve un administareur en fonction de son nom/prenom
+     * @param nom
+     * @param prenom
+     * @return L'administrateur correspondant
+     */
     @Override
     public Administrateur findWithNames(String nom, String prenom) {
         Query recupererNavettePourEntretien = this.em.createQuery("SELECT A.id FROM Administrateur A WHERE A.nom = :nom AND A.prenom = :prenom");

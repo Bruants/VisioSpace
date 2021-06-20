@@ -31,6 +31,12 @@ public class ConducteurFacade extends AbstractFacade<Conducteur> implements Cond
         super(Conducteur.class);
     }
     
+    /**
+     * Trouve un conducteur en fonction de son nom/prenom
+     * @param nom
+     * @param prenom
+     * @return Le conducteur correspondant
+     */
     @Override
     public Conducteur findWithNames(String nom, String prenom) {
         Query recupererIdConducteur = this.em.createQuery("SELECT C.id FROM Conducteur C WHERE C.nom = :nom AND C.prenom = :prenom");

@@ -59,12 +59,10 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
         quaisAvecReservation.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
         quaisAvecReservation.setParameter("idStation", idStation);
         List<Quai> resultatsReservation = (List<Quai>)quaisAvecReservation.getResultList();
-        System.out.println("resultatsReservation " + resultatsReservation);
 
         Query quaisSansReservation = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL ");
         quaisSansReservation.setParameter("idStation", idStation);
         List<Quai> resultatsSansReservation = (List<Quai>)quaisSansReservation.getResultList();
-                System.out.println("resultatsSansReservation " + resultatsSansReservation);
 
         for(int i = 0 ; i < resultatsReservation.size() ; i++) {
             for(int j = 0 ; j < resultatsSansReservation.size() ; j++) {
@@ -75,7 +73,6 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
                 }
             }
         }
-        System.out.println("resultatsSansReservation après transfo " + resultatsSansReservation);
         
         return resultatsSansReservation;
     }

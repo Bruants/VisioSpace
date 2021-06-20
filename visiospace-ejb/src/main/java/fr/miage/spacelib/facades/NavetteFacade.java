@@ -34,6 +34,11 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         super(Navette.class);
     }
 
+    /**
+     * 
+     * @param idNavette
+     * @return 
+     */
     @Override
     public boolean estDisponiblePourRevision(long idNavette) {
         Query recupererNavettePourEntretien = this.em.createQuery("SELECT N FROM Navette N WHERE N.id = :idNavette");

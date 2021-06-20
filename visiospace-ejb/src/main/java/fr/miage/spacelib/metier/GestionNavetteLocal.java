@@ -23,8 +23,6 @@ public interface GestionNavetteLocal {
     Long creerNavette(int nbPlaces) 
         throws NombrePlacesInvalideException, AucuneStationException;
 
-    Quai quai(long id) throws AucuneNavetteException;
-
     void lancerNavette(long id) 
         throws AucuneNavetteException, AucunQuaiException;
 
