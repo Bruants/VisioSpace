@@ -134,6 +134,9 @@ public class GestionReservation implements GestionReservationLocal {
         reservation.setArrivee(
                 gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
         );
+        
+        navette.setDerniereOperation(voyage);
+
 
         reservationFacade.create(reservation);
                 voyage.setReservation(reservation);
