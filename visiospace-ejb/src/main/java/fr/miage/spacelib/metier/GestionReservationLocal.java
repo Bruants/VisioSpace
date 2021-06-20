@@ -15,6 +15,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.VoyageDejaCommenceException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -46,6 +47,6 @@ public interface GestionReservationLocal {
 
     Reservation trouver(long idReservation);
 
-    void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException;
+    void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException, VoyageDejaCommenceException;
     
 }

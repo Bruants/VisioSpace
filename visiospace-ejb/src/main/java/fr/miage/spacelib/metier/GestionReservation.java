@@ -21,6 +21,7 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.DateInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
+import fr.miage.spacelib.vspaceshared.utilities.VoyageDejaCommenceException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -77,34 +78,23 @@ public class GestionReservation implements GestionReservationLocal {
         Operation voyage = new Operation();
         Navette navette;
         int nbPlacesNavette;
-
-        System.out.println("Gestion Reservation USAGER : " + usagerFacade.find(idUsager));
-
-        System.out.println("Coucou1");
-
+        
         if (usagerFacade.find(idUsager) == null) {
             throw new AucunUsagerException();
         }
 
-        System.out.println("Coucou2");
-
         if (dateDepart.after(dateArrivee)) {
             throw new DateInvalideException();
-        }
-        System.out.println("Coucou3");
+        }      
 
         if (nbPassagers <= 0 || nbPassagers > 15) {
             throw new NombrePassagersInvalideException();
         }
 
-        System.out.println("Coucou4");
-
         if (stationFacade.find(stationDepart) == null
                 || stationFacade.find(stationArrivee) == null) {
             throw new AucuneStationException();
         }
-
-        System.out.println("Coucou5");
 
         /* Création de l'opération voyage */
         voyage.setTypeOperation(Operation.TYPES.VOYAGE);
@@ -113,41 +103,40 @@ public class GestionReservation implements GestionReservationLocal {
         voyage.setDateDepart(dateDepart);
         voyage.setDateArrivee(dateArrivee);
         operationFacade.create(voyage);
-        reservation.setVoyage(voyage);
-
-        System.out.println("Coucou6");
+        reservation.setVoyage(voyage);//
 
         /* Création de la réservation */
         reservation.setUsager(usagerFacade.find(idUsager));
-
-        System.out.println("Coucou7");
-
+        
         reservation.setNbPassagers(nbPassagers);
 
-        System.out.println("Coucou8");
-
+        
         //Identifie le nombres de places a reserver
-        nbPlacesNavette = nbPassagers <= 2 ? 2 : -1;
-        nbPlacesNavette = nbPassagers <= 5 ? 5 : -1;
-        nbPlacesNavette = nbPassagers <= 10 ? 10 : 15;
+        if (nbPassagers > 10) {
+            nbPlacesNavette = 15;
+            
+        } else if (nbPassagers > 5) {
+            nbPlacesNavette = 10;
+
+        } else if (nbPassagers > 2) {
+            nbPlacesNavette = 5;
+
+        } else {
+            nbPlacesNavette = 2;
+        }
 
         //Recherche d'une navette correspondante
         navette = gestionStation.navettesDispo(stationDepart, nbPlacesNavette);
+        
         reservation.setDepart(navette.getStationeSur());
         reservation.setUtilisee(navette);
-
-        System.out.println("Coucou9");
-
         //Recherche d'un quai de libre
         reservation.setArrivee(
                 gestionStation.reserverQuai(stationArrivee, navette.getId(), dateArrivee)
         );
 
-        System.out.println("Coucou11");
-
         reservationFacade.create(reservation);
-
-        System.out.println("Coucou12");
+                voyage.setReservation(reservation);
 
         return reservation;
     }
@@ -195,6 +184,7 @@ public class GestionReservation implements GestionReservationLocal {
         gestionStation.arrimerNavette(reservation.getArrivee().getId(), reservation.getUtilisee().getId());
 
         voyage.setTerminee(true);
+        reservation.getUtilisee().addCompteurVoyage();
         reservationFacade.edit(reservation);
     }
 
@@ -217,7 +207,7 @@ public class GestionReservation implements GestionReservationLocal {
     }
 
     @Override
-    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException {
+    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException, VoyageDejaCommenceException {
         Operation ancienneOperation;
         Reservation res = reservationFacade.find(idReservation);
 
@@ -228,14 +218,18 @@ public class GestionReservation implements GestionReservationLocal {
         if (res.getUsager().getId() != idUsager) {
             throw new AucunUsagerException("Mauvais usager : " + idUsager);
         }
+        ancienneOperation = res.getVoyage();
+
+        if((new Date()).after(ancienneOperation.getDateDepart()) && !res.isAnnulee()) {
+            throw new VoyageDejaCommenceException();
+        } // todo split exception avec voyage annulé
 
         res.setAnnulee(true);
         // Annulation de l'opération
-        ancienneOperation = res.getVoyage();
         res.setVoyage(ancienneOperation.getPrecedenteOperation());
         operationFacade.remove(ancienneOperation);
 
-        reservationFacade.edit(res);
+        reservationFacade.remove(res);
     }
 
 }

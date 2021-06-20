@@ -15,6 +15,7 @@ import fr.miage.spacelib.vspaceshared.utilities.NombrePassagersInvalideException
 import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import fr.miage.spacelib.vspaceshared.utilities.StationExport;
+import fr.miage.spacelib.vspaceshared.utilities.VoyageDejaCommenceException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -34,6 +35,5 @@ public interface ExpoWebUsagerLocal {
             AucunUsagerException, DateInvalideException, 
             NombrePassagersInvalideException;
 
-    void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException;
-
+    void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException, VoyageDejaCommenceException;
 }

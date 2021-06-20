@@ -21,6 +21,7 @@ import fr.miage.spacelib.vspaceshared.utilities.QuaiExport;
 import fr.miage.spacelib.vspaceshared.utilities.ReservationExport;
 import fr.miage.spacelib.vspaceshared.utilities.StationExport;
 import fr.miage.spacelib.vspaceshared.utilities.UsagerExport;
+import fr.miage.spacelib.vspaceshared.utilities.VoyageDejaCommenceException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +73,7 @@ public class ExpoWebUsager implements ExpoWebUsagerLocal {
     }
 
     @Override
-    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException {
+    public void annulerReservation(long idUsager, long idReservation) throws AucunUsagerException, AucunVoyageException, VoyageDejaCommenceException {
         gestionReservation.annulerReservation(idUsager, idReservation);
     }
 }
