@@ -16,8 +16,20 @@ import javax.ejb.Local;
 @Local
 public interface ExpoWebAdminLegLocal {
 
+    /**
+     * Crée une nouvelle station
+     * @param coordonnees coordonnées de la station à ajouter
+     * @param navettes liste des navettes à ajouter dans la nouvelle station
+     * @return 
+     */
     boolean creerStation(String coordonnees, List<Long> navettes);
 
+    /**
+     * Créer un nouvel administrateur
+     * @param nom -> nom de l'administrateur
+     * @param prenom -> prénom de l'administrateur
+     * @return L'id de l'administrateur
+     */
     Long creerAdministrateur(String nom, String prenom);
     
     

@@ -75,7 +75,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * 
      * @param navette la navette en révision
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
-     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneOperationException
+     * @throws AucuneOperationException 
      */
     @Override
     public void clotureRevision(long navette) throws AucuneNavetteException, AucuneOperationException  {
@@ -85,8 +85,8 @@ public class GestionMecanicien implements GestionMecanicienLocal {
 
     /**
      * Créer un mecanicien
-     * @param nom
-     * @param prenom
+     * @param nom -> nom du mécanicien
+     * @param prenom -> prénom du mécanicien
      * @return Le mecanicien a creer
      */
     @Override
@@ -100,8 +100,8 @@ public class GestionMecanicien implements GestionMecanicienLocal {
      * TODO : Token ou Variable Session
      * @param id L'id du mecanicien
      * @param idStation Sa station de rattachement
-     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException
-     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
+     * @throws AucunMecanicienException -> le mécanicien n'existe pas
+     * @throws AucuneStationException -> la station n'existe pas
      */
     @Override
     public Long connexion(long id, long idStation) throws AucunMecanicienException, AucuneStationException {
@@ -132,7 +132,7 @@ public class GestionMecanicien implements GestionMecanicienLocal {
     /**
      * @param idStation La station sur laquelle le mecanicien est rattaché
      * @return Les navettes en cours de révisions dans la station
-     * @throws AucuneStationException 
+     * @throws AucuneStationException -> la station n'existe pas
      */
     @Override
     public List<Long> navettesEnCoursDeRevision(long idStation) throws AucuneStationException {

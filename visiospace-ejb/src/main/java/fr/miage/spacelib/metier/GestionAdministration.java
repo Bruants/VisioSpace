@@ -59,7 +59,7 @@ public class GestionAdministration implements GestionAdministrationLocal {
     }
 
     /**
-     * Créer une navette
+     * Créer une nouvelle navette
      * @param nbPlaces le nombre de places de la navette
      * @return L'id de la navette
      * @throws AucuneStationException
@@ -70,9 +70,9 @@ public class GestionAdministration implements GestionAdministrationLocal {
     }
 
     /**
-     * Créer un administrateur
-     * @param nom 
-     * @param prenom
+     * Créer un nouvel administrateur
+     * @param nom -> nom de l'administrateur
+     * @param prenom -> prénom de l'administrateur
      * @return L'id de l'administrateur
      */
     @Override
