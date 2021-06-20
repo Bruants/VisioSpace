@@ -27,5 +27,11 @@ public interface GestionAdministrationLocal {
     void creerStation(String coordonnees, List<Long> navettes) 
             throws CoordonneesInvalideException, NombreNavetteInvalideException ;    
 
+    /**
+     * Créer un nouvel administrateur
+     * @param nom -> nom de l'administrateur
+     * @param prenom -> prénom de l'administrateur
+     * @return L'id de l'administrateur
+     */
     Long creerAdministrateur(String nom, String prenom);
 }

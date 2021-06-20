@@ -22,6 +22,13 @@ public interface GestionMecanicienLocal {
 
     Long debutRevision(long navette, long idMecanicien) throws AucuneNavetteException, AucunMecanicienException, NavetteIndisponibleException;
 
+    /**
+     * Termine une révision
+     * 
+     * @param navette la navette en révision
+     * @throws AucuneNavetteException -> si l'identifiant n'existe pas
+     * @throws AucuneOperationException
+     */
     void clotureRevision(long navette) throws AucuneNavetteException, AucuneOperationException;
 
     Long creerMecanicien(String nom, String prenom);
