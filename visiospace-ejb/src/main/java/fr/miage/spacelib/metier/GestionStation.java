@@ -16,7 +16,9 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -299,10 +301,26 @@ public class GestionStation implements GestionStationLocal {
     public boolean stationExiste(long idStation) {
         return stationFacade.find(idStation) != null;
     }
+    
+    private long nbQuaisStations(long idStation) {
+        Station station = stationFacade.find(idStation);
+        return station.getNbQuais();
+    }
 
     @Override
     public long ratioDispoDansDixJours(long idStation) {
-        return 0L;
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 10);
+        dt = c.getTime();
+        System.out.println("dt + " + dt);
+        System.out.println("idstation : " + idStation + " quais dispos : " + quaiFacade.quaisDisponible(idStation, dt));
+        int nbQuaisUtilisables = quaiFacade.quaisDisponible(idStation, dt).size();
+        if(nbQuaisUtilisables == 0) {
+            return 0;
+        }
+        return (long)(((double)nbQuaisUtilisables)*100/(double)this.nbQuaisStations(idStation));
     }
     
     

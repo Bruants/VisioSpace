@@ -7,6 +7,10 @@ package fr.miage.spacelib.exposition;
 
 import fr.miage.spacelib.metier.GestionConducteurLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucunConducteurException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -36,4 +40,11 @@ public class ExpoWebConducteur implements ExpoWebConducteurLocal {
             return false;
         }
     }
+
+    @Override
+    public HashMap<String,TreeMap<Long,Long>> transfertsAFaire() {
+        return gestionConducteur.ratioQuaisNavettesDisponibles();
+    }
+    
+    
 }

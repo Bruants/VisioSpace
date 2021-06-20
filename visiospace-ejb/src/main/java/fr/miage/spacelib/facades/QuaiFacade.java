@@ -89,7 +89,6 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
                 }
             }
         }
-        
         return resultatsSansReservation;
     }
 

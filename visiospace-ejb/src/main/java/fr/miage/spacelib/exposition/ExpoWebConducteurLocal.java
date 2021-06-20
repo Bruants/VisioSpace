@@ -5,6 +5,10 @@
  */
 package fr.miage.spacelib.exposition;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import javax.ejb.Local;
 
 /**
@@ -17,5 +21,7 @@ public interface ExpoWebConducteurLocal {
     Long creerConducteur(String nom, String prenom);
 
     boolean connexion(long idConducteur);
+
+    HashMap<String,TreeMap<Long,Long>> transfertsAFaire();
     
 }

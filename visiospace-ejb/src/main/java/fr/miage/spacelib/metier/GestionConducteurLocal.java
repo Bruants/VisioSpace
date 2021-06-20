@@ -6,7 +6,10 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.vspaceshared.utilities.AucunConducteurException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import javax.ejb.Local;
 
 /**
@@ -20,7 +23,7 @@ public interface GestionConducteurLocal {
 
     Long connexion(long idConducteur) throws AucunConducteurException;
 
-    List<Long> ratioQuaisNavettesDisponibles();
+    HashMap<String,TreeMap<Long,Long>> ratioQuaisNavettesDisponibles();
 
     Long ratioQuaisNavettesDisponiblesParStation(long idStation);
     

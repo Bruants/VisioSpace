@@ -6,6 +6,7 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.entities.Administrateur;
+import fr.miage.spacelib.entities.Station;
 import fr.miage.spacelib.facades.AdministrateurFacadeLocal;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
@@ -48,6 +49,11 @@ public class GestionAdministration implements GestionAdministrationLocal {
     public void creerStation(String coordonnees, List<Long> navettes) 
             throws CoordonneesInvalideException, NombreNavetteInvalideException {
         try {
+            for(Station elt : gestionStation.toutesStations()) {
+                if(elt.getCoordonnee().equals(coordonnees)) {
+                    throw new CoordonneesInvalideException();
+                }
+            }
             List<Long> idNavettes = new ArrayList<>();
             for(int i = 0 ; i < navettes.size() ; i++) {
                 idNavettes.add(this.creerNavette(navettes.get(i)));
