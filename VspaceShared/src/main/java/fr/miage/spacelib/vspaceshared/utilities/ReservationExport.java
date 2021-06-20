@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 public class ReservationExport implements Serializable {
     

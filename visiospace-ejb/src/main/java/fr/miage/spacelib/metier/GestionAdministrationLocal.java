@@ -11,8 +11,8 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * @author AlexisVivier
- * @author audric.pouzelgues
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Local
 public interface GestionAdministrationLocal {

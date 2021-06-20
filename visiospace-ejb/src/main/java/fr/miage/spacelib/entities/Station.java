@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 public class Station implements Serializable {

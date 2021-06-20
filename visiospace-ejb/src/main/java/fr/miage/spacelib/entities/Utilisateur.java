@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Utilisateur
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @MappedSuperclass
 public abstract class Utilisateur implements Serializable {

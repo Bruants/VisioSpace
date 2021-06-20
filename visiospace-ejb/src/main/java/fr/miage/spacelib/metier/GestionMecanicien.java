@@ -23,7 +23,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class GestionMecanicien implements GestionMecanicienLocal {
@@ -44,11 +44,13 @@ public class GestionMecanicien implements GestionMecanicienLocal {
     private MecanicienFacadeLocal mecanicienFacade;
     
     /**
-     * Crée une opération de révision//
-     * 
-     * @param navette navette à réviser
+     * Crée une opération de révision
+     * @param navetteId La navette a reviser
+     * @param idMecanicien Le mécanicien qui fait la révision
      * @return l'id du quai ou se situe la navette à réviser
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.NavetteIndisponibleException
      */
     @Override
     public Long debutRevision(long navetteId, long idMecanicien) throws AucuneNavetteException, AucunMecanicienException, NavetteIndisponibleException {
@@ -71,8 +73,9 @@ public class GestionMecanicien implements GestionMecanicienLocal {
     /**
      * Termine une révision
      * 
-     * @param navette navette révisée
+     * @param navette la navette en révision
      * @throws AucuneNavetteException -> si l'identifiant n'existe pas
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneOperationException
      */
     @Override
     public void clotureRevision(long navette) throws AucuneNavetteException, AucuneOperationException  {
@@ -80,6 +83,12 @@ public class GestionMecanicien implements GestionMecanicienLocal {
         navetteFacade.razNbOperationsDepuisDerniereRevision(navette);
     }
 
+    /**
+     * Créer un mecanicien
+     * @param nom
+     * @param prenom
+     * @return Le mecanicien a creer
+     */
     @Override
     public Long creerMecanicien(String nom, String prenom) {
         mecanicienFacade.create(new Mecanicien(prenom, nom));

@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class AdministrateurFacade extends AbstractFacade<Administrateur> implements AdministrateurFacadeLocal {

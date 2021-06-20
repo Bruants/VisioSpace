@@ -13,7 +13,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class GestionUsager implements GestionUsagerLocal {

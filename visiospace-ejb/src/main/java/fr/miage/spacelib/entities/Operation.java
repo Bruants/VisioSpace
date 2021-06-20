@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
  *     - Révision
  * 
  * Seules les valeurs nécessaire du type sont renseignées
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 @NamedQuery(query ="SELECT MAX(O.id) FROM Operation O", name = "get last ID operation added")

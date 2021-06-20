@@ -32,7 +32,7 @@ import fr.miage.spacelib.vspaceshared.interfremote.ExpoGestionBorneRemote;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class ExpoGestionBorne implements ExpoGestionBorneRemote {

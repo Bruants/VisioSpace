@@ -30,7 +30,7 @@ import javax.ejb.Stateless;
 /**
  * Gestion des reservations des usagers
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class GestionReservation implements GestionReservationLocal {

@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 @NamedQuery(query ="SELECT MAX(N.id) FROM Navette N", name = "get last ID navette added")

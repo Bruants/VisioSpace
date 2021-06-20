@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Kevin
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class ConducteurFacade extends AbstractFacade<Conducteur> implements ConducteurFacadeLocal {

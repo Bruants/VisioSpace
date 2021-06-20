@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 public class Administrateur extends Utilisateur implements Serializable {

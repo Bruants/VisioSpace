@@ -7,7 +7,7 @@ package fr.miage.spacelib.vspaceshared.utilities;
 
 /**
  *
- * @author audric.pouzelgues
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 public class DateInvalideException extends Exception {
 

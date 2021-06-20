@@ -20,7 +20,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class GestionAdministration implements GestionAdministrationLocal {
@@ -58,10 +58,23 @@ public class GestionAdministration implements GestionAdministrationLocal {
         }
     }
 
+    /**
+     * Créer une navette
+     * @param nbPlaces le nombre de places de la navette
+     * @return L'id de la navette
+     * @throws AucuneStationException
+     * @throws NombrePlacesInvalideException 
+     */
     private Long creerNavette(long nbPlaces) throws AucuneStationException, NombrePlacesInvalideException {
         return gestionNavette.creerNavette((int)nbPlaces);
     }
 
+    /**
+     * Créer un administrateur
+     * @param nom 
+     * @param prenom
+     * @return L'id de l'administrateur
+     */
     @Override
     public Long creerAdministrateur(String nom, String prenom) {
         administrateurFacade.create(new Administrateur(prenom, nom));

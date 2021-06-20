@@ -9,7 +9,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Kevin
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Local
 public interface ExpoWebConducteurLocal {

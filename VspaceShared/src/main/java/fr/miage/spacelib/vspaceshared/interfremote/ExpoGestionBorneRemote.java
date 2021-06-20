@@ -22,7 +22,7 @@ import javax.ejb.Remote;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Remote
 public interface ExpoGestionBorneRemote {

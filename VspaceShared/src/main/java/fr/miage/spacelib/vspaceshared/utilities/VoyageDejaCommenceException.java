@@ -7,7 +7,7 @@ package fr.miage.spacelib.vspaceshared.utilities;
 
 /**
  *
- * @author apouz
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 public class VoyageDejaCommenceException extends Exception {
 

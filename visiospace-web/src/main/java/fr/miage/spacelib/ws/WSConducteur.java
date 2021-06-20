@@ -23,7 +23,7 @@ import javax.jws.WebService;
 
 /**
  *
- * @author Kevin
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @WebService(serviceName = "WSConducteur")
 public class WSConducteur {

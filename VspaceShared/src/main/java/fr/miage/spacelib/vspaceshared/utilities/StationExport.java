@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 public class StationExport implements Serializable {
     

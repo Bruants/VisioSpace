@@ -16,7 +16,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class OperationFacade extends AbstractFacade<Operation> implements OperationFacadeLocal {

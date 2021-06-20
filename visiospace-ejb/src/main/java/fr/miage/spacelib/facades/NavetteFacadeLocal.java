@@ -13,7 +13,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Local
 public interface NavetteFacadeLocal {

@@ -12,7 +12,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author Kevin
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class ExpoWebConducteur implements ExpoWebConducteurLocal {

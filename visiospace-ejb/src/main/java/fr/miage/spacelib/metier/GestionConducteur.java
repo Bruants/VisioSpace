@@ -17,7 +17,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author Kevin
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class GestionConducteur implements GestionConducteurLocal {
@@ -28,12 +28,25 @@ public class GestionConducteur implements GestionConducteurLocal {
     @EJB
     private ConducteurFacadeLocal conducteurFacade;
 
+    /**
+     * Créé un conducteur
+     * @param nom
+     * @param prenom
+     * @return L'id du conducteur
+     */
     @Override
     public Long creerConducteur(String nom, String prenom) {
                 conducteurFacade.create(new Conducteur(prenom, nom));
         return conducteurFacade.findWithNames(nom, prenom).getId();
     }
 
+    /**
+     * Teste la connexion d'un conducteur
+     * TODO : Token ou Variable Session
+     * @param idConducteur
+     * @return l'id du conducteur
+     * @throws AucunConducteurException 
+     */
     @Override
     public Long connexion(long idConducteur) throws AucunConducteurException {
         Conducteur conducteur = conducteurFacade.find(idConducteur);
@@ -43,6 +56,9 @@ public class GestionConducteur implements GestionConducteurLocal {
         return conducteur.getId();
     }
 
+    /**
+     * @return Le pourcentage de remplissage des quais de chaque station
+     */
     @Override
     public List<Long> ratioQuaisNavettesDisponibles() {
         List<Station> stations = gestionStation.toutesStations();
@@ -55,7 +71,10 @@ public class GestionConducteur implements GestionConducteurLocal {
         
         return ratios;
     }
-
+    /**
+     * @param idStation La station pour laquelle on veut l'info
+     * @return Le pourcentage de remplissage des quais d'une station
+     */
     @Override
     public Long ratioQuaisNavettesDisponiblesParStation(long idStation) {
         return gestionStation.ratioDispoDansDixJours(idStation);

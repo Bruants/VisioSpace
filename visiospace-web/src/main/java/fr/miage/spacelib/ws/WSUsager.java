@@ -26,7 +26,7 @@ import javax.jws.WebService;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @WebService(serviceName = "WSUsager")
 public class WSUsager {

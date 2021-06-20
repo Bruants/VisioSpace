@@ -15,7 +15,7 @@ import javax.jws.WebParam;
 
 /**
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @WebService(serviceName = "WSMecanicien")
 @Stateless()

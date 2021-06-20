@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Kevin
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Entity
 public class Conducteur extends Usager implements Serializable {

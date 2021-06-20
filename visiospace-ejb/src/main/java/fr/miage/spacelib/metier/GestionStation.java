@@ -25,7 +25,7 @@ import javax.ejb.Stateless;
 /**
  * Gerer les stations traités par le systéme
  *
- * @author AlexisVivier
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 @Stateless
 public class GestionStation implements GestionStationLocal {

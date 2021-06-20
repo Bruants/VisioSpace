@@ -7,7 +7,7 @@ package fr.miage.spacelib.vspaceshared.utilities;
 
 /**
  *
- * @author Kevin
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
  */
 public class AucuneOperationException extends Exception {
 
