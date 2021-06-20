@@ -23,18 +23,10 @@ public interface GestionNavetteLocal {
     Long creerNavette(int nbPlaces) 
         throws NombrePlacesInvalideException, AucuneStationException;
 
-    boolean etatNavettePourRevision(long identifiant) throws AucuneNavetteException;
-    boolean etatNavettePourVoyage(long identifiant) throws AucuneNavetteException;
-
-
     Quai quai(long id) throws AucuneNavetteException;
 
     void lancerNavette(long id) 
         throws AucuneNavetteException, AucunQuaiException;
-
-    void arriveeNavette(long id) throws AucuneNavetteException, AucunQuaiException;
-
-    Long derniereNavetteAjoutee();
 
     List<Long> navettesAReviser(long idStation);
 

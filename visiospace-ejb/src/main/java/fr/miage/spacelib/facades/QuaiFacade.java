@@ -55,18 +55,12 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
 
     @Override
     public List<Quai> quaisDisponible(long idStation, Date dateReservation) {
-        /*System.out.println("idStation quais dispo" + idStation);
-        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL AND NOT EXISTS (SELECT QA FROM Reservation R JOIN R.voyage V JOIN R.arrivee QA JOIN QA.station S WHERE V.dateArrivee >= :dateJour AND V.terminee = false AND S.id = :idStation)");
-        recupererNavetteQuiStationne.setParameter("idStation", idStation);
-        recupererNavetteQuiStationne.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
-*/
         Query quaisAvecReservation = this.em.createQuery("SELECT QA FROM Reservation R JOIN R.voyage V JOIN R.arrivee QA JOIN QA.station S WHERE V.dateArrivee >= :dateJour AND V.terminee = false AND S.id = :idStation");
         quaisAvecReservation.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
         quaisAvecReservation.setParameter("idStation", idStation);
         List<Quai> resultatsReservation = (List<Quai>)quaisAvecReservation.getResultList();
         System.out.println("resultatsReservation " + resultatsReservation);
 
-        //System.out.println("Quais avec réservation : " + quaisAvecReservation.getResultList());
         Query quaisSansReservation = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL ");
         quaisSansReservation.setParameter("idStation", idStation);
         List<Quai> resultatsSansReservation = (List<Quai>)quaisSansReservation.getResultList();
@@ -82,18 +76,7 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
             }
         }
         System.out.println("resultatsSansReservation après transfo " + resultatsSansReservation);
-
-//
-       // System.out.println("Quais sans réservation : " + test.getResultList());
-/*
-        System.out.println("requete complete : "  +recupererNavetteQuiStationne.getResultList() );
         
-        test = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL AND NOT EXISTS (SELECT QA FROM Reservation R JOIN R.voyage V JOIN R.arrivee QA JOIN QA.station S WHERE V.dateArrivee >= :dateJour AND V.terminee = false AND S.id = :idStation)");
-        test.setParameter("idStation", idStation);
-        test.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
-
-        System.out.println("AVEC LE NOT EXIST : " + test.getResultList());
-        */
         return resultatsSansReservation;
     }
 

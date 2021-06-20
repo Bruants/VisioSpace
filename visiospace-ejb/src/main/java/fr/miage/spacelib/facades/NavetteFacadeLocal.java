@@ -34,8 +34,6 @@ public interface NavetteFacadeLocal {
 
     boolean estDisponiblePourRevision(long idNavette);
     
-    boolean estDisponiblePourVoyage(long idNavette);    
-
     Long derniereNavette();
 
     void ajouterOperation(long idNavette, Operation operation);

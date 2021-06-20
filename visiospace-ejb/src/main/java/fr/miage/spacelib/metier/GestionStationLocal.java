@@ -52,5 +52,7 @@ public interface GestionStationLocal {
     Station trouverStation(long id);
 
     boolean stationExiste(long idStation);
+
+    long ratioDispoDansDixJours(long idStation);
     
 }

@@ -6,6 +6,7 @@
 package fr.miage.spacelib.metier;
 
 import fr.miage.spacelib.vspaceshared.utilities.AucunConducteurException;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -18,5 +19,9 @@ public interface GestionConducteurLocal {
     Long creerConducteur(String nom, String prenom);
 
     Long connexion(long idConducteur) throws AucunConducteurException;
+
+    List<Long> ratioQuaisNavettesDisponibles();
+
+    Long ratioQuaisNavettesDisponiblesParStation(long idStation);
     
 }

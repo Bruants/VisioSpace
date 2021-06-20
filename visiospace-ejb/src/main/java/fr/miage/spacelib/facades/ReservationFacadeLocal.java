@@ -31,8 +31,5 @@ public interface ReservationFacadeLocal {
 
     int count();
     
-    public List<Reservation> findUsager(long idUsager);
-
-    public Reservation findEnCoursQuai(long idQuai, Date dateJour);
-    
+    public List<Reservation> findUsager(long idUsager);    
 }

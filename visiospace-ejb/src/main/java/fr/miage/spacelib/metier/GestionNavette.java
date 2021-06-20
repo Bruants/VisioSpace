@@ -48,38 +48,6 @@ public class GestionNavette implements GestionNavetteLocal {
     }
 
     /**
-     * Donne l'état actuelle de la navette
-     * @param identifiant identifiant de la navette 
-     * @return  true : aucun entretien de prévu
-     *          false : en attente d'entretien
-     */
-    @Override
-    public boolean etatNavettePourRevision(long identifiant) throws AucuneNavetteException {
-        
-        if (navetteFacade.find(identifiant) == null) {
-            throw new AucuneNavetteException();
-        }
-        
-        return navetteFacade.estDisponiblePourRevision(identifiant);
-    }
-    
-        /**
-     * Donne l'état actuelle de la navette
-     * @param identifiant identifiant de la navette 
-     * @return  true : aucun entretien de prévu
-     *          false : en attente d'entretien
-     */
-    @Override
-    public boolean etatNavettePourVoyage(long identifiant) throws AucuneNavetteException {
-        
-        if (navetteFacade.find(identifiant) == null) {
-            throw new AucuneNavetteException();
-        }
-       return navetteFacade.estDisponiblePourVoyage(identifiant);
-        
-    }
-
-    /**
      * Recupére le quai d'une navette
      * @param id d'une navette
      * @return quai ou la navette est arrimé
@@ -113,29 +81,7 @@ public class GestionNavette implements GestionNavetteLocal {
         navetteFacade.edit(navette);
     }
 
-    /**
-     * La navette arrive à destination
-     * @param id identifiant de la navette
-     * @throws AucuneNavetteException  -> l'id ne correspond à aucune navette existante
-     * @throws AucunQuaiException -> Le quai à libérer n'existe pas
-     */
-    @Override
-    public void arriveeNavette(long id) throws AucuneNavetteException, AucunQuaiException {
-        Navette navette = navetteFacade.find(id);
-        
-        if (navette == null) {
-            throw new AucuneNavetteException();
-        }
-        navette.addCompteurVoyage();
-        gestionStation.arrimerNavette(id);
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public Long derniereNavetteAjoutee() {
+    private Long derniereNavetteAjoutee() {
         return navetteFacade.derniereNavette();
     }
 

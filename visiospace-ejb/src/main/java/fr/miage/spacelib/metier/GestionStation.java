@@ -16,7 +16,6 @@ import fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException;
 import fr.miage.spacelib.vspaceshared.utilities.AucuneStationException;
 import fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException;
 import fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException;
-import fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -280,5 +279,12 @@ public class GestionStation implements GestionStationLocal {
     public boolean stationExiste(long idStation) {
         return stationFacade.find(idStation) != null;
     }
+
+    @Override
+    public long ratioDispoDansDixJours(long idStation) {
+        return 0L;
+    }
+    
+    
 
 }

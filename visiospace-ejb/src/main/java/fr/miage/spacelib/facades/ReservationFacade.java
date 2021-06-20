@@ -30,15 +30,6 @@ public class ReservationFacade extends AbstractFacade<Reservation> implements Re
     }
 
     @Override
-    public Reservation findEnCoursQuai(long idQuai, Date dateJour) {
-        Query recupererNavetteQuiStationne = this.em.createQuery("SELECT R.id FROM Quai Q JOIN Q.reservee R JOIN R.voyage V WHERE Q.id = :idQuai AND V.dateArrivee > :dateJour AND V.dateArrivee < :dateFinJour");
-        recupererNavetteQuiStationne.setParameter("idQuai", idQuai);
-        recupererNavetteQuiStationne.setParameter("dateJour", new Date(dateJour.getYear(), dateJour.getMonth(), dateJour.getDate(), 0, 0, 0));
-        recupererNavetteQuiStationne.setParameter("dateFinJour", new Date(dateJour.getYear(), dateJour.getMonth(), dateJour.getDate(), 23, 59, 59));
-        return find((Long) recupererNavetteQuiStationne.getSingleResult());
-    }
-
-    @Override
     public List<Reservation> findUsager(long idUsager) {
         List<Reservation> reservations = new ArrayList<>();
         List<Object> resultat;

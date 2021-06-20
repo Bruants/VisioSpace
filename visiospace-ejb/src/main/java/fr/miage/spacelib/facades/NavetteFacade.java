@@ -44,16 +44,6 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         }
         return resultat.getDerniereOperation().isTerminee();
     }
-    
-    @Override
-    public boolean estDisponiblePourVoyage(long idNavette) {
-        Query recupererNavettePourEntretien = this.em.createQuery("SELECT N FROM Navette N WHERE N.id = :idNavette AND N.nbVoyagesDepuisDernierEntretien < 3");
-        recupererNavettePourEntretien.setParameter("idNavette", idNavette);
-
-        Navette resultat = (Navette)recupererNavettePourEntretien.getResultList();
-        
-        return resultat.getDerniereOperation().isTerminee();
-    }
 
     @Override
     public Long derniereNavette() {
