@@ -95,6 +95,14 @@ public class GestionMecanicien implements GestionMecanicienLocal {
         return mecanicienFacade.findWithNames(nom, prenom).getId();
     }
 
+    /**
+     * Teste la connexion d'un conducteur
+     * TODO : Token ou Variable Session
+     * @param id L'id du mecanicien
+     * @param idStation Sa station de rattachement
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunMecanicienException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
+     */
     @Override
     public Long connexion(long id, long idStation) throws AucunMecanicienException, AucuneStationException {
         Mecanicien mecanicien = mecanicienFacade.find(id);
@@ -107,6 +115,12 @@ public class GestionMecanicien implements GestionMecanicienLocal {
         return mecanicien.getId();
     }
 
+    /**
+     * Les navettes qui ont 3 voyages ou plus a leur actif sans révision
+     * @param idStation La station sur laquelle le mecanicien est rattaché
+     * @return Les navettes a réviser
+     * @throws AucuneStationException 
+     */
     @Override
     public List<Long> navettesAReviser(long idStation) throws AucuneStationException {
         if(!gestionStation.stationExiste(idStation)) {
@@ -115,6 +129,11 @@ public class GestionMecanicien implements GestionMecanicienLocal {
         return gestionNavette.navettesAReviser(idStation);
     }
 
+    /**
+     * @param idStation La station sur laquelle le mecanicien est rattaché
+     * @return Les navettes en cours de révisions dans la station
+     * @throws AucuneStationException 
+     */
     @Override
     public List<Long> navettesEnCoursDeRevision(long idStation) throws AucuneStationException {
         if(!gestionStation.stationExiste(idStation)) {

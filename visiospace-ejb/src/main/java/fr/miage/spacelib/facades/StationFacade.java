@@ -32,12 +32,4 @@ public class StationFacade extends AbstractFacade<Station> implements StationFac
     public StationFacade() {
         super(Station.class);
     }
-
-    @Override
-    public List<Station> findNavettePourEntretien(long id) {
-        Query recupererNavettePourEntretien = this.em.createQuery("SELECT N.id FROM Station S JOIN S.quais Q JOIN Q.stationne N WHERE N.nbVoyagesDepuisDernierEntretien >= :nbVoyagesRevisions AND S.id = :idStation");
-        recupererNavettePourEntretien.setParameter("nbVoyagesRevisions", NB_VOYAGES_ENTRETIENS);
-        recupererNavettePourEntretien.setParameter("idStation", id);
-        return recupererNavettePourEntretien.getResultList();
-    }
 }

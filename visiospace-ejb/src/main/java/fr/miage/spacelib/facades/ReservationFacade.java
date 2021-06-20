@@ -29,6 +29,10 @@ public class ReservationFacade extends AbstractFacade<Reservation> implements Re
         return em;
     }
 
+    /**
+     * @param idUsager
+     * @return Trouve toutes les réservations d'un utilisateur
+     */
     @Override
     public List<Reservation> findUsager(long idUsager) {
         List<Reservation> reservations = new ArrayList<>();

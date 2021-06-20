@@ -32,7 +32,8 @@ public class GestionNavette implements GestionNavetteLocal {
     /**
      * Créer une nouvelle navette
      * @param nbPlaces Nombre de place de la navette
-     * @param idStation Identifiant de la station ou est stationné la navette
+     * @throws fr.miage.spacelib.vspaceshared.utilities.NombrePlacesInvalideException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
      */
     @Override
     public Long creerNavette(int nbPlaces) throws NombrePlacesInvalideException, AucuneStationException {
@@ -45,21 +46,6 @@ public class GestionNavette implements GestionNavetteLocal {
         
         navetteFacade.create(navette);
         return this.derniereNavetteAjoutee();
-    }
-
-    /**
-     * Recupére le quai d'une navette
-     * @param id d'une navette
-     * @return quai ou la navette est arrimé
-     */
-    @Override
-        public Quai quai(long id) throws AucuneNavetteException {
-        
-            if (navetteFacade.find(id) == null) {
-                throw new AucuneNavetteException();
-            }
-        
-        return null;
     }
 
     /**
@@ -81,15 +67,26 @@ public class GestionNavette implements GestionNavetteLocal {
         navetteFacade.edit(navette);
     }
 
+    /**
+     * @return La derniere navette qui a été créée
+     */
     private Long derniereNavetteAjoutee() {
         return navetteFacade.derniereNavette();
     }
 
+    /**
+     * @param idStation La station où l'on cherche les navettes
+     * @return Les navettes qui doivent être révisée
+     */
     @Override
     public List<Long> navettesAReviser(long idStation) {
         return navetteFacade.sontAReviser(idStation);
     }
 
+    /**
+     * @param idStation La station où l'on cherche les navettes
+     * @return Les navettes en révision
+     */
     @Override
     public List<Long> navettesEnCoursDeRevision(long idStation) {
         return navetteFacade.sontEnRevision(idStation);

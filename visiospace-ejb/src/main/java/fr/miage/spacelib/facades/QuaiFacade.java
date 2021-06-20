@@ -36,6 +36,11 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
         super(Quai.class);
     }
 
+    /**
+     * Retourne le quai d'une navette
+     * @param navette
+     * @return Le quai de la navette
+     */
     @Override
     public Quai findNavette(long navette) {
         Query recupererNavetteQuiStationne = this.em.createQuery("SELECT Q.id FROM Quai Q JOIN Q.stationne N WHERE N.id = :idNavette");
@@ -43,6 +48,12 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
         return find((Long) recupererNavetteQuiStationne.getSingleResult());
     }
 
+    /**
+     * @param idStation
+     * @param dateReservation
+     * @return Un quai disponible dans la station à la date donnée
+     * @throws AucunQuaiException 
+     */
     @Override
     public Quai quaiDisponible(long idStation, Date dateReservation) throws AucunQuaiException {
         List<Quai> quais = quaisDisponible(idStation, dateReservation);
@@ -53,18 +64,21 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
         return quais.get(0);
     }
 
+    /**
+     * @param idStation
+     * @param dateReservation
+     * @return Un ensemble de quais disponibles à la date spécifiée pour la station donnée
+     */
     @Override
     public List<Quai> quaisDisponible(long idStation, Date dateReservation) {
         Query quaisAvecReservation = this.em.createQuery("SELECT QA FROM Reservation R JOIN R.voyage V JOIN R.arrivee QA JOIN QA.station S WHERE V.dateArrivee >= :dateJour AND V.terminee = false AND S.id = :idStation");
         quaisAvecReservation.setParameter("dateJour", new Date(dateReservation.getYear(), dateReservation.getMonth(), dateReservation.getDate(), 0, 0, 0));
         quaisAvecReservation.setParameter("idStation", idStation);
         List<Quai> resultatsReservation = (List<Quai>)quaisAvecReservation.getResultList();
-        System.out.println("resultatsReservation " + resultatsReservation);
 
         Query quaisSansReservation = this.em.createQuery("SELECT Q FROM Quai Q JOIN Q.station S WHERE S.id = :idStation AND Q.stationne IS NULL ");
         quaisSansReservation.setParameter("idStation", idStation);
         List<Quai> resultatsSansReservation = (List<Quai>)quaisSansReservation.getResultList();
-                System.out.println("resultatsSansReservation " + resultatsSansReservation);
 
         for(int i = 0 ; i < resultatsReservation.size() ; i++) {
             for(int j = 0 ; j < resultatsSansReservation.size() ; j++) {
@@ -75,11 +89,16 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
                 }
             }
         }
-        System.out.println("resultatsSansReservation après transfo " + resultatsSansReservation);
         
         return resultatsSansReservation;
     }
 
+    /**
+     * @param idStation
+     * @param nbPlaces
+     * @return Une navette disponible avec le nombre de places nécessaires
+     * @throws AucuneNavetteException 
+     */
     @Override
     public Navette navetteDisponible(long idStation, int nbPlaces) throws AucuneNavetteException {
         Query recupererNavetteQuiStationne = this.em.createQuery("SELECT N FROM Navette N JOIN N.stationeSur Q JOIN Q.station S WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien < :nbVoyagesEntretiens AND N.nbPlace >= :nbPlaces ORDER BY N.nbPlace ASC");

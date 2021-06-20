@@ -43,5 +43,4 @@ public interface ExpoGestionBorneRemote {
     
     public boolean isReservationArrivee(long idUtilisateur) throws AucunVoyageException;
     
-    public void testNul(String chaine);
 }

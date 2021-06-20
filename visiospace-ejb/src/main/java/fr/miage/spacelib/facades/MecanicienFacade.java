@@ -29,7 +29,12 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
     public MecanicienFacade() {
         super(Mecanicien.class);
     }
-
+    /**
+     * Trouve un mecanicien en fonction de son nom/prenom
+     * @param nom
+     * @param prenom
+     * @return Le mecanicien correspondant
+     */
     @Override
     public Mecanicien findWithNames(String nom, String prenom) {
         Query idDuMecanicien = this.em.createQuery("SELECT M.id FROM Mecanicien M WHERE M.nom = :nom AND M.prenom = :prenom");

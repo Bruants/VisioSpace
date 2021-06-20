@@ -46,6 +46,9 @@ public class GestionStation implements GestionStationLocal {
      *
      * @param coordonnees Coordonée spatiale de la station
      * @param navettes Liste des navettes a ajouter
+     * @return L'id de la station
+     * @throws fr.miage.spacelib.vspaceshared.utilities.NombreNavetteInvalideException 
+     * @throws fr.miage.spacelib.vspaceshared.utilities.CoordonneesInvalideException 
      */
     @Override
     public long creerStation(String coordonnees, List<Long> navettes)
@@ -105,6 +108,9 @@ public class GestionStation implements GestionStationLocal {
      * @param idStation identifiant de la station
      * @param navette identifiant de la navette qui doit prendre place
      * @return quai qui a etait reservé
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
      */
     @Override
     public Quai reserverQuai(long idStation, long navette, Date dateReservation)
@@ -135,6 +141,8 @@ public class GestionStation implements GestionStationLocal {
      *
      * @param idQuai identifiant du quai d'arrivée
      * @param navette identifiant de la navette à stationné
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException
      */
     @Override
     public void arrimerNavette(long idQuai, long navette)
@@ -158,6 +166,8 @@ public class GestionStation implements GestionStationLocal {
      * Occupe une place dans la station
      *
      * @param idNavette identifiant de la navette à stationné
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
      */
     @Override
     public void arrimerNavette(long idNavette) throws AucuneNavetteException, AucunQuaiException {
@@ -180,6 +190,7 @@ public class GestionStation implements GestionStationLocal {
      * Libére le quai pour acceuilir une nouvelle navette
      *
      * @param idQuai identifiant du quai a liberer
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
      */
     @Override
     public void libererQuai(long idQuai) throws AucunQuaiException {
@@ -204,6 +215,8 @@ public class GestionStation implements GestionStationLocal {
      * @param idStation La station dans laquelle on recherche une navette
      * @param nbPlaces nombres de places nécessaire pour la navette
      * @return identifiant d'une navette disponible
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneNavetteException
      */
     @Override
     public Navette navettesDispo(long idStation, int nbPlaces) throws AucuneStationException, AucuneNavetteException {
@@ -219,7 +232,10 @@ public class GestionStation implements GestionStationLocal {
      * Récupére un quai disponible dans la station
      *
      * @param idStation La station dans laquelle on recherche une navette
+     * @param dateReservation La date a laquelle la réservation du quai commence
      * @return Quai disponible
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
      */
     @Override
     public Quai quaiDisponible(long idStation, Date dateReservation) throws AucuneStationException, AucunQuaiException {
@@ -235,7 +251,10 @@ public class GestionStation implements GestionStationLocal {
      * Récupére un quai disponible dans la station
      *
      * @param idStation La station dans laquelle on recherche une navette
+     * @param dateReservation La date a laquelle la réservation du quai commence
      * @return Quai disponible
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucunQuaiException
      */
     @Override
     public List<Quai> quaisDisponible(long idStation, Date dateReservation) throws AucuneStationException, AucunQuaiException {
@@ -252,6 +271,7 @@ public class GestionStation implements GestionStationLocal {
      *
      * @param idStation identifiant de la station de recherche
      * @return liste des navettes a revisé
+     * @throws fr.miage.spacelib.vspaceshared.utilities.AucuneStationException
      */
     @Override
     public List<Long> navettesAReviser(long idStation) throws AucuneStationException {
