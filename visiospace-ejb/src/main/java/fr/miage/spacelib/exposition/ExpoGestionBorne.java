@@ -50,7 +50,17 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
         Quai quaiDepart = res.getDepart();
         Quai quaiArrivee = res.getArrivee();
         Usager usager = res.getUsager();
-
+        System.out.println("res.getId() " + res.getId());
+        System.out.println("quaiDepart : " + quaiDepart.getId());
+        System.out.println("quaiDepart getsationid: " + quaiDepart.getStation().getId());
+        System.out.println("quai depart getCoord : " + quaiDepart.getStation().getCoordonnee());
+        System.out.println("new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee()) " + new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee()));
+        System.out.println("new QuaiExport(quaiDepart.getId(), new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee())) " + new QuaiExport(quaiDepart.getId(), new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee())));
+        System.out.println("new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee()) " + new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee()));
+        System.out.println("new QuaiExport(quaiArrivee.getId(), new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee())) " +new QuaiExport(quaiArrivee.getId(), new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee())) );
+        System.out.println("new UsagerExport(usager.getId(), usager.getNom(), usager.getPrenom()) " + new UsagerExport(usager.getId(), usager.getNom(), usager.getPrenom()));
+        System.out.println("res.getNbPassagers() " + res.getNbPassagers());
+        
         return new ReservationExport(res.getId(),
                 new QuaiExport(quaiDepart.getId(), new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee())),
                 new QuaiExport(quaiArrivee.getId(), new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee())),

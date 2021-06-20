@@ -40,7 +40,7 @@ public class WrapperForGetionChargeConducteur {
         return navettesFaibles;
     }
 
-    public void setnavettesFaibles(List<Combinaison> navettesFaibles) {
+    public void setNavettesFaibles(List<Combinaison> navettesFaibles) {
         this.navettesFaibles = navettesFaibles;
     }
 

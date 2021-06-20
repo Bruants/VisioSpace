@@ -134,6 +134,8 @@ public class GestionReservation implements GestionReservationLocal {
 
         //Recherche d'une navette correspondante
         navette = gestionStation.navettesDispo(stationDepart, nbPlacesNavette);
+        System.out.println("navette depart : " + navette.getId());
+        System.out.println("quai depart : " + navette.getStationeSur());
         
         reservation.setDepart(navette.getStationeSur());
         reservation.setUtilisee(navette);
@@ -147,7 +149,7 @@ public class GestionReservation implements GestionReservationLocal {
 
         reservationFacade.create(reservation);
                 voyage.setReservation(reservation);
-
+         System.out.println("reservation " + reservation);
         return reservation;
     }
 

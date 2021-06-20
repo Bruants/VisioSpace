@@ -106,7 +106,7 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
         recupererNavetteQuiStationne.setParameter("nbVoyagesEntretiens", StationFacade.NB_VOYAGES_ENTRETIENS);
         recupererNavetteQuiStationne.setParameter("nbPlaces", nbPlaces);
         List<Navette> navettes = recupererNavetteQuiStationne.getResultList();
-                
+                System.out.println("navettes : " + navettes);
         if (navettes.isEmpty()) {
             throw new AucuneNavetteException("Aucune navette n'est disponible");
         }

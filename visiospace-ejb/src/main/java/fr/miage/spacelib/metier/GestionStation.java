@@ -159,9 +159,13 @@ public class GestionStation implements GestionStationLocal {
         }
 
         Quai quai = quaiFacade.find(idQuai);
+        Navette navetteObj = navetteFacade.find(navette);
 
+        navetteObj.setStationeSur(quai);
         //La navette est attachée au quai
+        
         quai.setStationne(navetteFacade.find(navette));
+        
     }
 
     /**
