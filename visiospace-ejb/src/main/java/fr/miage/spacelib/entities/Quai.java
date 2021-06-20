@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 
 /**
  *
- * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier, 
+ * @author Audric Pouzelgues, Kevin Sannac, Alexis Vivier
  */
 @Entity
 public class Quai implements Serializable {

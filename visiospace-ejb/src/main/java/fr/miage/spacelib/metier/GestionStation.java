@@ -318,8 +318,6 @@ public class GestionStation implements GestionStationLocal {
         c.setTime(dt);
         c.add(Calendar.DATE, 10);
         dt = c.getTime();
-        System.out.println("dt + " + dt);
-        System.out.println("idstation : " + idStation + " quais dispos : " + quaiFacade.quaisDisponible(idStation, dt));
         int nbQuaisUtilisables = quaiFacade.quaisDisponible(idStation, dt).size();
         if(nbQuaisUtilisables == 0) {
             return 0;
