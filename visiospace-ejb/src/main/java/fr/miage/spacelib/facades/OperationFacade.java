@@ -33,6 +33,13 @@ public class OperationFacade extends AbstractFacade<Operation> implements Operat
         super(Operation.class);
     }
 
+    /**
+     * Créée une operation de revision pour une navette
+     * @param idNavette
+     * @param mecanicien
+     * @return L'opération de révision associée
+     * @throws AucuneNavetteException 
+     */
     @Override
     public Operation revisionNavette(long idNavette, Mecanicien mecanicien) throws AucuneNavetteException {
         this.create(new Operation(mecanicien));
@@ -40,6 +47,11 @@ public class OperationFacade extends AbstractFacade<Operation> implements Operat
         return this.find((long)dernierNavette.getResultList().get(0));
     }
 
+    /**
+     * Termine la révision d'une navette
+     * @param idNavette
+     * @throws AucuneOperationException 
+     */
     @Override
     public void terminerRevisionNavette(long idNavette) throws AucuneOperationException {
         Query idDernierOperationNavette = this.em.createQuery("SELECT N.derniereOperation FROM Navette N JOIN N.derniereOperation O WHERE N.id = :idNavette AND O.typeOperation = :typeOperation AND O.terminee = false");

@@ -29,8 +29,5 @@ public interface StationFacadeLocal {
 
     List<Station> findRange(int[] range);
 
-    int count();
-
-    List<Station> findNavettePourEntretien(long id);
-    
+    int count();    
 }

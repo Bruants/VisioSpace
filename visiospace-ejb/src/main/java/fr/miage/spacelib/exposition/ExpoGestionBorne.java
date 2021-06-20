@@ -50,10 +50,6 @@ public class ExpoGestionBorne implements ExpoGestionBorneRemote {
         Quai quaiDepart = res.getDepart();
         Quai quaiArrivee = res.getArrivee();
         Usager usager = res.getUsager();
-                new QuaiExport(quaiDepart.getId(), new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee())),
-                new QuaiExport(quaiArrivee.getId(), new StationExport(quaiArrivee.getStation().getId(), quaiArrivee.getStation().getCoordonnee())),
-                new UsagerExport(usager.getId(), usager.getNom(), usager.getPrenom()),
-                res.getNbPassagers()));
 
         return new ReservationExport(res.getId(),
                 new QuaiExport(quaiDepart.getId(), new StationExport(quaiDepart.getStation().getId(), quaiDepart.getStation().getCoordonnee())),

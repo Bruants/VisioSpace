@@ -35,9 +35,9 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
     }
 
     /**
-     * 
+     * Renvoie si uen navette poeut etre mise en révision 
      * @param idNavette
-     * @return 
+     * @return Vrai si c'est possible, sinon faux
      */
     @Override
     public boolean estDisponiblePourRevision(long idNavette) {
@@ -50,12 +50,20 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         return resultat.getDerniereOperation().isTerminee();
     }
 
+    /**
+     * @return La derniere navette créée
+     */
     @Override
     public Long derniereNavette() {
         Query dernierNavette = this.em.createNamedQuery("get last ID navette added");
         return (Long)(long)dernierNavette.getResultList().get(0);
     }
 
+    /**
+     * Ajoute une opération (voyage ou révision) pour une navette
+     * @param idNavette La navette qui a une nouvelle opération
+     * @param operation L'opération ajoutée
+     */
     @Override
     public void ajouterOperation(long idNavette, Operation operation) {
         Navette navette = this.find(idNavette);
@@ -65,8 +73,10 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         navette.setDerniereOperation(operation);
     }
     
-    
-
+    /**
+     * @param idStation La statiion dans laquelle on recherche
+     * @return l'ensemble des navettes à réviser et disponbles pour une station
+     */
     @Override
     public List<Long> sontAReviser(long idStation) {
         Query navettesAReviser = this.em.createQuery("SELECT N.id FROM Navette N JOIN N.stationeSur Q JOIN Q.station S JOIN N.derniereOperation O WHERE S.id = :idStation AND N.nbVoyagesDepuisDernierEntretien >= 3 AND O.terminee = true");
@@ -82,6 +92,10 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         return resultats;
     }
 
+    /**
+     * @param idStation La statiion dans laquelle on recherche
+     * @return L'ensemble des navettes qui sont en révision dans l station spécifiée
+     */
     @Override
     public List<Long> sontEnRevision(long idStation) {
         Query navettesAReviser = this.em.createQuery("SELECT N.id FROM Navette N JOIN N.derniereOperation O JOIN N.stationeSur Q JOIN Q.station S WHERE S.id = :idStation AND O.terminee = false AND O.typeOperation = :typeAReviser");
@@ -91,6 +105,11 @@ public class NavetteFacade extends AbstractFacade<Navette> implements NavetteFac
         return (List<Long>)navettesAReviser.getResultList();
     }
 
+    /**
+     * Met à 0 le compteur de voyage sans révision d'une navete
+     * @param idNavette
+     * @throws AucuneNavetteException 
+     */
     @Override
     public void razNbOperationsDepuisDerniereRevision(long idNavette) throws AucuneNavetteException {
         Navette navette = this.find(idNavette);
